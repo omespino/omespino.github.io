@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>
+	Comments on: WRITE UP – TWITTER BUG BOUNTY [Report of my 1st bugbounty]: &#8220;POODLE SSLv3 bug on multiple twitter smtp servers&#8221;	</title>
+	<atom:link href="/write-up-twitter-bug-bounty-my-1st-bugbounty-poodle-sslv3-bug-on-multiple-twitter-smtp-servers/feed/" rel="self" type="application/rss+xml" />
+	<link>/write-up-twitter-bug-bounty-my-1st-bugbounty-poodle-sslv3-bug-on-multiple-twitter-smtp-servers/</link>
+	<description>just another security blog.</description>
+	<lastBuildDate>Sat, 08 Jan 2022 00:33:20 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+	<item>
+		<title>
+		By: Aniket Bhutani		</title>
+		<link>/write-up-twitter-bug-bounty-my-1st-bugbounty-poodle-sslv3-bug-on-multiple-twitter-smtp-servers/#comment-6585</link>
+
+		<dc:creator><![CDATA[Aniket Bhutani]]></dc:creator>
+		<pubDate>Sun, 19 Jul 2020 15:32:12 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=225#comment-6585</guid>
+
+					<description><![CDATA[Hi Omespino,
+
+I am trying to use the same dork for Twitter and as well as for other targets, but not getting results.
+I am getting &quot;No results Found&quot;]]></description>
+			<content:encoded><![CDATA[<p>Hi Omespino,</p>
+<p>I am trying to use the same dork for Twitter and as well as for other targets, but not getting results.<br />
+I am getting &#8220;No results Found&#8221;</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: omespino		</title>
+		<link>/write-up-twitter-bug-bounty-my-1st-bugbounty-poodle-sslv3-bug-on-multiple-twitter-smtp-servers/#comment-5835</link>
+
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Fri, 06 Sep 2019 22:09:15 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=225#comment-5835</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;/write-up-twitter-bug-bounty-my-1st-bugbounty-poodle-sslv3-bug-on-multiple-twitter-smtp-servers/#comment-5814&quot;&gt;Afolic&lt;/a&gt;.
+
+Hey thanks for reading, I just stopped and reported after I founded that servers, the twitter team does not requiered any poc, here is the original report for reference https://hackerone.com/reports/288966]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="/write-up-twitter-bug-bounty-my-1st-bugbounty-poodle-sslv3-bug-on-multiple-twitter-smtp-servers/#comment-5814">Afolic</a>.</p>
+<p>Hey thanks for reading, I just stopped and reported after I founded that servers, the twitter team does not requiered any poc, here is the original report for reference <a href="https://hackerone.com/reports/288966" rel="nofollow ugc">https://hackerone.com/reports/288966</a></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Afolic		</title>
+		<link>/write-up-twitter-bug-bounty-my-1st-bugbounty-poodle-sslv3-bug-on-multiple-twitter-smtp-servers/#comment-5814</link>
+
+		<dc:creator><![CDATA[Afolic]]></dc:creator>
+		<pubDate>Sun, 01 Sep 2019 23:20:21 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=225#comment-5814</guid>
+
+					<description><![CDATA[Cool find, did you probe further after this or you just stopped here and reported it straight away?]]></description>
+			<content:encoded><![CDATA[<p>Cool find, did you probe further after this or you just stopped here and reported it straight away?</p>
+]]></content:encoded>
+		
+			</item>
+	</channel>
+</rss>

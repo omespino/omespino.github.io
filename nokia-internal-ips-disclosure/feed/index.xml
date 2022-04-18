@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>
+	Comments on: WRITE UP &#8211; Nokia HOF /  Internal IPs disclosure	</title>
+	<atom:link href="/nokia-internal-ips-disclosure/feed/" rel="self" type="application/rss+xml" />
+	<link>/nokia-internal-ips-disclosure/</link>
+	<description>just another security blog.</description>
+	<lastBuildDate>Sat, 08 Jan 2022 00:34:44 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+	<item>
+		<title>
+		By: omespino		</title>
+		<link>/nokia-internal-ips-disclosure/#comment-5570</link>
+
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Fri, 24 May 2019 04:44:15 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=207#comment-5570</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;/nokia-internal-ips-disclosure/#comment-5565&quot;&gt;Feroz Khan&lt;/a&gt;.
+
+Hey Feroz, it&#039;s not, this can be classified as information disclosure since it was just a badly configured server response]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="/nokia-internal-ips-disclosure/#comment-5565">Feroz Khan</a>.</p>
+<p>Hey Feroz, it&#8217;s not, this can be classified as information disclosure since it was just a badly configured server response</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Feroz Khan		</title>
+		<link>/nokia-internal-ips-disclosure/#comment-5565</link>
+
+		<dc:creator><![CDATA[Feroz Khan]]></dc:creator>
+		<pubDate>Thu, 23 May 2019 21:23:06 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=207#comment-5565</guid>
+
+					<description><![CDATA[Is this ssrf, man??]]></description>
+			<content:encoded><![CDATA[<p>Is this ssrf, man??</p>
+]]></content:encoded>
+		
+			</item>
+	</channel>
+</rss>

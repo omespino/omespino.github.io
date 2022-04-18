@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Oswald%3A400%2C300%2C700%7CAlegreya+Sans%3A400%2C400italic%2C700%2C700italic%7CDosis%3Ainherit%2C400%7CMenlo&#038;subset=latin%2Clatin-ext%2Clatin%2Clatin-ext&amp;display=swap">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="/xmlrpc.php">
+<meta name="theme-color" content="#1a1a1a">
+<link media="all" href="/wp-content/cache/autoptimize/css/autoptimize_3b05b7efe97d6722f572c298a31dfe97.css" rel="stylesheet">
+<title>TUTORIAL &#8211; UNIVERSAL ANDROID SSL PINNING IN 10 MINUTES WITH FRIDA &#8211; @omespino</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<link href="https://fonts.gstatic.com/" crossorigin="anonymous" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; Feed" href="/feed/">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; Comments Feed" href="/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; TUTORIAL &#8211; UNIVERSAL ANDROID SSL PINNING IN 10 MINUTES WITH FRIDA Comments Feed" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/feed/">
+<link rel="stylesheet" id="mm-compiled-options-mobmenu-css" href="/wp-content/cache/autoptimize/css/autoptimize_single_20b3cf9d88dd6d90b4e4a9a904cb8741.css" type="text/css" media="all"> <script type="text/javascript" src="/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>  <script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-47561535-2" id="google_gtagjs-js" async></script> <link rel="https://api.w.org/" href="/wp-json/">
+<link rel="alternate" type="application/json" href="/wp-json/wp/v2/posts/367">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="/wp-includes/wlwmanifest.xml">
+<meta name="generator" content="WordPress 5.9.3">
+<link rel="canonical" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/">
+<link rel="shortlink" href="/?p=367">
+<link rel="alternate" type="application/json+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Ftutorial-universal-android-ssl-pinning-in-10-minutes-with-frida%2F">
+<link rel="alternate" type="text/xml+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Ftutorial-universal-android-ssl-pinning-in-10-minutes-with-frida%2F&#038;format=xml">
+<meta name="generator" content="Site Kit by Google 1.72.0"> <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1119974224835012&ev=PageView&noscript=1"></noscript>
+<link rel="icon" href="/wp-content/uploads/2020/12/cropped-dddd-32x32.png" sizes="32x32">
+<link rel="icon" href="/wp-content/uploads/2020/12/cropped-dddd-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/wp-content/uploads/2020/12/cropped-dddd-180x180.png">
+<meta name="msapplication-TileImage" content="/wp-content/uploads/2020/12/cropped-dddd-270x270.png"> <script src="/wp-content/cache/autoptimize/js/autoptimize_eafcdd70e0cf994d53c6a65b41022ac5.js"></script>
+</head>
+<body class="post-template-default single single-post postid-367 single-format-standard custom-background mob-menu-slideout-over">
+<div id="page" class="hfeed site"> <a class="skip-link screen-reader-text" href="#content">Skip to content</a><header id="masthead" class="site-header" role="banner"><div class="navigation-wrapper"><nav id="site-navigation" class="main-navigation" role="navigation"> <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">Menu</button><div class="menu-menu-espanol-container"><ul id="menu-menu-espanol" class="menu"><li id="menu-item-1304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1304"><a href="/es">BLOG EN ESPAÑOL</a></li></ul></div></nav></div>
+<div class="site-branding">
+<h1 class="site-title"><a href="/" rel="home">@omespino</a></h1>
+<h2 class="site-description">just another security blog.</h2>
+</div></header><div id="content" class="site-content"><div id="primary" class="content-area"><main id="main" class="site-main" role="main"><article id="post-367" class="post-367 post type-post status-publish format-standard hentry category-uncategorized-en"><header class="entry-header"><div class="entry-meta"> <span class="byline"> Written by <span class="author vcard"><a class="url fn n" href="/author/user-admin/">omespino</a></span></span><span class="posted-on"><a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/" rel="bookmark"><time class="entry-date published" datetime="2018-12-15T12:41:05-07:00">December 15, 2018</time><time class="updated" datetime="2022-01-07T17:09:39-07:00">January 7, 2022</time></a></span>
+</div>
+<h1 class="entry-title">TUTORIAL &#8211; UNIVERSAL ANDROID SSL PINNING IN 10 MINUTES WITH FRIDA</h1></header><div class="entry-wrapper">
+<div class="entry-content">
+<p class="EnlighterJSRAW" data-enlighter-language="xml" data-enlighter-theme="twilight" data-enlighter-linenumbers="false"><strong>Introduction:</strong><br>Hi everyone It&#8217;s been a while since my last post but I&#8217;m back, now I want to show you that you can start hacking android apps with frida without pain, I took me several hours to figure out how to get the frida installation ready but at the end that wasn&#8217;t really really difficult, the main problem is that I didn&#8217;t found a pretty clear tutorial for beginners in mobile security like me, so that&#8217;s why decided to create this 10 min tutorial. if you want to skip frida description you can go directly to <strong>Step 0 to start frida installation</strong></p>
+<p></p>
+<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" target="_blank" rel="noreferrer noopener" data-type="URL">Bug Bounty Write Ups Collection</a><br></em></p>
+<p></p>
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img class="wp-image-1854 aligncenter" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" width="398" height="301"></a></figure></div>
+<p></p>
+<p id="so-what-is-frida-exactly"><strong>So what is frida, exactly? </strong></p>
+<p>Extracted from<a href="https://www.frida.re/docs/home/"> frida website</a>:<em><br>&#8220;It’s <a href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">Greasemonkey</a> for native apps, or, put in more technical terms, it’s a dynamic code instrumentation toolkit. It lets you inject snippets of JavaScript or your own library into native apps on Windows, macOS, GNU/Linux, iOS, Android, and QNX. Frida also provides you with some simple tools built on top of the Frida API. These can be used as-is, tweaked to your needs, or serve as examples of how to use the API.&#8221;</em></p>
+<p class="EnlighterJSRAW" data-enlighter-language="xml" data-enlighter-theme="twilight" data-enlighter-linenumbers="false">So basically frida is a tool that let you inject scripts to native apps (in this case Android apps) to modify the application behavoir (in this case make a ssl pinning bypass and can perform a MitM attack, even if the aplication has https / ssl connections) and make dynamic test in real time.</p>
+<p><strong>Disclaimer:</strong> this method won&#8217;t work with applications that uses <a href="https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">HSTS (HTTP Strict Transport Security)</a> per example facebook, instagram, twitter, paypal, banking apps, etc, but don&#8217;t worry most applications don&#8217;t uses this protocol yet.</p>
+<p data-enlighter-language="xml" data-enlighter-theme="twilight" data-enlighter-linenumbers="false"><strong>Step 0 &#8211; set up the enviroment</strong></p>
+<p data-enlighter-language="xml" data-enlighter-theme="twilight" data-enlighter-linenumbers="false"><strong><br>computer</strong></p>
+<p data-enlighter-language="xml" data-enlighter-theme="twilight" data-enlighter-linenumbers="false">&#8211; python 2.7 </p>
+<p data-enlighter-language="xml" data-enlighter-theme="twilight" data-enlighter-linenumbers="false">&#8211; pip for python</p>
+<p data-enlighter-language="xml" data-enlighter-theme="twilight" data-enlighter-linenumbers="false">&#8211; adb tools (Android Debug Bridge tools)</p>
+<p data-enlighter-language="xml" data-enlighter-theme="twilight" data-enlighter-linenumbers="false">&#8211; local proxy (Burpsuite by Larry_lau, just kidding Burpsuite comunnity edition) </p>
+<p> </p>
+<p><strong>android phone</strong></p>
+<p>&#8211; android device <strong>rooted</strong> (in my case oneplus one with android 8.1) <strong>or</strong></p>
+<p>&#8211; android emulator with android 4.4.4 to 8.1 </p>
+<p> </p>
+<p><strong>Step 1 &#8211; install frida on your computer</strong></p>
+<pre class="wp-block-code"><code># installing frida via terminal, sometimes you need to run this command as sudo
+pip install frida-tools</code></pre>
+<p><strong>Step 2 &#8211; install frida-server on your device</strong></p>
+<p>Since there are a lot kind of android devices arquitechtures we need to find out what processor have our device so we need to connect our device to the computer (with usb debugger option activated) and then  run this following command:</p>
+<pre class="wp-block-code"><code># getting the processor arquitecture in this case is ARM, there are also x86, x86_64, etc ...
+adb shell getprop ro.product.cpu.abi
+ouput: armeabi-v7a</code></pre>
+<p>well, after know the arch now we can download the properly frida-server version for our device, in this case <strong>frida-server-XX.X.X-android-arm</strong> in this <a href="https://github.com/frida/frida/releases">frida github releases link</a> (since the lastest version didn&#8217;t work I highly recommend download this version frida-server-12.0.5-android-arm.xz, anyway you can try with newer version if you want to), once is downloaded we need to extract the frida server and then copy it to the device</p>
+<pre class="wp-block-code"><code># extracting frida-server binary from the xz file 
+# for linux distributions
+tar -xJf frida-server-12.0.5-android-arm.xz
+# for macOS or BSD based 
+unxz frida-server-12.0.5-android-arm.xz
+
+# then we need to copy the frida-server binary to the device with adb 
+adb push ./frida-server-12.0.5-android-arm /data/local/tmp/</code></pre>
+<p><strong>Step 3 &#8211; Hello process in frida (frida&#8217;s Hello world)</strong></p>
+<p>Once we have installed frida(computer) and frida-server (android) we can start interacting with frida with the following commands:</p>
+<pre class="wp-block-code"><code># first we need to start frida-server with this adb command 
+# the last '&amp;' is to run the command in background
+# disable SELinux is very important I was looking about 4 hours trying to see what happened and SELinux was preventing the success frida-server execution, also frida-server must run as root 
+adb shell 'su -c setenforce 0' 
+adb shell 'su -c /data/local/tmp/frida-server-12.0.5-android-arm &amp;' 
+
+# then if everything works you can see frida's hello world with
+# frida-ps is for list the devices process and -U flag is for usb devices
+frida-ps -U </code></pre>
+<p> </p>
+<p><a href="/wp-content/uploads/2018/12/frida-ps-U-1.png"><img loading="lazy" class="alignnone wp-image-410 size-full" src="/wp-content/uploads/2018/12/frida-ps-U-1.png" alt="" width="1552" height="672"></a></p>
+<p><strong>Step 5 &#8211; Set up Burpsuite comunnity edition<br></strong></p>
+<p>The quickiest way to setup a connection between our devices is get connected the android device and computer in the same wifi, so we just need to set up the android wifi connection to manual proxy in advanced section and also set up Burpsuite with the local computer ip (don&#8217;t forget use the same port) </p>
+<p><a href="/wp-content/uploads/2018/12/burpsuite-setup.png"><img loading="lazy" class="aligncenter wp-image-393 size-large" src="/wp-content/uploads/2018/12/burpsuite-setup-1024x586.png" alt="" width="756" height="433"></a></p>
+<p>also we need to install the burpsuite certificate, once the android device have the proxy set up we need to access to <a href="http://burp/">http://burp</a> in browser, then click the &#8220;CA certificate&#8221; buton and download the certificate (Note, you need to change the certificate extention from der to cer)</p>
+<p><a href="/wp-content/uploads/2018/12/burp-certificate-install.png"><img loading="lazy" class="alignnone wp-image-395 size-large" src="/wp-content/uploads/2018/12/burp-certificate-install-1024x921.png" alt="" width="756" height="680"></a></p>
+<p><strong>Last step: Bypass SSL pinning with Universal Android SSL Pinning Bypass No.2 </strong></p>
+<p>So, we got frida, frida-server and burpsuite running as espected, the next step is run the &#8220;Universal Android SSL Pinning Bypass No.2&#8221; script in order to start sniffing the application connections so we need to get the script and saved locally as name_script.js, here is a<a href="https://techblog.mediaservice.net/2018/11/universal-android-ssl-pinning-bypass-2/"> blogpost about this script by Mattia Vinci</a> (you can add several scripts to frida from the <a href="https://codeshare.frida.re/browse">repo</a> or custom scripts too)</p>
+<pre class="wp-block-code"><code>/* 
+   Universal Android SSL Pinning Bypass
+   by Mattia Vinci and Maurizio Agazzini 
+
+   $ frida -U -f org.package.name -l universal-ssl-check-bypass.js --no-pause
+
+    https://techblog.mediaservice.net/2018/11/universal-android-ssl-check-bypass-2/
+*/
+
+Java.perform(function() {
+
+    var array_list = Java.use("java.util.ArrayList");
+    var ApiClient = Java.use('com.android.org.conscrypt.TrustManagerImpl');
+
+    ApiClient.checkTrustedRecursive.implementation = function(a1, a2, a3, a4, a5, a6) {
+        // console.log('Bypassing SSL Pinning');
+        var k = array_list.$new();
+        return k;
+    }
+
+}, 0);</code></pre>
+<p>so the only thing that we have to do is save this script as &#8220;<span class="s1">frida-ssl-2.js</span>&#8221; and run the following command:</p>
+<pre class="wp-block-code"><code># the -l flag is to run custom script, in this case ssl pinning 2 script
+# the -f flag is for the apk package name, --no-paus option to not interrupt
+# the app startup at all and still leave the spawning of the process to Frida.
+
+frida -U -l frida-ssl-2.js --no-paus -f com.example.application</code></pre>
+<p>then the application is going start you are going to see the results in burpsuite</p>
+<p><a href="/wp-content/uploads/2018/12/frida-ssl-pinning.png"><img loading="lazy" class="alignnone wp-image-399 size-large" src="/wp-content/uploads/2018/12/frida-ssl-pinning-1024x596.png" alt="" width="756" height="440"></a></p>
+<p>so at this point you successfully bypass the ssl pinning with frida and you can start hacking network connections on android aplications</p>
+<p><em><strong>References:</strong></em></p>
+<p><a href="http://asvid.github.io/android-frida-hackinghttps://koz.io/using-frida-on-android-without-root/"><em>http://asvid.github.io/android-frida-hackinghttps://koz.io/using-frida-on-android-without-root/</em></a></p>
+<p><a href="https://www.codemetrix.net/hacking-android-apps-with-frida-1/"><em>https://www.codemetrix.net/hacking-android-apps-with-frida-1/</em></a></p>
+<p><a href="https://www.notsosecure.com/pentesting-android-apps-using-frida/"><em>https://www.notsosecure.com/pentesting-android-apps-using-frida/</em></a></p>
+<p><a href="https://android.jlelse.eu/hacking-android-app-with-frida-a85516f4f8b7"><em>https://android.jlelse.eu/hacking-android-app-with-frida-a85516f4f8b7</em></a></p>
+<p><a href="https://blog.it-securityguard.com/the-stony-path-of-android-🤖-bug-bounty-bypassing-certificate-pinning/"><em>https://blog.it-securityguard.com/the-stony-path-of-android-🤖-bug-bounty-bypassing-certificate-pinning/</em></a></p>
+<p>well, that’s it if you have any thoughts, doubts, comments or suggestions just drop me a line here or on Twitter <a href="https://twitter.com/omespino">@omespino</a>, read you later.</p>
+<p></p>
+<div class="shared-counts-wrap after_content style-fancy">
+<a href="https://www.facebook.com/sharer/sharer.php?u=/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/&amp;display=popup&amp;ref=plugin&amp;src=share_button" title="Share on Facebook" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button facebook shared-counts-no-count" data-postid="367" data-social-network="Facebook" data-social-action="Share" data-social-target="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18.8125" height="32" viewbox="0 0 602 1024"><path d="M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571t-17.143 61.714v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571q0-106.286 59.429-164.857t158.286-58.571q84 0 130.286 6.857z"></path></svg></span><span class="shared-counts-label">Facebook</span></span></a><a href="https://twitter.com/share?url=/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/&amp;text=TUTORIAL%20%E2%80%93%20UNIVERSAL%20ANDROID%20SSL%20PINNING%20IN%2010%20MINUTES%20WITH%20FRIDA" title="Share on Twitter" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button twitter shared-counts-no-count" data-postid="367" data-social-network="Twitter" data-social-action="Tweet" data-social-target="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="29.71875" height="32" viewbox="0 0 951 1024"><path d="M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z"></path></svg></span><span class="shared-counts-label">Tweet</span></span></a><a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/" title="Share on LinkedIn" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button linkedin shared-counts-no-count" data-postid="367" data-social-network="LinkedIn" data-social-action="Share" data-social-target="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="27.4375" height="32" viewbox="0 0 878 1024"><path d="M199.429 357.143v566.286h-188.571v-566.286h188.571zM211.429 182.286q0.571 41.714-28.857 69.714t-77.429 28h-1.143q-46.857 0-75.429-28t-28.571-69.714q0-42.286 29.429-70t76.857-27.714 76 27.714 29.143 70zM877.714 598.857v324.571h-188v-302.857q0-60-23.143-94t-72.286-34q-36 0-60.286 19.714t-36.286 48.857q-6.286 17.143-6.286 46.286v316h-188q1.143-228 1.143-369.714t-0.571-169.143l-0.571-27.429h188v82.286h-1.143q11.429-18.286 23.429-32t32.286-29.714 49.714-24.857 65.429-8.857q97.714 0 157.143 64.857t59.429 190z"></path></svg></span><span class="shared-counts-label">LinkedIn</span></span></a><span class="shared-counts-button included_total" data-postid="367" data-social-target="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="27.4375" height="32" viewbox="0 0 878 1024"><path d="M694.857 585.143q76 0 129.429 53.429t53.429 129.429-53.429 129.429-129.429 53.429-129.429-53.429-53.429-129.429q0-6.857 1.143-19.429l-205.714-102.857q-52.571 49.143-124.571 49.143-76 0-129.429-53.429t-53.429-129.429 53.429-129.429 129.429-53.429q72 0 124.571 49.143l205.714-102.857q-1.143-12.571-1.143-19.429 0-76 53.429-129.429t129.429-53.429 129.429 53.429 53.429 129.429-53.429 129.429-129.429 53.429q-72 0-124.571-49.143l-205.714 102.857q1.143 12.571 1.143 19.429t-1.143 19.429l205.714 102.857q52.571-49.143 124.571-49.143z"></path></svg></span><span class="shared-counts-label">Shares</span></span><span class="shared-counts-count">161</span></span>
+</div>
+</div>
+<footer class="entry-footer"></footer><div id="comments" class="comments-area">
+<h2 class="comments-title"> 25 thoughts on &ldquo;<span>TUTORIAL &#8211; UNIVERSAL ANDROID SSL PINNING IN 10 MINUTES WITH FRIDA</span>&rdquo;</h2>
+<ol class="comment-list">
+<li id="comment-31" class="comment even thread-even depth-1 parent">
+<article id="div-comment-31" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/8ae970256edff293d3d4e22a40658bc2?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/8ae970256edff293d3d4e22a40658bc2?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn"><a href="https://www.twitter.com/WWWSecurity" rel="external nofollow ugc" class="url">1ZRR4H</a></b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-31"><time datetime="2018-12-16T11:31:54-07:00">December 16, 2018 at 11:31 am</time></a>
+</div></footer><div class="comment-content"><p>Great post and thanks for the info.<br> It&#8217;s works.</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=31#respond" data-commentid="31" data-postid="367" data-belowelement="div-comment-31" data-respondelement="respond" data-replyto="Reply to 1ZRR4H" aria-label="Reply to 1ZRR4H">Reply</a></div></article><ol class="children"><li id="comment-32" class="comment odd alt depth-2"><article id="div-comment-32" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-32"><time datetime="2018-12-16T15:19:08-07:00">December 16, 2018 at 3:19 pm</time></a>
+</div></footer><div class="comment-content"><p>you&#8217;re welcome mate, and thank you for the confirmation, neat</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=32#respond" data-commentid="32" data-postid="367" data-belowelement="div-comment-32" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article></li></ol>
+</li>
+<li id="comment-33" class="comment even thread-odd thread-alt depth-1 parent">
+<article id="div-comment-33" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/cabde94c05c8f46bee951410a49431fd?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/cabde94c05c8f46bee951410a49431fd?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">Divya</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-33"><time datetime="2018-12-17T01:56:06-07:00">December 17, 2018 at 1:56 am</time></a>
+</div></footer><div class="comment-content">
+<p>Hey Bro, you tutorial is amazing. But i am getting error if i am running this command</p>
+<p>adb shell &#8216;su -c /data/local/tmp/frida-server-12.0.5-android-x86 &amp;&#8217;<br> I am running this on my windows using android emulator. Could you please tell me the solution for the same.</p>
+</div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=33#respond" data-commentid="33" data-postid="367" data-belowelement="div-comment-33" data-respondelement="respond" data-replyto="Reply to Divya" aria-label="Reply to Divya">Reply</a></div></article><ol class="children">
+<li id="comment-36" class="comment odd alt depth-2"><article id="div-comment-36" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-36"><time datetime="2018-12-17T10:37:26-07:00">December 17, 2018 at 10:37 am</time></a>
+</div></footer><div class="comment-content"><p>you&#8217;re welcome mate, what kind of error? most probably issue is that maybe the device can&#8217;t find the &#8220;su&#8221; binary because is not rooted</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=36#respond" data-commentid="36" data-postid="367" data-belowelement="div-comment-36" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article></li>
+<li id="comment-85" class="comment even depth-2"><article id="div-comment-85" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">Anonymous</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-85"><time datetime="2019-02-12T16:13:34-07:00">February 12, 2019 at 4:13 pm</time></a>
+</div></footer><div class="comment-content"><p>Did you check whether your emulator is arm or x86? Use the suitable package of frida-server.</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=85#respond" data-commentid="85" data-postid="367" data-belowelement="div-comment-85" data-respondelement="respond" data-replyto="Reply to Anonymous" aria-label="Reply to Anonymous">Reply</a></div></article></li>
+</ol>
+</li>
+<li id="comment-34" class="comment odd alt thread-even depth-1 parent">
+<article id="div-comment-34" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/0fae96ef0e3d09dd3b5eb93f6c6f2788?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/0fae96ef0e3d09dd3b5eb93f6c6f2788?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn"><a href="https://mirfansulaiman.github.io/" rel="external nofollow ugc" class="url">Muhammad Irfan</a></b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-34"><time datetime="2018-12-17T06:06:24-07:00">December 17, 2018 at 6:06 am</time></a>
+</div></footer><div class="comment-content">
+<p>Nice post !  Thanks for sharing bro !<br> I was create the command mobile pentest cheatsheet, <a href="https://github.com/mirfansulaiman/Command-Mobile-Penetration-Testing-Cheatsheet/blob/master/Readme.md" rel="nofollow ugc">https://github.com/mirfansulaiman/Command-Mobile-Penetration-Testing-Cheatsheet/blob/master/Readme.md</a> please feel free to check it out  🙂 if you know another method or technique please let me know 😉</p>
+<p>Thanks you 🙂</p>
+</div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=34#respond" data-commentid="34" data-postid="367" data-belowelement="div-comment-34" data-respondelement="respond" data-replyto="Reply to Muhammad Irfan" aria-label="Reply to Muhammad Irfan">Reply</a></div></article><ol class="children"><li id="comment-35" class="comment even depth-2"><article id="div-comment-35" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-35"><time datetime="2018-12-17T10:35:23-07:00">December 17, 2018 at 10:35 am</time></a>
+</div></footer><div class="comment-content"><p>your&#8217;re welcome mate, I&#8217;ll definetly check out that cheatsheet, thanks for sharing</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=35#respond" data-commentid="35" data-postid="367" data-belowelement="div-comment-35" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article></li></ol>
+</li>
+<li id="comment-37" class="comment odd alt thread-odd thread-alt depth-1 parent">
+<article id="div-comment-37" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/5f035017cad6b550f2deffc3b16d6b17?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/5f035017cad6b550f2deffc3b16d6b17?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">Matteo Vettosi</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-37"><time datetime="2019-01-09T14:10:29-07:00">January 9, 2019 at 2:10 pm</time></a>
+</div></footer><div class="comment-content"><p>frida-ps command was not available for me after installing frida using pip. I had to install frida-tools to get that.</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=37#respond" data-commentid="37" data-postid="367" data-belowelement="div-comment-37" data-respondelement="respond" data-replyto="Reply to Matteo Vettosi" aria-label="Reply to Matteo Vettosi">Reply</a></div></article><ol class="children"><li id="comment-38" class="comment even depth-2"><article id="div-comment-38" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-38"><time datetime="2019-01-09T14:17:54-07:00">January 9, 2019 at 2:17 pm</time></a>
+</div></footer><div class="comment-content"><p>yeah, my bad, is fixed now, thanks for pointing this and thanks for reading</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=38#respond" data-commentid="38" data-postid="367" data-belowelement="div-comment-38" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article></li></ol>
+</li>
+<li id="comment-44" class="comment odd alt thread-even depth-1 parent">
+<article id="div-comment-44" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn"><a href="http://www.borayu.com/" rel="external nofollow ugc" class="url">Annibal</a></b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-44"><time datetime="2019-01-14T20:48:32-07:00">January 14, 2019 at 8:48 pm</time></a>
+</div></footer><div class="comment-content"><p>Hi, I was able to run frida on Windows and on Android.<br> They seem to start communicating, but my mobile resets.<br> I was not able to set the proxy ip and port on mobile =&gt; it does not communicate (cant access burp site to get certificate)<br> What am I doing wrong?</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=44#respond" data-commentid="44" data-postid="367" data-belowelement="div-comment-44" data-respondelement="respond" data-replyto="Reply to Annibal" aria-label="Reply to Annibal">Reply</a></div></article><ol class="children"><li id="comment-49" class="comment even depth-2 parent">
+<article id="div-comment-49" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-49"><time datetime="2019-01-16T19:24:50-07:00">January 16, 2019 at 7:24 pm</time></a>
+</div></footer><div class="comment-content"><p>Hello, you should try using frida server 12.0.5 version, I was having the same problem (phone was reseting) that  you mention in your last comment, and that fixed with downgrading frida server version</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=49#respond" data-commentid="49" data-postid="367" data-belowelement="div-comment-49" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article><ol class="children"><li id="comment-53" class="comment odd alt depth-3"><article id="div-comment-53" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn"><a href="http://www.borayu.com/" rel="external nofollow ugc" class="url">Annibal</a></b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-53"><time datetime="2019-01-17T23:33:49-07:00">January 17, 2019 at 11:33 pm</time></a>
+</div></footer><div class="comment-content"><p>Hi, now it is working fine with frida_server_12_2_29_android_arm<br> I did a couple of mistakes.</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=53#respond" data-commentid="53" data-postid="367" data-belowelement="div-comment-53" data-respondelement="respond" data-replyto="Reply to Annibal" aria-label="Reply to Annibal">Reply</a></div></article></li></ol>
+</li></ol>
+</li>
+<li id="comment-45" class="comment even thread-odd thread-alt depth-1 parent">
+<article id="div-comment-45" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn"><a href="http://www.borayu.com/" rel="external nofollow ugc" class="url">Annibal</a></b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-45"><time datetime="2019-01-14T21:16:59-07:00">January 14, 2019 at 9:16 pm</time></a>
+</div></footer><div class="comment-content">
+<p>Hi,</p>
+<p>I am using python 2.7 and frida_server_12_2_29_android_arm on Samsung S4 Mini (rooted)<br> I am getting a exception<br> =============================<br> Exception in thread Thread-1:<br> Traceback (most recent call last):<br> File &#8220;c:\python27\lib\threading.py&#8221;, line 801, in __bootstrap_inner<br> self.run()<br> File &#8220;c:\python27\lib\threading.py&#8221;, line 754, in run<br> self.__target(*self.__args, **self.__kwargs)<br> File &#8220;c:\python27\lib\site-packages\frida_tools\application.py&#8221;, line 428, in _run<br> work()<br> File &#8220;c:\python27\lib\site-packages\frida_tools\application.py&#8221;, line 275, in _try_start<br> self._update_status(&#8220;Failed to spawn: %s&#8221; % e)<br> UnicodeDecodeError: &#8216;ascii&#8217; codec can&#8217;t decode byte 0xe2 in position 32: ordinal not in range(128)</p>
+</div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=45#respond" data-commentid="45" data-postid="367" data-belowelement="div-comment-45" data-respondelement="respond" data-replyto="Reply to Annibal" aria-label="Reply to Annibal">Reply</a></div></article><ol class="children"><li id="comment-54" class="comment odd alt depth-2 parent">
+<article id="div-comment-54" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn"><a href="http://www.borayu.com/" rel="external nofollow ugc" class="url">Annibal</a></b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-54"><time datetime="2019-01-17T23:35:55-07:00">January 17, 2019 at 11:35 pm</time></a>
+</div></footer><div class="comment-content"><p>Hi, everything working fine!!!<br> I am able to do a couple of commands using frida injected.<br> I am using Charles instead of Burp (could not make it works).<br> But I can not see any app request. What am I missing now?</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=54#respond" data-commentid="54" data-postid="367" data-belowelement="div-comment-54" data-respondelement="respond" data-replyto="Reply to Annibal" aria-label="Reply to Annibal">Reply</a></div></article><ol class="children"><li id="comment-55" class="comment even depth-3 parent">
+<article id="div-comment-55" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/c2be07251270022cc9b4f85f230fcdaf?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">Annibal</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-55"><time datetime="2019-01-18T12:05:58-07:00">January 18, 2019 at 12:05 pm</time></a>
+</div></footer><div class="comment-content"><p>I was using a rooted device with Android N (Nougat) that does not accept CA Trusted  by users.<br> Thus, I was not able to connect through WiFi.<br> Now everything is fine.<br> Here a tutorial =&gt; <a href="https://blog.ropnop.com/configuring-burp-suite-with-android-nougat/" rel="nofollow ugc">https://blog.ropnop.com/configuring-burp-suite-with-android-nougat/</a></p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=55#respond" data-commentid="55" data-postid="367" data-belowelement="div-comment-55" data-respondelement="respond" data-replyto="Reply to Annibal" aria-label="Reply to Annibal">Reply</a></div></article><ol class="children"><li id="comment-64" class="comment odd alt depth-4"><article id="div-comment-64" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-64"><time datetime="2019-01-23T17:57:11-07:00">January 23, 2019 at 5:57 pm</time></a>
+</div></footer><div class="comment-content"><p>Neat, pretty cool and thanks for share mate!</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=64#respond" data-commentid="64" data-postid="367" data-belowelement="div-comment-64" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article></li></ol>
+</li></ol>
+</li></ol>
+</li>
+<li id="comment-75" class="comment even thread-even depth-1 parent">
+<article id="div-comment-75" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/d3a6d2d2f27872f92bf8c880cfb97895?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/d3a6d2d2f27872f92bf8c880cfb97895?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">bremin</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-75"><time datetime="2019-02-06T12:33:55-07:00">February 6, 2019 at 12:33 pm</time></a>
+</div></footer><div class="comment-content">
+<p>C:\Users\Gokhan&gt; frida-ps -U<br> Failed to enumerate processes: unable to connect to remote frida-server: closed</p>
+<p>I get such an error<br> How can I solve ?</p>
+</div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=75#respond" data-commentid="75" data-postid="367" data-belowelement="div-comment-75" data-respondelement="respond" data-replyto="Reply to bremin" aria-label="Reply to bremin">Reply</a></div></article><ol class="children"><li id="comment-76" class="comment odd alt depth-2"><article id="div-comment-76" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-76"><time datetime="2019-02-08T05:13:07-07:00">February 8, 2019 at 5:13 am</time></a>
+</div></footer><div class="comment-content"><p>Hello, this means that your computer does not have connectivy with the frida-server process, you can try adb shell in order to make sure that you have connectivy with your phone and then try again the step 3, something to notice is that this method will work only if you run the frida-server as root.</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=76#respond" data-commentid="76" data-postid="367" data-belowelement="div-comment-76" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article></li></ol>
+</li>
+<li id="comment-3952" class="comment even thread-odd thread-alt depth-1"><article id="div-comment-3952" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/19e1eaacc118d01fb65dccda83f202e7?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/19e1eaacc118d01fb65dccda83f202e7?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">Johhny Quest</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-3952"><time datetime="2019-04-04T23:25:06-07:00">April 4, 2019 at 11:25 pm</time></a>
+</div></footer><div class="comment-content">
+<p>When I run</p>
+<p>adb shell &#8216;su -c setenforce 0&#8217;</p>
+<p>I receveive the error</p>
+<p>setenforce: Needs 1 argument</p>
+</div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=3952#respond" data-commentid="3952" data-postid="367" data-belowelement="div-comment-3952" data-respondelement="respond" data-replyto="Reply to Johhny Quest" aria-label="Reply to Johhny Quest">Reply</a></div></article></li>
+<li id="comment-5157" class="comment odd alt thread-even depth-1 parent">
+<article id="div-comment-5157" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/7d603c4bc5eecab7c66bccb6491b5b67?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/7d603c4bc5eecab7c66bccb6491b5b67?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">Neal</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5157"><time datetime="2019-04-15T22:18:04-07:00">April 15, 2019 at 10:18 pm</time></a>
+</div></footer><div class="comment-content">
+<p>Hi,</p>
+<p>when i run the script i get the following error:</p>
+<p>-&gt; TypeError: cannot write property &#8216;implementation&#8217; of undefined<br> at [anon] (duk_hobject_props.c:3402)<br> at [anon] (/repl1.js:10)<br> at frida/node_modules/frida-java/lib/vm.js:42<br> at E (frida/node_modules/frida-java/index.js:348)<br> at frida/node_modules/frida-java/index.js:334<br> at input:1<br> Process terminated</p>
+<p>Can you help me to fix it please?</p>
+<p>Thanks</p>
+</div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=5157#respond" data-commentid="5157" data-postid="367" data-belowelement="div-comment-5157" data-respondelement="respond" data-replyto="Reply to Neal" aria-label="Reply to Neal">Reply</a></div></article><ol class="children"><li id="comment-5186" class="comment even depth-2 parent">
+<article id="div-comment-5186" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5186"><time datetime="2019-04-16T04:22:32-07:00">April 16, 2019 at 4:22 am</time></a>
+</div></footer><div class="comment-content"><p>Hey it seems that the script is not parsed correctly maybe the copy paste or something, you can find a reference here <a href="https://github.com/frida/frida/issues/283" rel="nofollow ugc">https://github.com/frida/frida/issues/283</a></p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=5186#respond" data-commentid="5186" data-postid="367" data-belowelement="div-comment-5186" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article><ol class="children"><li id="comment-5269" class="comment odd alt depth-3"><article id="div-comment-5269" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/7d603c4bc5eecab7c66bccb6491b5b67?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/7d603c4bc5eecab7c66bccb6491b5b67?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">Neal</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5269"><time datetime="2019-04-16T22:48:35-07:00">April 16, 2019 at 10:48 pm</time></a>
+</div></footer><div class="comment-content"><p>the syntax is the same as you have post in this page and it seems correct.<br> Maybe I have to try with a different Frida version, did you test the script only with Frida version 12.0.5?</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=5269#respond" data-commentid="5269" data-postid="367" data-belowelement="div-comment-5269" data-respondelement="respond" data-replyto="Reply to Neal" aria-label="Reply to Neal">Reply</a></div></article></li></ol>
+</li></ol>
+</li>
+<li id="comment-5511" class="comment even thread-odd thread-alt depth-1"><article id="div-comment-5511" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/a0167b9bb08951f76df908606935ddea?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/a0167b9bb08951f76df908606935ddea?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">zhou</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5511"><time datetime="2019-05-05T03:46:27-07:00">May 5, 2019 at 3:46 am</time></a>
+</div></footer><div class="comment-content"><p>TypeError: cannot write property ‘implementation’ of undefined</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=5511#respond" data-commentid="5511" data-postid="367" data-belowelement="div-comment-5511" data-respondelement="respond" data-replyto="Reply to zhou" aria-label="Reply to zhou">Reply</a></div></article></li>
+<li id="comment-5746" class="comment odd alt thread-even depth-1 parent">
+<article id="div-comment-5746" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/cb856736e100b269a0c5eb98f43de8ec?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/cb856736e100b269a0c5eb98f43de8ec?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">Makki</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5746"><time datetime="2019-08-01T09:38:07-07:00">August 1, 2019 at 9:38 am</time></a>
+</div></footer><div class="comment-content">
+<p>Hi, what is the solution of this error?<br> any help will be appreciate</p>
+<p>[05:32:57]-[makki@cp]~/Downloads -&gt; tar -xJf frida-server-12.6.11-android-arm64.xz<br> tar: This does not look like a tar archive<br> tar: Skipping to next header<br> tar: A lone zero block at 25<br> tar: Exiting with failure status due to previous errors</p>
+</div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=5746#respond" data-commentid="5746" data-postid="367" data-belowelement="div-comment-5746" data-respondelement="respond" data-replyto="Reply to Makki" aria-label="Reply to Makki">Reply</a></div></article><ol class="children"><li id="comment-5765" class="comment even depth-2"><article id="div-comment-5765" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5765"><time datetime="2019-08-09T00:02:28-07:00">August 9, 2019 at 12:02 am</time></a>
+</div></footer><div class="comment-content"><p>Hey, you need to install xz-utils in ubuntu per example is with &#8220;sudo apt-get install xz-utils&#8221; and you can extract that *.xz file with &#8220;unxz frida-server-12.6.11-android-arm64.xz&#8221;, thanks for reading.</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/?replytocom=5765#respond" data-commentid="5765" data-postid="367" data-belowelement="div-comment-5765" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article></li></ol>
+</li>
+</ol>
+<div id="respond" class="comment-respond">
+<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#respond" style="display:none;">Cancel reply</a></small>
+</h3>
+<form action="/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message" aria-hidden="true">Required fields are marked <span class="required" aria-hidden="true">*</span></span></p>
+<p class="comment-form-comment"><label for="comment">Comment <span class="required" aria-hidden="true">*</span></label><textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required></textarea></p>
+<p class="comment-form-author"><label for="author">Name</label> <input id="author" name="author" type="text" value="" size="30" maxlength="245"></p>
+<p class="comment-form-email"><label for="email">Email</label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p> <input type="text" name="leLQY" value="" style="display: none !important;"><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="367" id="comment_post_ID"> <input type="hidden" name="comment_parent" id="comment_parent" value="0"></p>
+</form>
+</div>
+</div>
+</div>
+<div class="sidebar"></div></article><nav class="navigation post-navigation" aria-label="Posts"><h2 class="screen-reader-text">Post navigation</h2>
+<div class="nav-links">
+<div class="nav-previous"><a href="/write-up-lovestory-from-closed-as-informative-to-xx00-usd-in-yahoo-ios-mail-app/" rel="prev">Previous Post <span class="screen-reader-text">WRITE UP – LOVE STORY, FROM CLOSED AS INFORMATIVE TO $3,500 USD, XSS STORED IN YAHOO! IOS MAIL APP</span></a></div>
+<div class="nav-next"><a href="/write-up-1000-usd-in-5-minutes-xss-stored-in-outlook-com-ios-browsers/" rel="next">Next Post <span class="screen-reader-text">WRITE UP &#8211; $1,000 USD, XSS STORED IN OUTLOOK.COM (IOS BROWSERS)</span></a></div>
+</div></nav></main></div></div>
+<footer id="colophon" class="site-footer" role="contentinfo"><div class="site-info"></div></footer>
+</div>
+<div class="mobmenu-overlay"></div>
+<div class="mob-menu-header-holder mobmenu" data-menu-display="mob-menu-slideout-over" data-open-icon="down-open" data-close-icon="up-open">
+<div class="mobmenul-container"><a href="#" class="mobmenu-left-bt mobmenu-trigger-action" data-panel-target="mobmenu-left-panel" aria-label="Left Menu Button"><i class="mob-icon-menu mob-menu-icon"></i><i class="mob-icon-cancel-1 mob-cancel-button"></i></a></div>
+<div class="mob-menu-logo-holder"><a href="/" class="headertext"><span>@OMESPINO</span></a></div>
+<div class="mobmenur-container"></div>
+</div>
+<div class="mobmenu-left-alignment mobmenu-panel mobmenu-left-panel  "> <a href="#" class="mobmenu-left-bt" aria-label="Left Menu Button"><i class="mob-icon-cancel-1 mob-cancel-button"></i></a><div class="mobmenu-content"><div class="menu-menu-espanol-container"><ul id="mobmenuleft" role="menubar" aria-label="Main navigation for mobile devices"><li role="none" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1304"><a href="/es" role="menuitem" class="">BLOG EN ESPAÑOL</a></li></ul></div></div>
+<div class="mob-menu-left-bg-holder"></div>
+</div>
+</body>
+</html>

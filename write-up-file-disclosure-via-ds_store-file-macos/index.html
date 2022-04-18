@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Oswald%3A400%2C300%2C700%7CAlegreya+Sans%3A400%2C400italic%2C700%2C700italic%7CDosis%3Ainherit%2C400&#038;subset=latin%2Clatin-ext&amp;display=swap">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="/xmlrpc.php">
+<meta name="theme-color" content="#1a1a1a">
+<link media="all" href="/wp-content/cache/autoptimize/css/autoptimize_3b05b7efe97d6722f572c298a31dfe97.css" rel="stylesheet">
+<title>WRITE UP &#8211; FACEBOOK N/A REPORT WRITE UP: File Disclosure via .DS_Store file (macOS) &#8211; @omespino</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<link href="https://fonts.gstatic.com/" crossorigin="anonymous" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; Feed" href="/feed/">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; Comments Feed" href="/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; WRITE UP &#8211; FACEBOOK N/A REPORT WRITE UP: File Disclosure via .DS_Store file (macOS) Comments Feed" href="/write-up-file-disclosure-via-ds_store-file-macos/feed/">
+<link rel="stylesheet" id="mm-compiled-options-mobmenu-css" href="/wp-content/cache/autoptimize/css/autoptimize_single_20b3cf9d88dd6d90b4e4a9a904cb8741.css" type="text/css" media="all"> <script type="text/javascript" src="/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>  <script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-47561535-2" id="google_gtagjs-js" async></script> <link rel="https://api.w.org/" href="/wp-json/">
+<link rel="alternate" type="application/json" href="/wp-json/wp/v2/posts/173">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="/wp-includes/wlwmanifest.xml">
+<meta name="generator" content="WordPress 5.9.3">
+<link rel="canonical" href="/write-up-file-disclosure-via-ds_store-file-macos/">
+<link rel="shortlink" href="/?p=173">
+<link rel="alternate" type="application/json+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Fwrite-up-file-disclosure-via-ds_store-file-macos%2F">
+<link rel="alternate" type="text/xml+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Fwrite-up-file-disclosure-via-ds_store-file-macos%2F&#038;format=xml">
+<meta name="generator" content="Site Kit by Google 1.72.0"> <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1119974224835012&ev=PageView&noscript=1"></noscript>
+<link rel="icon" href="/wp-content/uploads/2020/12/cropped-dddd-32x32.png" sizes="32x32">
+<link rel="icon" href="/wp-content/uploads/2020/12/cropped-dddd-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/wp-content/uploads/2020/12/cropped-dddd-180x180.png">
+<meta name="msapplication-TileImage" content="/wp-content/uploads/2020/12/cropped-dddd-270x270.png"> <script src="/wp-content/cache/autoptimize/js/autoptimize_eafcdd70e0cf994d53c6a65b41022ac5.js"></script>
+</head>
+<body class="post-template-default single single-post postid-173 single-format-standard custom-background mob-menu-slideout-over">
+<div id="page" class="hfeed site"> <a class="skip-link screen-reader-text" href="#content">Skip to content</a><header id="masthead" class="site-header" role="banner"><div class="navigation-wrapper"><nav id="site-navigation" class="main-navigation" role="navigation"> <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">Menu</button><div class="menu-menu-espanol-container"><ul id="menu-menu-espanol" class="menu"><li id="menu-item-1304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1304"><a href="/es">BLOG EN ESPAÑOL</a></li></ul></div></nav></div>
+<div class="site-branding">
+<h1 class="site-title"><a href="/" rel="home">@omespino</a></h1>
+<h2 class="site-description">just another security blog.</h2>
+</div></header><div id="content" class="site-content"><div id="primary" class="content-area"><main id="main" class="site-main" role="main"><article id="post-173" class="post-173 post type-post status-publish format-standard hentry category-uncategorized-en"><header class="entry-header"><div class="entry-meta"> <span class="byline"> Written by <span class="author vcard"><a class="url fn n" href="/author/user-admin/">omespino</a></span></span><span class="posted-on"><a href="/write-up-file-disclosure-via-ds_store-file-macos/" rel="bookmark"><time class="entry-date published" datetime="2018-01-23T11:43:22-07:00">January 23, 2018</time><time class="updated" datetime="2022-01-07T17:38:50-07:00">January 7, 2022</time></a></span>
+</div>
+<h1 class="entry-title">WRITE UP &#8211; FACEBOOK N/A REPORT WRITE UP: File Disclosure via .DS_Store file (macOS)</h1></header><div class="entry-wrapper">
+<div class="entry-content">
+<p>I<strong>ntroduction:</strong><br>Hi everyone, this is another Facebook Whitehat Report write up (Facebook marked the report as N/A, but some another programs accept this bug as a valid bug bounty, per ex. Twitter so this might be can be useful in some scenarios), well,  there you go:<br><br></p>
+<p class="has-text-align-center"><em>This blogpost appeared first in the book <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"></a></figure></div>
+<p>Title: Directory Listing Disclosure via .DS_Store file (macOS)<br>Product / URL: https://live.oculus.com/</p>
+<p>Description and Impact<br>Apple Macintosh OS X / macOS .DS_Store Directory Listing Disclosure Vulnerability</p>
+<p>In the Apple macOS operating system, .DS_Store is a file that stores custom attributes of its containing folder, such as the position of icons or the choice of a background image. BUT ALSO LIST THE WHOLE FILES ON DIRECTORY THAT HAS BEEN CREATED AS HIDDEN FILE, AUTOMATICALLY BY MACOS.</p>
+<p>Critical ISSUE! A remote attacker may read obtain web directory content information by submitting a URL to the vulnerable host&#8217;s web service of the following form:</p>
+<p>http://www.example.com/target_directory/.DS_store.</p>
+<p>This information could provide an attacker with sensitive information including system configuration, installed applications, etc. Properly exploited, this information could allow an attacker to further compromise the security of the host.</p>
+<p>But how do .DS_Store files get on a web server? This can happen in several ways:</p>
+<p>A user copies an entire folder of files to a web server via FTP. In this case, the .DS_Store file contained in that folder (or multiple .DS_Store files contained in sub-folders) gets copied to the webserver. (Note that some FTP clients do not copy .DS_Store files by default.)</p>
+<p>A user copies the entire contents of a folder via FTP to a web server by selecting all the files in a folder. In normal usage, the .DS_Store file will not be copied, but, if invisible files are displayed in the user&#8217;s FTP client, and the user simply selects all files in the folder and copies them to the webserver directory, the .DS_Store file &#8211; and any other invisible file &#8211; will be copied to the server.<br>Reproduction Instructions / Proof of Concept</p>
+<p>• OS: macOS<br>• You need to have python2.7, pip for python2.7, ds_store and tqdm pip modules installed:<br>brew install python &amp;&amp; sudo pip install ds_store &amp;&amp; sudo pip install tqdm<br>** Only for .DS_Store parsing to make the content file &#8220;human-readable&#8221;<br>• Navigate to https://live.oculus.com/assets/.DS_Store and the &#8220;.DS_Store&#8221; file, downloads automatically.<br>• Save the code bellow this is small &#8220;.DS_Store&#8221; files parser as &#8220;dsstore.py&#8221; in the same &#8220;.DS_Store&#8221; file directory :</p>
+<p><em>* NOTE: this script was borrowed from some part of internet but i could not find the source anymore, if somebody knows the author, just let me know to give the properly credits to him/her.</em><br>&lt;</p>
+<pre class="wp-block-code"><code>#!/usr/bin/env python
+# Begin Small .DS_Store Parser
+# -*- encoding: utf-8 -*-
+from ds_store import DSStore
+from tqdm import tqdm
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-p", "--path", help="Path to the DS_Store file", required=True)
+parser.add_argument("-t", "--type", help="Type : Iloc, bwsp, lsvp, lsvP, icvp", default='Iloc')
+args = parser.parse_args()
+
+dsstore = DSStore.open(args.path, 'r+')
+for data in tqdm(dsstore):
+data = str(data)
+entry = data.translate(None, "&lt;&gt;")
+entry = entry.split(' ')
+if(entry&#91;1] == args.type):
+print(entry&#91;0])
+# Ends Small .DS_Store Parser
+
+</code></pre>
+<p>• Run the script and see the output</p>
+<pre class="wp-block-code"><code>localhost:~ds_store_py$ python dsstore.py -p .DS_Store
+0%|
+fonts
+images
+logos
+nux_bg_web.mp4
+oculus-health.pdf</code></pre>
+<p>• Then the files are listed (human-readable), well let&#8217;s see what happens with the other directories, for example, &#8220;images&#8221;, navigate to https://live.oculus.com/assets/images/.DS_Store and the &#8220;.DS_Store&#8221; file, again downloads automatically.</p>
+<p>• RE-Run the script for the .DS_Store from images and see the output</p>
+<pre class="wp-block-code"><code>localhost:~ds_store_py$ python dsstore.py -p .DS_Store
+0%|
+24_sprite.png
+24_sprite2x.png
+_temp-cesbg.jpg
+_temp-ceslogo.png
+_temp-e3bg.jpg
+_temp-e3logo.png
+bg-event-generic.jpg
+bg-experiences.jpg
+bg-home.jpg
+bg-search.jpg
+bg-search2.jpg
+black-dot@2x.png
+black-pin1@2x.png
+black-pin2@2x.png
+black-pin3@2x.png
+black-pin4@2x.png
+black-pin@2x.png
+blue-dot@2x.png
+blue-pin1@2x.png
+blue-pin2@2x.png
+blue-pin3@2x.png
+blue-pin4@2x.png
+blue-pin@2x.png
+confirmation-bg.jpg
+event_e3_feature.jpg
+event_tour_feature.jpg
+facebook_og.jpg
+facebook_share.jpg
+favicon.png
+new-reality-1.jpg
+new-reality-3.jpg
+oculus-ready.png
+twitter_card.jpg
+</code></pre>
+<figure class="wp-block-image"><a href="/wp-content/uploads/2018/01/live.oculus.com-directory-listing-by-DS_Store.png"><img src="/wp-content/uploads/2018/01/live.oculus.com-directory-listing-by-DS_Store.png" alt="" class="wp-image-175"></a></figure><p>• Then Confirm vía browser the accessibility for any file listed for example &#8220;_temp-e3logo.png&#8221; , go to https://live.oculus.com/assets/images/_temp-e3logo.png via any browser and see the file.</p>
+<p>• Repeat in whole Directory &#8220;Three&#8221;, if you can access to any &#8220;.DS_Store&#8221; you can see the Directory Listing</p>
+<p>• &#8220;.DS_Store&#8221; files founded on https://live.oculus.com/ :</p>
+<p>https://live.oculus.com/assets/.DS_Store<br>https://live.oculus.com/assets/images/.DS_Store<br>https://live.oculus.com/assets/logos/.DS_Store</p>
+<p>• How can the attacker get the file? Easy, with a simple google/bing dork for example &#8220;site:live.oculus.com filetype(.DS_Store OR DS_Store)&#8221; or maybe with a manual test on assets or image directories adding .DS_Store at the end of the URL ex: &#8220;https://live.oculus.com/assets/&#8221; + &#8220;.DS_Store&#8221;, because is a common error upload the DS_Store file when you zip the folder in your macOS and upload the folder to the server), the DS_Store file is not a security issue by itself, I think the security issue is that you have that kind of file published in your web app that let the attacker list the whole directory.</p>
+<p>This time was in the inoffensive folder but think about the impact if you accidentally upload a .DS_Store in the wrong public folder on the server.</p>
+<p>Anyway, you should erase any .DS_Store on any web application public servers to prevent this behavior.</p>
+<p>• Solution / Fix :<br>Erase any .DS_Store files on any application server published on the internet.</p>
+<p>Timeline:<br>03 Jun 2017: Initial report<br>06 Jun 2017: Security team member Kurt asking for help to understand and reproduce the bug<br>06 Jun 2017: My reply with more detailed information.<br>07 Jun 2017: Security team asking how the &#8220;attacker&#8221; gains access to the mentioned file (.DS_Store)<br>08 Jun 2017: Report triaged<br>07 Jun 2017: Bug acknowledged and Neal said that fix is in the progress<br>12 Jun 2017: Vic informed me that bug has been mitigated.<br>12 Jun 2017: I replied confirming that the bug was patched<br>21 jun 2017:&nbsp; Report marked as &#8220;Not Applicable&#8221;, with the next resolution &#8220;The committee met to analyze the issue and we concluded that it doesn&#8217;t qualify for a bounty because no sensitive data was exposed&#8221;</p>
+<p>Simliar bug that was marked as valid report and bug bounty (Twitter):<br><a href="https://hackerone.com/reports/142549">https://hackerone.com/reports/142549</a></p>
+<p>well, that’s it if you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/intent/user?screen_name=omespino">@omespino</a>, read you later.</p>
+<div class="shared-counts-wrap after_content style-fancy">
+<a href="https://www.facebook.com/sharer/sharer.php?u=/write-up-file-disclosure-via-ds_store-file-macos/&amp;display=popup&amp;ref=plugin&amp;src=share_button" title="Share on Facebook" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button facebook shared-counts-no-count" data-postid="173" data-social-network="Facebook" data-social-action="Share" data-social-target="/write-up-file-disclosure-via-ds_store-file-macos/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18.8125" height="32" viewbox="0 0 602 1024"><path d="M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571t-17.143 61.714v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571q0-106.286 59.429-164.857t158.286-58.571q84 0 130.286 6.857z"></path></svg></span><span class="shared-counts-label">Facebook</span></span></a><a href="https://twitter.com/share?url=/write-up-file-disclosure-via-ds_store-file-macos/&amp;text=WRITE%20UP%20%E2%80%93%20FACEBOOK%20N%2FA%20REPORT%20WRITE%20UP%3A%20File%20Disclosure%20via%20.DS_Store%20file%20%28macOS%29" title="Share on Twitter" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button twitter shared-counts-no-count" data-postid="173" data-social-network="Twitter" data-social-action="Tweet" data-social-target="/write-up-file-disclosure-via-ds_store-file-macos/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="29.71875" height="32" viewbox="0 0 951 1024"><path d="M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z"></path></svg></span><span class="shared-counts-label">Tweet</span></span></a><a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/write-up-file-disclosure-via-ds_store-file-macos/" title="Share on LinkedIn" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button linkedin shared-counts-no-count" data-postid="173" data-social-network="LinkedIn" data-social-action="Share" data-social-target="/write-up-file-disclosure-via-ds_store-file-macos/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="27.4375" height="32" viewbox="0 0 878 1024"><path d="M199.429 357.143v566.286h-188.571v-566.286h188.571zM211.429 182.286q0.571 41.714-28.857 69.714t-77.429 28h-1.143q-46.857 0-75.429-28t-28.571-69.714q0-42.286 29.429-70t76.857-27.714 76 27.714 29.143 70zM877.714 598.857v324.571h-188v-302.857q0-60-23.143-94t-72.286-34q-36 0-60.286 19.714t-36.286 48.857q-6.286 17.143-6.286 46.286v316h-188q1.143-228 1.143-369.714t-0.571-169.143l-0.571-27.429h188v82.286h-1.143q11.429-18.286 23.429-32t32.286-29.714 49.714-24.857 65.429-8.857q97.714 0 157.143 64.857t59.429 190z"></path></svg></span><span class="shared-counts-label">LinkedIn</span></span></a><span class="shared-counts-button included_total" data-postid="173" data-social-target="/write-up-file-disclosure-via-ds_store-file-macos/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="27.4375" height="32" viewbox="0 0 878 1024"><path d="M694.857 585.143q76 0 129.429 53.429t53.429 129.429-53.429 129.429-129.429 53.429-129.429-53.429-53.429-129.429q0-6.857 1.143-19.429l-205.714-102.857q-52.571 49.143-124.571 49.143-76 0-129.429-53.429t-53.429-129.429 53.429-129.429 129.429-53.429q72 0 124.571 49.143l205.714-102.857q-1.143-12.571-1.143-19.429 0-76 53.429-129.429t129.429-53.429 129.429 53.429 53.429 129.429-53.429 129.429-129.429 53.429q-72 0-124.571-49.143l-205.714 102.857q1.143 12.571 1.143 19.429t-1.143 19.429l205.714 102.857q52.571-49.143 124.571-49.143z"></path></svg></span><span class="shared-counts-label">Shares</span></span><span class="shared-counts-count">188</span></span>
+</div>
+</div>
+<footer class="entry-footer"></footer><div id="comments" class="comments-area">
+<h2 class="comments-title"> 4 thoughts on &ldquo;<span>WRITE UP &#8211; FACEBOOK N/A REPORT WRITE UP: File Disclosure via .DS_Store file (macOS)</span>&rdquo;</h2>
+<ol class="comment-list"><li id="comment-2" class="comment even thread-even depth-1 parent">
+<article id="div-comment-2" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/52fa4bea7d19712912b1532f3786539a?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/52fa4bea7d19712912b1532f3786539a?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn">david</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/write-up-file-disclosure-via-ds_store-file-macos/#comment-2"><time datetime="2018-12-31T10:31:00-07:00">December 31, 2018 at 10:31 am</time></a>
+</div></footer><div class="comment-content">
+<p>Hi,<br> Perfect Article, i tried this python script and i am getting this error :<br> File &#8220;ds.py&#8221;, line 15<br> data = str(data)<br> ^</p>
+<p>Can you please help?</p>
+</div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/write-up-file-disclosure-via-ds_store-file-macos/?replytocom=2#respond" data-commentid="2" data-postid="173" data-belowelement="div-comment-2" data-respondelement="respond" data-replyto="Reply to david" aria-label="Reply to david">Reply</a></div></article><ol class="children">
+<li id="comment-3" class="comment odd alt depth-2"><article id="div-comment-3" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">omespino</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/write-up-file-disclosure-via-ds_store-file-macos/#comment-3"><time datetime="2019-01-01T18:10:08-07:00">January 1, 2019 at 6:10 pm</time></a>
+</div></footer><div class="comment-content"><p>Hey , you need to install the import packages with pip , per example &#8220;pip install DSStore&#8221;  and &#8220;pip install tqmd&#8221;, thats why  is being failing</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/write-up-file-disclosure-via-ds_store-file-macos/?replytocom=3#respond" data-commentid="3" data-postid="173" data-belowelement="div-comment-3" data-respondelement="respond" data-replyto="Reply to omespino" aria-label="Reply to omespino">Reply</a></div></article></li>
+<li id="comment-92" class="comment even depth-2"><article id="div-comment-92" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/70eaa177dec4d7fbd0ec30d817ae00f3?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/70eaa177dec4d7fbd0ec30d817ae00f3?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo" height="75" width="75" loading="lazy"> <b class="fn"><a href="https://generaleg0x01.com/" rel="external nofollow ugc" class="url">Youssef A. Mohamed</a></b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/write-up-file-disclosure-via-ds_store-file-macos/#comment-92"><time datetime="2019-02-19T00:18:41-07:00">February 19, 2019 at 12:18 am</time></a>
+</div></footer><div class="comment-content"><p>It is probably caused by a mix of tabs and spaces.</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/write-up-file-disclosure-via-ds_store-file-macos/?replytocom=92#respond" data-commentid="92" data-postid="173" data-belowelement="div-comment-92" data-respondelement="respond" data-replyto="Reply to Youssef A. Mohamed" aria-label="Reply to Youssef A. Mohamed">Reply</a></div></article></li>
+<li id="comment-6955" class="comment odd alt depth-2"><article id="div-comment-6955" class="comment-body"><footer class="comment-meta"><div class="comment-author vcard"> <img alt="" src="https://secure.gravatar.com/avatar/?s=75&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g" srcset="https://secure.gravatar.com/avatar/?s=150&#038;d=%2Fwp-content%2Fuploads%2F2021%2F07%2Fhacking-glider.jpg&#038;r=g 2x" class="avatar avatar-75 photo avatar-default" height="75" width="75" loading="lazy"> <b class="fn">feat</b> <span class="says">says:</span>
+</div>
+<div class="comment-metadata"> <a href="/write-up-file-disclosure-via-ds_store-file-macos/#comment-6955"><time datetime="2021-04-09T18:01:41-07:00">April 9, 2021 at 6:01 pm</time></a>
+</div></footer><div class="comment-content"><p>i too geting error</p></div>
+<div class="reply"><a rel="nofollow" class="comment-reply-link" href="/write-up-file-disclosure-via-ds_store-file-macos/?replytocom=6955#respond" data-commentid="6955" data-postid="173" data-belowelement="div-comment-6955" data-respondelement="respond" data-replyto="Reply to feat" aria-label="Reply to feat">Reply</a></div></article></li>
+</ol>
+</li></ol>
+<div id="respond" class="comment-respond">
+<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/write-up-file-disclosure-via-ds_store-file-macos/#respond" style="display:none;">Cancel reply</a></small>
+</h3>
+<form action="/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message" aria-hidden="true">Required fields are marked <span class="required" aria-hidden="true">*</span></span></p>
+<p class="comment-form-comment"><label for="comment">Comment <span class="required" aria-hidden="true">*</span></label><textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required></textarea></p>
+<p class="comment-form-author"><label for="author">Name</label> <input id="author" name="author" type="text" value="" size="30" maxlength="245"></p>
+<p class="comment-form-email"><label for="email">Email</label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p> <input type="text" name="leLQY" value="" style="display: none !important;"><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="173" id="comment_post_ID"> <input type="hidden" name="comment_parent" id="comment_parent" value="0"></p>
+</form>
+</div>
+</div>
+</div>
+<div class="sidebar"></div></article><nav class="navigation post-navigation" aria-label="Posts"><h2 class="screen-reader-text">Post navigation</h2>
+<div class="nav-links">
+<div class="nav-previous"><a href="/write-up-ctf-eset-latinoamerica-challenge-36/" rel="prev">Previous Post <span class="screen-reader-text">write up &#8211; CTF eset latinoámerica challenge #36.</span></a></div>
+<div class="nav-next"><a href="/facebook-bug-bounty-getting-access-to-prompt-debug-dialog-and-serialized-tool-on-main-website-facebook-com/" rel="next">Next Post <span class="screen-reader-text">WRITE UP &#8211; Facebook bug bounty: &#8220;Getting access to prompt debug dialog and serialized tool on main website facebook.com&#8221;</span></a></div>
+</div></nav></main></div></div>
+<footer id="colophon" class="site-footer" role="contentinfo"><div class="site-info"></div></footer>
+</div>
+<div class="mobmenu-overlay"></div>
+<div class="mob-menu-header-holder mobmenu" data-menu-display="mob-menu-slideout-over" data-open-icon="down-open" data-close-icon="up-open">
+<div class="mobmenul-container"><a href="#" class="mobmenu-left-bt mobmenu-trigger-action" data-panel-target="mobmenu-left-panel" aria-label="Left Menu Button"><i class="mob-icon-menu mob-menu-icon"></i><i class="mob-icon-cancel-1 mob-cancel-button"></i></a></div>
+<div class="mob-menu-logo-holder"><a href="/" class="headertext"><span>@OMESPINO</span></a></div>
+<div class="mobmenur-container"></div>
+</div>
+<div class="mobmenu-left-alignment mobmenu-panel mobmenu-left-panel  "> <a href="#" class="mobmenu-left-bt" aria-label="Left Menu Button"><i class="mob-icon-cancel-1 mob-cancel-button"></i></a><div class="mobmenu-content"><div class="menu-menu-espanol-container"><ul id="mobmenuleft" role="menubar" aria-label="Main navigation for mobile devices"><li role="none" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1304"><a href="/es" role="menuitem" class="">BLOG EN ESPAÑOL</a></li></ul></div></div>
+<div class="mob-menu-left-bg-holder"></div>
+</div>
+</body>
+</html>

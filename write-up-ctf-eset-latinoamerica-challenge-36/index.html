@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Oswald%3A400%2C300%2C700%7CAlegreya+Sans%3A400%2C400italic%2C700%2C700italic%7CDosis%3Ainherit%2C400&#038;subset=latin%2Clatin-ext&amp;display=swap">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="/xmlrpc.php">
+<meta name="theme-color" content="#1a1a1a">
+<link media="all" href="/wp-content/cache/autoptimize/css/autoptimize_3b05b7efe97d6722f572c298a31dfe97.css" rel="stylesheet">
+<title>write up &#8211; CTF eset latinoámerica challenge #36. &#8211; @omespino</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<link href="https://fonts.gstatic.com/" crossorigin="anonymous" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; Feed" href="/feed/">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; Comments Feed" href="/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="@omespino &raquo; write up &#8211; CTF eset latinoámerica challenge #36. Comments Feed" href="/write-up-ctf-eset-latinoamerica-challenge-36/feed/">
+<link rel="stylesheet" id="mm-compiled-options-mobmenu-css" href="/wp-content/cache/autoptimize/css/autoptimize_single_20b3cf9d88dd6d90b4e4a9a904cb8741.css" type="text/css" media="all"> <script type="text/javascript" src="/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>  <script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-47561535-2" id="google_gtagjs-js" async></script> <link rel="https://api.w.org/" href="/wp-json/">
+<link rel="alternate" type="application/json" href="/wp-json/wp/v2/posts/110">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="/wp-includes/wlwmanifest.xml">
+<meta name="generator" content="WordPress 5.9.3">
+<link rel="canonical" href="/write-up-ctf-eset-latinoamerica-challenge-36/">
+<link rel="shortlink" href="/?p=110">
+<link rel="alternate" type="application/json+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Fwrite-up-ctf-eset-latinoamerica-challenge-36%2F">
+<link rel="alternate" type="text/xml+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Fwrite-up-ctf-eset-latinoamerica-challenge-36%2F&#038;format=xml">
+<meta name="generator" content="Site Kit by Google 1.72.0"> <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1119974224835012&ev=PageView&noscript=1"></noscript>
+<link rel="icon" href="/wp-content/uploads/2020/12/cropped-dddd-32x32.png" sizes="32x32">
+<link rel="icon" href="/wp-content/uploads/2020/12/cropped-dddd-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/wp-content/uploads/2020/12/cropped-dddd-180x180.png">
+<meta name="msapplication-TileImage" content="/wp-content/uploads/2020/12/cropped-dddd-270x270.png"> <script src="/wp-content/cache/autoptimize/js/autoptimize_eafcdd70e0cf994d53c6a65b41022ac5.js"></script>
+</head>
+<body class="post-template-default single single-post postid-110 single-format-standard custom-background mob-menu-slideout-over">
+<div id="page" class="hfeed site"> <a class="skip-link screen-reader-text" href="#content">Skip to content</a><header id="masthead" class="site-header" role="banner"><div class="navigation-wrapper"><nav id="site-navigation" class="main-navigation" role="navigation"> <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">Menu</button><div class="menu-menu-espanol-container"><ul id="menu-menu-espanol" class="menu"><li id="menu-item-1304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1304"><a href="/es">BLOG EN ESPAÑOL</a></li></ul></div></nav></div>
+<div class="site-branding">
+<h1 class="site-title"><a href="/" rel="home">@omespino</a></h1>
+<h2 class="site-description">just another security blog.</h2>
+</div></header><div id="content" class="site-content"><div id="primary" class="content-area"><main id="main" class="site-main" role="main"><article id="post-110" class="post-110 post type-post status-publish format-standard hentry category-uncategorized-en"><header class="entry-header"><div class="entry-meta"> <span class="byline"> Written by <span class="author vcard"><a class="url fn n" href="/author/user-admin/">omespino</a></span></span><span class="posted-on"><a href="/write-up-ctf-eset-latinoamerica-challenge-36/" rel="bookmark"><time class="entry-date published" datetime="2018-01-12T17:54:37-07:00">January 12, 2018</time><time class="updated" datetime="2022-01-07T17:43:59-07:00">January 7, 2022</time></a></span>
+</div>
+<h1 class="entry-title">write up &#8211; CTF eset latinoámerica challenge #36.</h1></header><div class="entry-wrapper">
+<div class="entry-content">
+<p><strong>Introduction:</strong><br>Hello , here is my write up for the CTF &#8220;Desafio ESET #36: Juego de escape criptográfico&#8221; (ESET Challenge # 36: Cryptographic escape game)<br><br></p>
+<p class="has-text-align-center"><em>This blogpost appeared first in the book <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"></a></figure></div>
+<p>CTF:<br><a href="https://www.welivesecurity.com/la-es/2017/12/26/desafio-eset-36/" target="_blank" rel="noopener">https://www.welivesecurity.com/la-es/2017/12/26/desafio-eset-36/</a></p>
+<p>CTF Solution (official):<br><a href="https://www.welivesecurity.com/la-es/2018/01/12/solucion-desafio-eset-36/" target="_blank" rel="noopener">https://www.welivesecurity.com/la-es/2018/01/12/solucion-desafio-eset-36/</a></p>
+<div class="wp-block-image"><figure class="aligncenter"><a href="/wp-content/uploads/2018/01/ESET-desafio_36_A-620x432.jpg"><img src="/wp-content/uploads/2018/01/ESET-desafio_36_A-620x432.jpg" alt="" class="wp-image-131"></a></figure></div>
+<p>Rules:<br>1.- download the&nbsp;<a href="https://www.welivesecurity.com/wp-content/uploads/2017/12/desafio36.zip" target="_blank" rel="noopener">desafio36.zip</a>&nbsp;file (<a href="http://www.mediafire.com/file/ie0988186m42w6a/desafio36.zip" target="_blank" rel="noopener">mirror</a>) md5=<span class="s1">2b7a11892638179573f7b17c4b74911a</span><br>2.- unzip the file<br>3.- start looking for clues and find the CTF flag.</p>
+<p><strong>[disclaimer] if you want to give it a shot, stop right now and try to solve the CTF without seeing the write-up, if you don&#8217;t keep reading.</strong></p>
+<p>CTF solution:</p>
+<p>• unzipping the file and&nbsp;verify what kind of files are those with the command &#8220;file&#8221;</p>
+<pre class="wp-block-code"><code> localh0st:Desktop user$ file desafio36/*
+<em> desafio36/algo: PDF document, version 1.6</em>
+<em> desafio36/bipbip: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, stereo 44100 Hz</em>
+<em> desafio36/otro archivo 7z: 7-zip archive data, version 0.4</em>
+<em> desafio36/un archivo 7z: 7-zip archive data, version 0.4</em>
+</code></pre>
+<p>• we analized the pdf file &#8220;algo&#8221; <a href="https://www.sno.phy.queensu.ca/~phil/exiftool/" target="_blank" rel="noopener">with exiftool</a>&nbsp;y and found 2 interesting things:</p>
+<p>the pdf&#8217;s Author encoded in base64 <em>&#8220;U3RlZmFuIEhldHps&#8221; &#8211; Stefan Hetzl</em> in plain text and a string with roman numerals (hidden with white font color in the document)&nbsp;<em>&#8220;LXVI CXVII XCVIII XCVIII CVIII CI LXVI CXI XCVIII XCVIII CVIII CI&#8221;,</em>&nbsp;that translated from roman numerals to decimal throws<em> &#8220;66 117 98 98 108 101 66 111 98 98 108 101&#8221;</em> and the decimal to ASCII give us the string<em> &#8220;BubbleBobble&#8221;</em></p>
+<p>searching on google i found a program create by Stefan Hetzl <a href="http://mewbies.com/steganography/steghide/how_to_conceal_data_in_audio_or_image_file.htm" target="_blank" rel="noopener">steghide</a>&nbsp;&#8211; <em>Steghide is a steganography program that is able to hide data in various kinds of image- and audio-files.&nbsp; (JPGE , WAV, BMP, etc..) , so we have a WAV file called &#8220;bipbip&#8221;, so we tried with &#8220;BubbleBobble&#8221; password:</em></p>
+<pre class="wp-block-code"><code>steghide extract -sf desafio36/bipbip -p "BubbleBobble" 
+<em># and we can extract a file called "mensaje.txt" with another&nbsp;base64 string enconded</em>
+<em>localh0st:Desktop user$ cat "mensaje.txt"</em>
+<em>S25haHQgdW95IE9pcmFtISBUdWIgcnVvIFNzZWNuaXJwIHNpIG5pIHJlaHRvbmEgZWx0c2FjIQ</em>
+<em>localh0st:Desktop user$ cat "mensaje.txt" | base64 --decode; echo</em>
+<em>Knaht uoy Oiram! Tub ruo Ssecnirp si ni rehtona eltsac!</em>
+</code></pre>
+<p>my first impression was that the text was reversed, so I tried to use it as a password for the 7z files but it doesn&#8217;t work, then I reversed each word to get the Super Mario bros bummer phrase</p>
+<p><em>Thank you Mario! But our Princess is in another castle! (the &#8220;otro archivo.7z&#8221; 7zip file password)</em></p>
+<p>• analyzing the &#8220;otro archivo.7z&#8221; file:</p>
+<div class="wp-block-image"><figure class="aligncenter"><a href="/wp-content/uploads/2018/01/imagen.bmp"><img src="/wp-content/uploads/2018/01/imagen.bmp" alt="" class="wp-image-129"></a></figure></div>
+<p>we unzip the file and get the &#8220;imagen.bmp&#8221; file , an &#8220;Hackerman&#8221; image with two curious coloreds lines in the top and the bottom, and we extracted the hexa notation color from each color and we found a pattern <em>&#8220;21726b 72697a 672065 6c2069 766a20 666976 7a6c68 2070a1 202c75 66666e 677676 69794b 20796a 6c6973 706c58 206664 726363 207644&#8221;&nbsp;</em>that translated from hex to ASCII give us the string<em>&nbsp;&#8220;!rkrizg el ivj fivzlh p¡ ,uffngvviyK yjlisplX fdrcc vD&#8221;</em>, so the hint was that the last letter was in upper case so we reversed the string</p>
+<pre class="wp-block-code"><code>localh0st:desafio36 user$ echo '!rkrizg el ivj fivzlh p¡ ,uffngvviyK yjlisplX fdrcc vD' | rev
+<em> Dv ccrdf Xlpsiljy Kyivvgnffu, ¡p hlzvif jvi le gzirkr!</em>
+</code></pre>
+<p>Cesar cipher? might be, so we tried with a <a href="http://es.planetcalc.com/1434/?license=1&amp;language_select=en" target="_blank" rel="noopener">cesar cipher calculator</a> and bingo, with English alphabet and ROT9 we were able to obtain:</p>
+<p><em>Me llamo Guybrush Threepwood, ¡y quiero ser un pirata! (the &#8220;un archivo 7z&#8221; 7zip file password &#8211; in English &#8220;My name is Guybrush Threepwood, and I want to be a pirate!&#8221;)&nbsp;</em></p>
+<p>• analyzing the &#8220;un archivo.7z&#8221; file:</p>
+<p>after unzip we get the &#8220;video.mp4&#8221; file, we play the video and it seems like STAR WARS tribute, and in the end, shows up another base64 encoded &#8220;flag&#8221; that we decode</p>
+<div class="wp-block-image"><figure class="aligncenter"><a href="/wp-content/uploads/2018/01/starwars-video2.png"><img src="/wp-content/uploads/2018/01/starwars-video2.png" alt="" class="wp-image-144"></a></figure></div>
+<pre class="wp-block-code"><code>localh0st:downloads user$ echo rwwgy2ftaw5vignvbwllbnphigvuigxvcybtzxrhzgf0b3mu | base64 --decode 
+<em> El camino comienza en los metadatos. </em>
+<em> #(in english "the way is in the metadata"), so again analize&nbsp;<a href="https://www.sno.phy.queensu.ca/~phil/exiftool/" target="_blank" rel="noopener">with exiftool</a></em>
+
+<em>localh0st:desafio36 user$ exiftool ~/Downloads/desafio36/video.mp4 | egrep 'URL|Encoded'</em>
+<em> Promotion URL : : ( 10111000 10001101 10001010 10010001 10011011 10001100 10001011 10011010 10010011 10010011 10001010 10010001 10011000 11000101 11011111 10111000 11011111 10101011 11011111 10111110 11011111 11010000 11010000 11011111 10101101 10010110 10010001 10011000 10001100 10001011 10011010 10010011 10010011 10001010 10010001 10011000 11000101 11011111 10111110 11011111 10111110 11011111 10111110 11011111 11010000 11010000 11011111 10101000 10011110 10010011 10000101 10011010 10010001 10010011 10011110 10011000 10011010 11000101 11011111 11001011 11011111 11001101 11011111 11001010 11011111 11010000 11010000 11011111 10101100 10001011 10011010 10011100 10010100 10011010 10001101 10011101 10001101 10011010 10001011 10001011 11000101 11011111 10111011 10110000 11011111 10110001 10110100 11011111 10111010 10100110</em>
+<em> Encoded By : Base64</em>
+<em> Author URL : <a href="https://www.welivesecurity.com/la-es/2016/11/30/criptografia-mainstream/" target="_blank" rel="noopener">https://www.welivesecurity.com/la-es/2016/11/30/criptografia-mainstream/</a></em></code></pre>
+<p><code>Author URL tag is a clue from an ESET LA blog that is about cryptography.</code></p>
+<p><code>this was very tricky, after some hours of thinking, I tried with a lot of encodings but at the end I thought, what if the numbers are inverted? and yes, they were, so after changing the 0's for 1's and vice versa bingo!&nbsp;german words (enigma machine, maybe?):</code></p>
+<p><code>Grundstellung: G T A // Ringstellung: A A A // Walzenlage: 4 2 5 // Steckerbrett: DO NK EY</code></p>
+<p><code>• analyzing the “bipbip" file again:</code></p>
+<p><code>I got stuck again, so&nbsp;after some hours of thinking again, listening to the bipbip file again I noticed something weird, it sounds like a bips and claps that apparently does not make any sense, but I decided to open the file with&nbsp;<a href="http://www.aegisub.org/">Aegisub</a>&nbsp;and see the audio spectrum and there was like a dots and vertical lines, dot, and lines? of course, the MORSE code</code></p>
+<p><code>___ _ _. .___ .._. ._.. __._ .__. .._ _.__ .___ ._.. ..._ .__ .__ _ _.__ _... __.. _._ _._. __ __ ._ .__. _.__ __.. ..._ __._ ___ ___ ._ ._. __..</code></p>
+<p><code>that decoded to text shows up the string</code></p>
+<p><code><em>OTNJFLQPUYJLVWWTYBZKCMMAPYZVQOOARZ (enigma machine again?)</em> so, i tried with a <a href="http://enigma.louisedade.co.uk/enigma.html">enigma machine emulator</a> and the keys and bingo</code></p>
+<div class="wp-block-image"><figure class="aligncenter"><a href="/wp-content/uploads/2018/01/Screen-Shot-2018-01-12-at-3.55.13-PM.png"><img src="/wp-content/uploads/2018/01/Screen-Shot-2018-01-12-at-3.55.13-PM.png" alt="" class="wp-image-133"></a></figure></div>
+<p>&#8220;THEL EGEN DOFZ ELDA THEA DVEN TURE OFLI NK&#8221; (my favorite NES game btw)</p>
+<div class="wp-block-image"><figure class="aligncenter"><a href="/wp-content/uploads/2018/01/zelda_ii__adventure_of_link_voxel_by_vihola-d5vadpm__large.jpg"><img src="/wp-content/uploads/2018/01/zelda_ii__adventure_of_link_voxel_by_vihola-d5vadpm__large.jpg" alt="" class="wp-image-134"></a></figure></div>
+<p>I got stuck again, after almost one day, I read my write up the draft, maybe I was missing something, most of the files was analyzed, maybe one file has another hidden secret I thought, and after reviewing my draft step by step, I saw something vital that I was missed before in the <a href="http://mewbies.com/steganography/steghide/how_to_conceal_data_in_audio_or_image_file.htm" target="_blank" rel="noopener">steghide documentation&nbsp;</a></p>
+<p><em>&#8220;The JPEG, &gt;&gt;&gt;&gt;&gt;&gt;&nbsp;<strong>BMP&nbsp;</strong>&lt;&lt;&lt;&lt;&lt;&lt;, WAV and AU file formats are supported for use as cover file&#8221;</em></p>
+<p>• analyzing the “imagen.bmp&#8221; file again:</p>
+<p>BMP? the image of &#8220;HACKERMAN&#8221; was actually a BMP file the &#8220;imagen.bmp&#8221;, and after some tries, yes! we were able to extract another file called &#8220;mensaje.txt&#8221;</p>
+<pre class="wp-block-code"><code>localh0st:Desktop user$ steghide extract -sf "imagen.bmp" -p "THELEGENDOFZELDATHEADVENTUREOFLINK"
+# wrote extracted data to "mensaje.txt"
+</code></pre>
+<p>• analyzing the other “mensaje.txt&#8221; file :</p>
+<p>a new file with javascript code apparently, so we rename the mensaje.txt file to mensaje.html, and added the respectively the scripts tags, and with a terminal, I started an HTTP static server in the mensaje.html folder (in this case with python 2.7, with the SimpleHTTPServer module)</p>
+<pre class="wp-block-code"><code>localh0st:Desktop user$ python -m SimpleHTTPServer 8080 &amp;</code></pre>
+<p>we open the browser and navigate to <a href="/write-up-ctf-eset-latinoamerica-challenge-36/8080/mensaje.html" target="_blank" rel="noopener">localhost:8080/mensaje.html</a>&nbsp;and BOOOM!, a blue webpage with white letters with the beautiful FLAG</p>
+<div class="wp-block-image"><figure class="aligncenter"><a href="/wp-content/uploads/2018/01/Screen-Shot-2018-01-12-at-4.42.01-PM.png"><img src="/wp-content/uploads/2018/01/Screen-Shot-2018-01-12-at-4.42.01-PM.png" alt="" class="wp-image-140"></a></figure></div>
+<pre class="wp-block-code"><code>FLAG "ESET_Desafio#36_Sonic_the_Hedgehog"</code></pre>
+<p>I must say that it cost me a lot, much as I thought actually but I learned some new stuff, but overall this was very fun (and I won a <a href="http://www.eset.com/latam/hogar/internet-security/" target="_blank" rel="noopener">ESET Internet Security License</a>).</p>
+<p>well, that&#8217;s it, if you have any doubt, comments or suggestions just drop me a line here or on Twitter <a href="https://twitter.com/intent/user?screen_name=omespino">@omespino</a>, read you later.</p>
+<div class="shared-counts-wrap after_content style-fancy">
+<a href="https://www.facebook.com/sharer/sharer.php?u=/write-up-ctf-eset-latinoamerica-challenge-36/&amp;display=popup&amp;ref=plugin&amp;src=share_button" title="Share on Facebook" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button facebook shared-counts-no-count" data-postid="110" data-social-network="Facebook" data-social-action="Share" data-social-target="/write-up-ctf-eset-latinoamerica-challenge-36/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18.8125" height="32" viewbox="0 0 602 1024"><path d="M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571t-17.143 61.714v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571q0-106.286 59.429-164.857t158.286-58.571q84 0 130.286 6.857z"></path></svg></span><span class="shared-counts-label">Facebook</span></span></a><a href="https://twitter.com/share?url=/write-up-ctf-eset-latinoamerica-challenge-36/&amp;text=write%20up%20%E2%80%93%20CTF%20eset%20latino%C3%A1merica%20challenge%20%2336." title="Share on Twitter" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button twitter shared-counts-no-count" data-postid="110" data-social-network="Twitter" data-social-action="Tweet" data-social-target="/write-up-ctf-eset-latinoamerica-challenge-36/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="29.71875" height="32" viewbox="0 0 951 1024"><path d="M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z"></path></svg></span><span class="shared-counts-label">Tweet</span></span></a><a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/write-up-ctf-eset-latinoamerica-challenge-36/" title="Share on LinkedIn" target="_blank" rel="nofollow noopener noreferrer" class="shared-counts-button linkedin shared-counts-no-count" data-postid="110" data-social-network="LinkedIn" data-social-action="Share" data-social-target="/write-up-ctf-eset-latinoamerica-challenge-36/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="27.4375" height="32" viewbox="0 0 878 1024"><path d="M199.429 357.143v566.286h-188.571v-566.286h188.571zM211.429 182.286q0.571 41.714-28.857 69.714t-77.429 28h-1.143q-46.857 0-75.429-28t-28.571-69.714q0-42.286 29.429-70t76.857-27.714 76 27.714 29.143 70zM877.714 598.857v324.571h-188v-302.857q0-60-23.143-94t-72.286-34q-36 0-60.286 19.714t-36.286 48.857q-6.286 17.143-6.286 46.286v316h-188q1.143-228 1.143-369.714t-0.571-169.143l-0.571-27.429h188v82.286h-1.143q11.429-18.286 23.429-32t32.286-29.714 49.714-24.857 65.429-8.857q97.714 0 157.143 64.857t59.429 190z"></path></svg></span><span class="shared-counts-label">LinkedIn</span></span></a><span class="shared-counts-button included_total" data-postid="110" data-social-target="/write-up-ctf-eset-latinoamerica-challenge-36/"><span class="shared-counts-icon-label"><span class="shared-counts-icon"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="27.4375" height="32" viewbox="0 0 878 1024"><path d="M694.857 585.143q76 0 129.429 53.429t53.429 129.429-53.429 129.429-129.429 53.429-129.429-53.429-53.429-129.429q0-6.857 1.143-19.429l-205.714-102.857q-52.571 49.143-124.571 49.143-76 0-129.429-53.429t-53.429-129.429 53.429-129.429 129.429-53.429q72 0 124.571 49.143l205.714-102.857q-1.143-12.571-1.143-19.429 0-76 53.429-129.429t129.429-53.429 129.429 53.429 53.429 129.429-53.429 129.429-129.429 53.429q-72 0-124.571-49.143l-205.714 102.857q1.143 12.571 1.143 19.429t-1.143 19.429l205.714 102.857q52.571-49.143 124.571-49.143z"></path></svg></span><span class="shared-counts-label">Shares</span></span><span class="shared-counts-count">4</span></span>
+</div>
+</div>
+<footer class="entry-footer"></footer><div id="comments" class="comments-area"><div id="respond" class="comment-respond">
+<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/write-up-ctf-eset-latinoamerica-challenge-36/#respond" style="display:none;">Cancel reply</a></small>
+</h3>
+<form action="/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message" aria-hidden="true">Required fields are marked <span class="required" aria-hidden="true">*</span></span></p>
+<p class="comment-form-comment"><label for="comment">Comment <span class="required" aria-hidden="true">*</span></label><textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required></textarea></p>
+<p class="comment-form-author"><label for="author">Name</label> <input id="author" name="author" type="text" value="" size="30" maxlength="245"></p>
+<p class="comment-form-email"><label for="email">Email</label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p> <input type="text" name="leLQY" value="" style="display: none !important;"><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="110" id="comment_post_ID"> <input type="hidden" name="comment_parent" id="comment_parent" value="0"></p>
+</form>
+</div></div>
+</div>
+<div class="sidebar"></div></article><nav class="navigation post-navigation" aria-label="Posts"><h2 class="screen-reader-text">Post navigation</h2>
+<div class="nav-links">
+<div class="nav-previous"><a href="/elho-w0rld/" rel="prev">Previous Post <span class="screen-reader-text">ELHO w0rld!</span></a></div>
+<div class="nav-next"><a href="/write-up-file-disclosure-via-ds_store-file-macos/" rel="next">Next Post <span class="screen-reader-text">WRITE UP &#8211; FACEBOOK N/A REPORT WRITE UP: File Disclosure via .DS_Store file (macOS)</span></a></div>
+</div></nav></main></div></div>
+<footer id="colophon" class="site-footer" role="contentinfo"><div class="site-info"></div></footer>
+</div>
+<div class="mobmenu-overlay"></div>
+<div class="mob-menu-header-holder mobmenu" data-menu-display="mob-menu-slideout-over" data-open-icon="down-open" data-close-icon="up-open">
+<div class="mobmenul-container"><a href="#" class="mobmenu-left-bt mobmenu-trigger-action" data-panel-target="mobmenu-left-panel" aria-label="Left Menu Button"><i class="mob-icon-menu mob-menu-icon"></i><i class="mob-icon-cancel-1 mob-cancel-button"></i></a></div>
+<div class="mob-menu-logo-holder"><a href="/" class="headertext"><span>@OMESPINO</span></a></div>
+<div class="mobmenur-container"></div>
+</div>
+<div class="mobmenu-left-alignment mobmenu-panel mobmenu-left-panel  "> <a href="#" class="mobmenu-left-bt" aria-label="Left Menu Button"><i class="mob-icon-cancel-1 mob-cancel-button"></i></a><div class="mobmenu-content"><div class="menu-menu-espanol-container"><ul id="mobmenuleft" role="menubar" aria-label="Main navigation for mobile devices"><li role="none" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1304"><a href="/es" role="menuitem" class="">BLOG EN ESPAÑOL</a></li></ul></div></div>
+<div class="mob-menu-left-bg-holder"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>
+	Comments on: write up &#8211; CTF eset latinoámerica challenge #36.	</title>
+	<atom:link href="/write-up-ctf-eset-latinoamerica-challenge-36/feed/" rel="self" type="application/rss+xml" />
+	<link>/write-up-ctf-eset-latinoamerica-challenge-36/</link>
+	<description>just another security blog.</description>
+	<lastBuildDate>Sat, 08 Jan 2022 00:43:59 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+</channel>
+</rss>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>
+	Comments on: TUTORIAL &#8211; UNIVERSAL ANDROID SSL PINNING IN 10 MINUTES WITH FRIDA	</title>
+	<atom:link href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/feed/" rel="self" type="application/rss+xml" />
+	<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/</link>
+	<description>just another security blog.</description>
+	<lastBuildDate>Sat, 08 Jan 2022 00:09:39 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+	<item>
+		<title>
+		By: omespino		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5765</link>
+
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Fri, 09 Aug 2019 00:02:28 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-5765</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5746&quot;&gt;Makki&lt;/a&gt;.
+
+Hey, you need to install xz-utils in ubuntu per example is with &quot;sudo apt-get install xz-utils&quot; and you can extract that *.xz file with &quot;unxz frida-server-12.6.11-android-arm64.xz&quot;, thanks for reading.]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5746">Makki</a>.</p>
+<p>Hey, you need to install xz-utils in ubuntu per example is with &#8220;sudo apt-get install xz-utils&#8221; and you can extract that *.xz file with &#8220;unxz frida-server-12.6.11-android-arm64.xz&#8221;, thanks for reading.</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Makki		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5746</link>
+
+		<dc:creator><![CDATA[Makki]]></dc:creator>
+		<pubDate>Thu, 01 Aug 2019 09:38:07 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-5746</guid>
+
+					<description><![CDATA[Hi, what is the solution of this error?
+ any help will be appreciate
+
+
+[05:32:57]-[makki@cp]~/Downloads -&#062; tar -xJf frida-server-12.6.11-android-arm64.xz
+tar: This does not look like a tar archive
+tar: Skipping to next header
+tar: A lone zero block at 25
+tar: Exiting with failure status due to previous errors]]></description>
+			<content:encoded><![CDATA[<p>Hi, what is the solution of this error?<br />
+ any help will be appreciate</p>
+<p>[05:32:57]-[makki@cp]~/Downloads -&gt; tar -xJf frida-server-12.6.11-android-arm64.xz<br />
+tar: This does not look like a tar archive<br />
+tar: Skipping to next header<br />
+tar: A lone zero block at 25<br />
+tar: Exiting with failure status due to previous errors</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: zhou		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5511</link>
+
+		<dc:creator><![CDATA[zhou]]></dc:creator>
+		<pubDate>Sun, 05 May 2019 03:46:27 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-5511</guid>
+
+					<description><![CDATA[TypeError: cannot write property ‘implementation’ of undefined]]></description>
+			<content:encoded><![CDATA[<p>TypeError: cannot write property ‘implementation’ of undefined</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Neal		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5269</link>
+
+		<dc:creator><![CDATA[Neal]]></dc:creator>
+		<pubDate>Tue, 16 Apr 2019 22:48:35 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-5269</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5186&quot;&gt;omespino&lt;/a&gt;.
+
+the syntax is the same as you have post in this page and it seems correct.
+Maybe I have to try with a different Frida version, did you test the script only with Frida version 12.0.5?]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5186">omespino</a>.</p>
+<p>the syntax is the same as you have post in this page and it seems correct.<br />
+Maybe I have to try with a different Frida version, did you test the script only with Frida version 12.0.5?</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: omespino		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5186</link>
+
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Tue, 16 Apr 2019 04:22:32 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-5186</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5157&quot;&gt;Neal&lt;/a&gt;.
+
+Hey it seems that the script is not parsed correctly maybe the copy paste or something, you can find a reference here https://github.com/frida/frida/issues/283]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5157">Neal</a>.</p>
+<p>Hey it seems that the script is not parsed correctly maybe the copy paste or something, you can find a reference here <a href="https://github.com/frida/frida/issues/283" rel="nofollow ugc">https://github.com/frida/frida/issues/283</a></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Neal		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-5157</link>
+
+		<dc:creator><![CDATA[Neal]]></dc:creator>
+		<pubDate>Mon, 15 Apr 2019 22:18:04 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-5157</guid>
+
+					<description><![CDATA[Hi,
+
+when i run the script i get the following error:
+
+-&#062; TypeError: cannot write property &#039;implementation&#039; of undefined
+    at [anon] (duk_hobject_props.c:3402)
+    at [anon] (/repl1.js:10)
+    at frida/node_modules/frida-java/lib/vm.js:42
+    at E (frida/node_modules/frida-java/index.js:348)
+    at frida/node_modules/frida-java/index.js:334
+    at input:1                                                                  
+Process terminated
+
+
+Can you help me to fix it please?
+
+Thanks]]></description>
+			<content:encoded><![CDATA[<p>Hi,</p>
+<p>when i run the script i get the following error:</p>
+<p>-&gt; TypeError: cannot write property &#8216;implementation&#8217; of undefined<br />
+    at [anon] (duk_hobject_props.c:3402)<br />
+    at [anon] (/repl1.js:10)<br />
+    at frida/node_modules/frida-java/lib/vm.js:42<br />
+    at E (frida/node_modules/frida-java/index.js:348)<br />
+    at frida/node_modules/frida-java/index.js:334<br />
+    at input:1<br />
+Process terminated</p>
+<p>Can you help me to fix it please?</p>
+<p>Thanks</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Johhny Quest		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-3952</link>
+
+		<dc:creator><![CDATA[Johhny Quest]]></dc:creator>
+		<pubDate>Thu, 04 Apr 2019 23:25:06 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-3952</guid>
+
+					<description><![CDATA[When I run
+
+adb shell &#039;su -c setenforce 0&#039; 
+
+I receveive the error 
+
+setenforce: Needs 1 argument]]></description>
+			<content:encoded><![CDATA[<p>When I run</p>
+<p>adb shell &#8216;su -c setenforce 0&#8217; </p>
+<p>I receveive the error </p>
+<p>setenforce: Needs 1 argument</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Anonymous		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-85</link>
+
+		<dc:creator><![CDATA[Anonymous]]></dc:creator>
+		<pubDate>Tue, 12 Feb 2019 16:13:34 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-85</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-33&quot;&gt;Divya&lt;/a&gt;.
+
+Did you check whether your emulator is arm or x86? Use the suitable package of frida-server.]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-33">Divya</a>.</p>
+<p>Did you check whether your emulator is arm or x86? Use the suitable package of frida-server.</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: omespino		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-76</link>
+
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Fri, 08 Feb 2019 05:13:07 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-76</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-75&quot;&gt;bremin&lt;/a&gt;.
+
+Hello, this means that your computer does not have connectivy with the frida-server process, you can try adb shell in order to make sure that you have connectivy with your phone and then try again the step 3, something to notice is that this method will work only if you run the frida-server as root.]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-75">bremin</a>.</p>
+<p>Hello, this means that your computer does not have connectivy with the frida-server process, you can try adb shell in order to make sure that you have connectivy with your phone and then try again the step 3, something to notice is that this method will work only if you run the frida-server as root.</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: bremin		</title>
+		<link>/tutorial-universal-android-ssl-pinning-in-10-minutes-with-frida/#comment-75</link>
+
+		<dc:creator><![CDATA[bremin]]></dc:creator>
+		<pubDate>Wed, 06 Feb 2019 12:33:55 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=367#comment-75</guid>
+
+					<description><![CDATA[C:\Users\Gokhan&#062; frida-ps -U
+Failed to enumerate processes: unable to connect to remote frida-server: closed
+
+I get such an error
+How can I solve ?]]></description>
+			<content:encoded><![CDATA[<p>C:\Users\Gokhan&gt; frida-ps -U<br />
+Failed to enumerate processes: unable to connect to remote frida-server: closed</p>
+<p>I get such an error<br />
+How can I solve ?</p>
+]]></content:encoded>
+		
+			</item>
+	</channel>
+</rss>

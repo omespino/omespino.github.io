@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>
+	Comments on: WRITE UP – Private bug bounty $$,$$$ USD: &#8220;RCE as root on Marathon-Mesos instance&#8221;	</title>
+	<atom:link href="/write-up-private-bug-bounty-usd-rce-as-root-on-marathon-instance/feed/" rel="self" type="application/rss+xml" />
+	<link>/write-up-private-bug-bounty-usd-rce-as-root-on-marathon-instance/</link>
+	<description>just another security blog.</description>
+	<lastBuildDate>Sat, 08 Jan 2022 00:02:57 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+	<item>
+		<title>
+		By: omespino		</title>
+		<link>/write-up-private-bug-bounty-usd-rce-as-root-on-marathon-instance/#comment-5997</link>
+
+		<dc:creator><![CDATA[omespino]]></dc:creator>
+		<pubDate>Wed, 16 Oct 2019 01:47:48 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=582#comment-5997</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;/write-up-private-bug-bounty-usd-rce-as-root-on-marathon-instance/#comment-5995&quot;&gt;Greggflert&lt;/a&gt;.
+
+спасибо за чтение!]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="/write-up-private-bug-bounty-usd-rce-as-root-on-marathon-instance/#comment-5995">Greggflert</a>.</p>
+<p>спасибо за чтение!</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Greggflert		</title>
+		<link>/write-up-private-bug-bounty-usd-rce-as-root-on-marathon-instance/#comment-5995</link>
+
+		<dc:creator><![CDATA[Greggflert]]></dc:creator>
+		<pubDate>Mon, 14 Oct 2019 20:30:49 +0000</pubDate>
+		<guid isPermaLink="false">http://e02.omespino.com/?p=582#comment-5995</guid>
+
+					<description><![CDATA[Интересно!]]></description>
+			<content:encoded><![CDATA[<p>Интересно!</p>
+]]></content:encoded>
+		
+			</item>
+	</channel>
+</rss>
