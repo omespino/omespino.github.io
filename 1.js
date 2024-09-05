@@ -1,5 +1,5 @@
 var pass=prompt('Para continuar inserta tu contraseña');
-alert(pass)
+//alert(pass)
 
 function send_response(response){
 	var oReqX = new XMLHttpRequest();
