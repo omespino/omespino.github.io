@@ -539,11 +539,11 @@ body:not(.links-page) .social-links .read-more-btn {
     width: 100% !important;
 }
 
-.nav-next {
+.nav-previous {
     order: 1 !important;
 }
 
-.nav-previous {
+.nav-next {
     order: 2 !important;
 }
 
@@ -577,12 +577,12 @@ body:not(.links-page) .social-links .read-more-btn {
 }
 
 .nav-previous a::before {
-    content: "← PREV BLOG" !important;
+    content: "PREV BLOG" !important;
     font-size: 1rem !important;
 }
 
 .nav-next a::after {
-    content: "NEXT BLOG →" !important;
+    content: "NEXT BLOG" !important;
     font-size: 1rem !important;
 }
 
