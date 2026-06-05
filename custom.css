@@ -577,12 +577,12 @@ body:not(.links-page) .social-links .read-more-btn {
 }
 
 .nav-previous a::before {
-    content: "NEXT PAGE" !important;
+    content: "← PREV BLOG" !important;
     font-size: 1rem !important;
 }
 
 .nav-next a::after {
-    content: "PREV PAGE" !important;
+    content: "NEXT BLOG →" !important;
     font-size: 1rem !important;
 }
 
