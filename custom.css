@@ -1092,12 +1092,11 @@ footer::before, footer::after,
 
     .book-collection-page .entry-content .content-image img {
         display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
+        width: 170% !important;
+        max-width: 170% !important;
         height: auto !important;
         margin-left: auto !important;
         margin-right: auto !important;
-        transform: scale(1.7) !important;
     }
 
     .entry-content .half-width-image img {
