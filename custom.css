@@ -576,13 +576,23 @@ body:not(.links-page) .social-links .read-more-btn {
     border-color: #24433c !important;
 }
 
-.nav-previous a::before {
+.post-navigation .nav-previous a::before {
     content: "PREV BLOG" !important;
     font-size: 1rem !important;
 }
 
-.nav-next a::after {
+.post-navigation .nav-next a::after {
     content: "NEXT BLOG" !important;
+    font-size: 1rem !important;
+}
+
+.posts-navigation .nav-previous a::before {
+    content: "PREV PAGE" !important;
+    font-size: 1rem !important;
+}
+
+.posts-navigation .nav-next a::after {
+    content: "NEXT PAGE" !important;
     font-size: 1rem !important;
 }
 
@@ -1087,16 +1097,20 @@ footer::before, footer::after,
 
 @media (min-width: 769px) {
     .book-collection-page .entry-content .content-image {
-        width: min(100%, 1400px) !important;
+        text-align: center !important;
+        margin: 2rem auto !important;
+    }
+
+    .book-collection-page .entry-content .content-image figure {
+        margin: 0 auto !important;
+        text-align: center !important;
     }
 
     .book-collection-page .entry-content .content-image img {
-        display: block !important;
-        width: 170% !important;
-        max-width: 170% !important;
+        display: inline-block !important;
+        width: auto !important;
+        max-width: 100% !important;
         height: auto !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
     }
 
     .entry-content .half-width-image img {
@@ -1146,8 +1160,8 @@ footer::before, footer::after,
 
     body.all-images-50 .entry-content .content-image.image-width-70-force img {
         display: block !important;
-        width: 70% !important;
-        max-width: 70% !important;
+        width: min(100%, 550px) !important;
+        max-width: min(100%, 550px) !important;
         height: auto !important;
         margin-left: auto !important;
         margin-right: auto !important;
@@ -1192,6 +1206,15 @@ footer::before, footer::after,
 
 @media (min-width: 769px) {
     .all-images-50 .entry-content .content-image img {
+        display: block !important;
+        width: 50% !important;
+        max-width: 50% !important;
+        height: auto !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .all-images-50 .entry-content .content-image figure video {
         display: block !important;
         width: 50% !important;
         max-width: 50% !important;
