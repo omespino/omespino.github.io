@@ -7,7 +7,7 @@
 	>
 <channel>
 	<title>
-	Comments on: WRITE UP &#8211; APPLE N/A: PII information, full contact list, main phone no. and main iCloud email extracted; Bug patched: Arbitrary local file read via zip file and symlinks on iOS Files app.	</title>
+	Comments on: APPLE N/A: PII information, full contact list, main phone no. and main iCloud email extracted; Bug patched: Arbitrary local file read via zip file and symlinks on iOS Files app.	</title>
 	<atom:link href="/write-up-apple-bug-bounty-n-a-arbitrary-local-file-read-via-zip-file-and-symlinks-usd/feed/" rel="self" type="application/rss+xml" />
 	<link>/write-up-apple-bug-bounty-n-a-arbitrary-local-file-read-via-zip-file-and-symlinks-usd/</link>
 	<description>just another security blog.</description>

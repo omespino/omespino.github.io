@@ -7,7 +7,7 @@
 	>
 <channel>
 	<title>
-	Comments on: WRITE UP –  PRIVATE BUG BOUNTY: RCE in ec2 instance via ssh with private key exposed on public GitHub repository – $XX,000 USD	</title>
+	Comments on: PRIVATE BUG BOUNTY: RCE in ec2 instance via ssh with private key exposed on public GitHub repository – $XX,000 USD	</title>
 	<atom:link href="/write-up-private-bug-bounty-rce-in-ec2-instance-via-ssh-with-private-key-exposed-on-public-github-repository-xx000-usd/feed/" rel="self" type="application/rss+xml" />
 	<link>/write-up-private-bug-bounty-rce-in-ec2-instance-via-ssh-with-private-key-exposed-on-public-github-repository-xx000-usd/</link>
 	<description>just another security blog.</description>
