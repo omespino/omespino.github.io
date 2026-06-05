@@ -1086,10 +1086,10 @@ footer::before, footer::after,
 }
 
 @media (min-width: 769px) {
-    .book-collection-page .entry-content .content-image img:not([src*="table-of-contents.jpg"]) {
+    .book-collection-page .entry-content .content-image img {
         display: block !important;
-        width: 50% !important;
-        max-width: 50% !important;
+        width: 100% !important;
+        max-width: 100% !important;
         height: auto !important;
         margin-left: auto !important;
         margin-right: auto !important;
