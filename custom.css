@@ -1086,6 +1086,10 @@ footer::before, footer::after,
 }
 
 @media (min-width: 769px) {
+    .book-collection-page .entry-content .content-image {
+        width: min(100%, 1400px) !important;
+    }
+
     .book-collection-page .entry-content .content-image img {
         display: block !important;
         width: 100% !important;
@@ -1093,6 +1097,7 @@ footer::before, footer::after,
         height: auto !important;
         margin-left: auto !important;
         margin-right: auto !important;
+        transform: scale(1.7) !important;
     }
 
     .entry-content .half-width-image img {
