@@ -43,7 +43,7 @@
 </code></pre>
 <p>2.- Look up for the xml file in the iOS app, see the snippet, click it to open the “raw view” and then open the option “View in Browser” and see the XSS.</p>
 <p>3.- Also in the “raw view” you can copy the link to quick access to that file. (Note, if you want send the link in slack channel you need paste the copied link and append a space+string, for example “https:// files[dot]slack[dot]com/files-pri/XXXXXXXXX-XXXXXXXXX/slack-xss.xml[SPACE]xss”.</p>
-<figure class="content-image"><img src="/assets/images/2021/07/slack_xss_omespino.png" alt=""></figure><p>Something important to highlight is: At this time you have a “magic” link that points directly to the special crafted XML document. ​</p>
+<figure class="content-image"><img src="/assets/images/2021/07/slack_xss_omespino.webp" alt=""></figure><p>Something important to highlight is: At this time you have a “magic” link that points directly to the special crafted XML document. ​</p>
 <p>​4.- Open the link directly slack iOS app and the XSS shows up (if you open the link in any iOS browser like Safari, Firefox, Chrome, Opera the XSS works, you just need to be logged in your slack account, only works in iOS).</p>
 <p><strong>Impact:</strong></p>
 <p>Stored XSS allows an attacker to embed a malicious and arbitraries scripts into a vulnerable page, which is then executed when a victim views the page.</p>

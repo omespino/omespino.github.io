@@ -1188,3 +1188,38 @@ footer::before, footer::after,
         margin-right: auto !important;
     }
 }
+
+/* Center every content image blog-wide, EXCEPT the main index (body class="blog" exact)
+   and the links page (body.links-page). The profile avatar is left untouched.
+   Only centering is applied; widths defined by .image-width-* / figure rules are preserved. */
+body:not(.links-page):not([class="blog"]) .entry-content img:not(.profile-avatar) {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Some images are wrapped in a linked <a> inside a <p> (WordPress alignnone/aligncenter).
+   Center the <a> wrapper itself so the image is centered regardless of inline context. */
+body:not(.links-page):not([class="blog"]) .entry-content a:has(> img:not(.profile-avatar)) {
+    display: block !important;
+    width: -moz-fit-content !important;
+    width: fit-content !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Frida tutorial: render the first (oversized) screenshot at 65% width on desktop.
+   The <a> wrapper is sized to 65% of the column and the image fills it (overrides the
+   generic fit-content centering rule above thanks to the extra [src] attribute). */
+@media (min-width: 769px) {
+    body:not(.links-page):not([class="blog"]) .entry-content a:has(> img[src*="frida-ps-U-1"]) {
+        width: 65% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    body:not(.links-page):not([class="blog"]) .entry-content img[src*="frida-ps-U-1"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}

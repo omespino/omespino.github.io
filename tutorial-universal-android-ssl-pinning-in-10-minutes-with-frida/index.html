@@ -73,12 +73,12 @@ adb shell 'su -c /data/local/tmp/frida-server-12.0.5-android-arm &amp;'
 # frida-ps is for list the devices process and -U flag is for usb devices
 frida-ps -U </code></pre>
 <p> </p>
-<p><a href="/assets/images/2018/12/frida-ps-U-1.png"><img loading="lazy" class="alignnone size-full" src="/assets/images/2018/12/frida-ps-U-1.png" alt="" width="1552" height="672"></a></p>
+<p><a href="/assets/images/2018/12/frida-ps-U-1.webp"><img loading="lazy" class="alignnone size-full" src="/assets/images/2018/12/frida-ps-U-1.webp" alt="" width="1552" height="672"></a></p>
 <p><strong>Step 5 – Set up Burpsuite comunnity edition<br></strong></p>
 <p>The quickiest way to setup a connection between our devices is get connected the android device and computer in the same wifi, so we just need to set up the android wifi connection to manual proxy in advanced section and also set up Burpsuite with the local computer ip (don’t forget use the same port) </p>
-<p><a href="/assets/images/2018/12/burpsuite-setup.png"><img loading="lazy" class="aligncenter size-large" src="/assets/images/2018/12/burpsuite-setup-1024x586.png" alt="" width="756" height="433"></a></p>
+<p><a href="/assets/images/2018/12/burpsuite-setup.webp"><img loading="lazy" class="aligncenter size-large" src="/assets/images/2018/12/burpsuite-setup-1024x586.webp" alt="" width="756" height="433"></a></p>
 <p>also we need to install the burpsuite certificate, once the android device have the proxy set up we need to access to <a href="http://burp/">http://burp</a> in browser, then click the “CA certificate” buton and download the certificate (Note, you need to change the certificate extention from der to cer)</p>
-<p><a href="/assets/images/2018/12/burp-certificate-install.png"><img loading="lazy" class="alignnone size-large" src="/assets/images/2018/12/burp-certificate-install-1024x921.png" alt="" width="756" height="680"></a></p>
+<p><a href="/assets/images/2018/12/burp-certificate-install.webp"><img loading="lazy" class="alignnone size-large" src="/assets/images/2018/12/burp-certificate-install-1024x921.webp" alt="" width="756" height="680"></a></p>
 <p><strong>Last step: Bypass SSL pinning with Universal Android SSL Pinning Bypass No.2 </strong></p>
 <p>So, we got frida, frida-server and burpsuite running as espected, the next step is run the “Universal Android SSL Pinning Bypass No.2” script in order to start sniffing the application connections so we need to get the script and saved locally as name_script.js, here is a<a href="https://techblog.mediaservice.net/2018/11/universal-android-ssl-pinning-bypass-2/"> blogpost about this script by Mattia Vinci</a> (you can add several scripts to frida from the <a href="https://codeshare.frida.re/browse">repo</a> or custom scripts too)</p>
 <pre class="code-block"><code>/* 
@@ -102,7 +102,7 @@ Java.perform(function() {
 # the app startup at all and still leave the spawning of the process to Frida.
 frida -U -l frida-ssl-2.js --no-paus -f com.example.application</code></pre>
 <p>then the application is going start you are going to see the results in burpsuite</p>
-<p><a href="/assets/images/2018/12/frida-ssl-pinning.png"><img loading="lazy" class="alignnone size-large" src="/assets/images/2018/12/frida-ssl-pinning-1024x596.png" alt="" width="756" height="440"></a></p>
+<p><a href="/assets/images/2018/12/frida-ssl-pinning.webp"><img loading="lazy" class="alignnone size-large" src="/assets/images/2018/12/frida-ssl-pinning-1024x596.webp" alt="" width="756" height="440"></a></p>
 <p>so at this point you successfully bypass the ssl pinning with frida and you can start hacking network connections on android aplications</p>
 <p><strong>References:</strong></p>
 <p><a href="http://asvid.github.io/android-frida-hackinghttps://koz.io/using-frida-on-android-without-root/">http://asvid.github.io/android-frida-hackinghttps://koz.io/using-frida-on-android-without-root/</a></p>

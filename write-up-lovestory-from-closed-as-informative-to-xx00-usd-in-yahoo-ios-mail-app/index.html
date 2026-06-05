@@ -42,9 +42,9 @@
 </code></pre>
 <p>2.- Lookup for the XML file in the iOS app, click to open it and see the XSS.</p>
 <p>Note: I don’t why, but the XML rendering behavior in the Yahoo! Mail iOS app is very weird and dangerous, the XSS stored shows up when you click any email attachment, for example, if you have 5 attachments, if you click any of them, the XSS shows up every single time no matters what attachment you opened</p>
-<figure class="content-image" style="width:min(50%, 480px) !important;"><a href="/assets/images/2018/09/Screen_Shot_2018-09-06_at_10_52_43_PM.png"><img src="/assets/images/2018/09/Screen_Shot_2018-09-06_at_10_52_43_PM-581x1024.png" alt=""></a></figure>
+<figure class="content-image" style="width:min(50%, 480px) !important;"><a href="/assets/images/2018/09/Screen_Shot_2018-09-06_at_10_52_43_PM.webp"><img src="/assets/images/2018/09/Screen_Shot_2018-09-06_at_10_52_43_PM-581x1024.webp" alt=""></a></figure>
 <p><strong>Hackerone staff response ( Closed as informative )</strong></p>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/Screen-Shot-2018-09-06-at-10.54.15-PM.png"><img src="/assets/images/2018/09/Screen-Shot-2018-09-06-at-10.54.15-PM-1024x392.png" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/Screen-Shot-2018-09-06-at-10.54.15-PM.webp"><img src="/assets/images/2018/09/Screen-Shot-2018-09-06-at-10.54.15-PM-1024x392.webp" alt=""></a></figure></div>
 <p>well, then at this moment I need to find a way to prove to myself that this can be exploitable in a pretty bad way, but nothing came to my mind so I just keep going with my life.</p>
 <p><strong>Resend the report (second try):</strong></p>
 <p>One day I thought about that closed as an informative report on h1 about yahoo XSS and I got an idea that helps me to escalate that inoffensive XSS to something bigger, What if I could make an HTTP request like “GET” to local app resources? BINGO That’s how I was able to get a full cache database of yahoo! iOS app included user cookies, contact list, email content, etc.</p>
@@ -96,11 +96,11 @@
 ]]&gt;
 &lt;/script&gt;
 &lt;/svg&gt;</code></pre>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/yahoo-mail-list.png"><img src="/assets/images/2018/09/yahoo-mail-list-1024x630.png" alt=""></a></figure></div>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/yahoo-cookies.png"><img src="/assets/images/2018/09/yahoo-cookies-1024x588.png" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/yahoo-mail-list.webp"><img src="/assets/images/2018/09/yahoo-mail-list-1024x630.webp" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/yahoo-cookies.webp"><img src="/assets/images/2018/09/yahoo-cookies-1024x588.webp" alt=""></a></figure></div>
 <p><strong>Hackerone staff response (Reopened, Trigged, Fixed and good bounty paid by Yahoo team)</strong></p>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/yahoo-reopened.png"><img src="/assets/images/2018/09/yahoo-reopened-1024x456.png" alt=""></a></figure></div>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/Screen-Shot-2018-09-06-at-11.33.49-PM.png"><img src="/assets/images/2018/09/Screen-Shot-2018-09-06-at-11.33.49-PM-1024x220.png" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/yahoo-reopened.webp"><img src="/assets/images/2018/09/yahoo-reopened-1024x456.webp" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/09/Screen-Shot-2018-09-06-at-11.33.49-PM.webp"><img src="/assets/images/2018/09/Screen-Shot-2018-09-06-at-11.33.49-PM-1024x220.webp" alt=""></a></figure></div>
 <p>Environment<br>iPhone 6 – iOS v11.2.5.<br>Yahoo! Mail app v4.XX.X (XXXXX)<br>My personal email account and all testing were sending emails to myself.</p>
 <p><strong>Yahoo! Hall of fame:</strong></p>
 <p><a href="https://hackerone.com/yahoo/thanks/2018" target="_blank" rel="noopener">https://hackerone.com/yahoo/thanks/2018</a></p><p>well that’s it that is how this love story ends, if you have any thoughts, doubts, comments or suggestions just drop me a line here or on Twitter <a href="https://twitter.com/omespino">@omespino</a>, read you later.</p>

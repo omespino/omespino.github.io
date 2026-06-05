@@ -24,14 +24,14 @@
             </ul>
         </nav>
     </div>
-</header><div id="content" class="site-content"><div id="primary" class="content-area"><main id="main" class="site-main" role="main"><h1 class="hero-title">research</h1><article><header class="entry-header"><div class="entry-meta"><span class="category-tag">CTF</span><span class="amount-tag amount-na">N/A</span><span class="posted-on"><a href="/write-up-ctf-eset-latinoamerica-challenge-36/"><time class="entry-date published" datetime="2018-01-12T17:54:37-07:00">January 2018</time></a></span></div>
+</header><div id="content" class="site-content"><div id="primary" class="content-area"><main id="main" class="site-main" role="main"><h1 class="hero-title">research</h1><article><header class="entry-header"><div class="entry-meta"><span class="category-tag">CTF</span><span class="posted-on"><a href="/write-up-ctf-eset-latinoamerica-challenge-36/"><time class="entry-date published" datetime="2018-01-12T17:54:37-07:00">January 2018</time></a></span></div>
 <h1 class="entry-title">CTF ESET LATINOAMÉRICA CHALLENGE #36</h1></header><div class="entry-wrapper">
 <div class="entry-content">
 <p><strong>Introduction</strong><br>Hello , here is my write up for the CTF “Desafio ESET #36: Juego de escape criptográfico” (ESET Challenge # 36: Cryptographic escape game)
 </p>
 <p>CTF:<br><a href="https://www.welivesecurity.com/la-es/2017/12/26/desafio-eset-36/" target="_blank" rel="noopener">https://www.welivesecurity.com/la-es/2017/12/26/desafio-eset-36/</a></p>
 <p>CTF Solution (official):<br><a href="https://www.welivesecurity.com/la-es/2018/01/12/solucion-desafio-eset-36/" target="_blank" rel="noopener">https://www.welivesecurity.com/la-es/2018/01/12/solucion-desafio-eset-36/</a></p>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/ESET-desafio_36_A-620x432.jpg"><img src="/assets/images/2018/01/ESET-desafio_36_A-620x432.jpg" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/ESET-desafio_36_A-620x432.webp"><img src="/assets/images/2018/01/ESET-desafio_36_A-620x432.webp" alt=""></a></figure></div>
 <p>Rules:<br>1.- download the <a href="https://www.welivesecurity.com/assets/images/2017/12/desafio36.zip" target="_blank" rel="noopener">desafio36.zip</a> file (<a href="http://www.mediafire.com/file/ie0988186m42w6a/desafio36.zip" target="_blank" rel="noopener">mirror</a>) md5=<span class="s1">2b7a11892638179573f7b17c4b74911a</span><br>2.- unzip the file<br>3.- start looking for clues and find the CTF flag.</p>
 <p><strong>[disclaimer] if you want to give it a shot, stop right now and try to solve the CTF without seeing the write-up, if you don’t keep reading.</strong></p>
 <p>CTF solution:</p>
@@ -55,7 +55,7 @@ Knaht uoy Oiram! Tub ruo Ssecnirp si ni rehtona eltsac!
 <p>my first impression was that the text was reversed, so I tried to use it as a password for the 7z files but it doesn’t work, then I reversed each word to get the Super Mario bros bummer phrase</p>
 <p>Thank you Mario! But our Princess is in another castle! (the “otro archivo.7z” 7zip file password)</p>
 <p>• analyzing the “otro archivo.7z” file:</p>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/imagen.bmp"><img src="/assets/images/2018/01/imagen.bmp" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/imagen.webp"><img src="/assets/images/2018/01/imagen.webp" alt=""></a></figure></div>
 <p>we unzip the file and get the “imagen.bmp” file , an “Hackerman” image with two curious coloreds lines in the top and the bottom, and we extracted the hexa notation color from each color and we found a pattern “21726b 72697a 672065 6c2069 766a20 666976 7a6c68 2070a1 202c75 66666e 677676 69794b 20796a 6c6973 706c58 206664 726363 207644” that translated from hex to ASCII give us the string “!rkrizg el ivj fivzlh p¡ ,uffngvviyK yjlisplX fdrcc vD”, so the hint was that the last letter was in upper case so we reversed the string</p>
 <pre class="code-block"><code>localh0st:desafio36 user$ echo '!rkrizg el ivj fivzlh p¡ ,uffngvviyK yjlisplX fdrcc vD' | rev
  Dv ccrdf Xlpsiljy Kyivvgnffu, ¡p hlzvif jvi le gzirkr!
@@ -64,7 +64,7 @@ Knaht uoy Oiram! Tub ruo Ssecnirp si ni rehtona eltsac!
 <p>Me llamo Guybrush Threepwood, ¡y quiero ser un pirata! (the “un archivo 7z” 7zip file password – in English “My name is Guybrush Threepwood, and I want to be a pirate!”) </p>
 <p>• analyzing the “un archivo.7z” file:</p>
 <p>after unzip we get the “video.mp4” file, we play the video and it seems like STAR WARS tribute, and in the end, shows up another base64 encoded “flag” that we decode</p>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/starwars-video2.png"><img src="/assets/images/2018/01/starwars-video2.png" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/starwars-video2.webp"><img src="/assets/images/2018/01/starwars-video2.webp" alt=""></a></figure></div>
 <pre class="code-block"><code>localh0st:downloads user$ echo rwwgy2ftaw5vignvbwllbnphigvuigxvcybtzxrhzgf0b3mu | base64 --decode 
  El camino comienza en los metadatos. 
  #(in english "the way is in the metadata"), so again analize <a href="https://www.sno.phy.queensu.ca/~phil/exiftool/" target="_blank" rel="noopener">with exiftool</a>
@@ -80,9 +80,9 @@ localh0st:desafio36 user$ exiftool ~/Downloads/desafio36/video.mp4 | egrep 'URL|
 <p><code>___ _ _. .___ .._. ._.. __._ .__. .._ _.__ .___ ._.. ..._ .__ .__ _ _.__ _... __.. _._ _._. __ __ ._ .__. _.__ __.. ..._ __._ ___ ___ ._ ._. __..</code></p>
 <p><code>that decoded to text shows up the string</code></p>
 <p><code>OTNJFLQPUYJLVWWTYBZKCMMAPYZVQOOARZ (enigma machine again?) so, i tried with a <a href="http://enigma.louisedade.co.uk/enigma.html">enigma machine emulator</a> and the keys and bingo</code></p>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/Screen-Shot-2018-01-12-at-3.55.13-PM.png"><img src="/assets/images/2018/01/Screen-Shot-2018-01-12-at-3.55.13-PM.png" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/Screen-Shot-2018-01-12-at-3.55.13-PM.webp"><img src="/assets/images/2018/01/Screen-Shot-2018-01-12-at-3.55.13-PM.webp" alt=""></a></figure></div>
 <p>“THEL EGEN DOFZ ELDA THEA DVEN TURE OFLI NK” (my favorite NES game btw)</p>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/zelda_ii__adventure_of_link_voxel_by_vihola-d5vadpm__large.jpg"><img src="/assets/images/2018/01/zelda_ii__adventure_of_link_voxel_by_vihola-d5vadpm__large.jpg" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/zelda_ii__adventure_of_link_voxel_by_vihola-d5vadpm__large.webp"><img src="/assets/images/2018/01/zelda_ii__adventure_of_link_voxel_by_vihola-d5vadpm__large.webp" alt=""></a></figure></div>
 <p>I got stuck again, after almost one day, I read my write up the draft, maybe I was missing something, most of the files was analyzed, maybe one file has another hidden secret I thought, and after reviewing my draft step by step, I saw something vital that I was missed before in the <a href="http://mewbies.com/steganography/steghide/how_to_conceal_data_in_audio_or_image_file.htm" target="_blank" rel="noopener">steghide documentation </a></p>
 <p>“The JPEG, &gt;&gt;&gt;&gt;&gt;&gt;BMP &lt;&lt;&lt;&lt;&lt;&lt;, WAV and AU file formats are supported for use as cover file”</p>
 <p>• analyzing the “imagen.bmp” file again:</p>
@@ -94,7 +94,7 @@ localh0st:desafio36 user$ exiftool ~/Downloads/desafio36/video.mp4 | egrep 'URL|
 <p>a new file with javascript code apparently, so we rename the mensaje.txt file to mensaje.html, and added the respectively the scripts tags, and with a terminal, I started an HTTP static server in the mensaje.html folder (in this case with python 2.7, with the SimpleHTTPServer module)</p>
 <pre class="code-block"><code>localh0st:Desktop user$ python -m SimpleHTTPServer 8080 &amp;</code></pre>
 <p>we open the browser and navigate to <a href="/write-up-ctf-eset-latinoamerica-challenge-36/8080/mensaje.html" target="_blank" rel="noopener">localhost:8080/mensaje.html</a> and BOOOM!, a blue webpage with white letters with the beautiful FLAG</p>
-<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/Screen-Shot-2018-01-12-at-4.42.01-PM.png"><img src="/assets/images/2018/01/Screen-Shot-2018-01-12-at-4.42.01-PM.png" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter"><a href="/assets/images/2018/01/Screen-Shot-2018-01-12-at-4.42.01-PM.webp"><img src="/assets/images/2018/01/Screen-Shot-2018-01-12-at-4.42.01-PM.webp" alt=""></a></figure></div>
 <pre class="code-block"><code>FLAG "ESET_Desafio#36_Sonic_the_Hedgehog"</code></pre>
 <p>I must say that it cost me a lot, much as I thought actually but I learned some new stuff, but overall this was very fun (and I won a <a href="http://www.eset.com/latam/hogar/internet-security/" target="_blank" rel="noopener">ESET Internet Security License</a>).</p>
 <p>well, that’s it, if you have any doubt, comments or suggestions just drop me a line here or on Twitter <a href="https://twitter.com/intent/user?screen_name=omespino">@omespino</a>, read you later.</p>

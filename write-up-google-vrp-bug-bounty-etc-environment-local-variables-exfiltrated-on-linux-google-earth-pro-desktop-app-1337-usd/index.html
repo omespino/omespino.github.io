@@ -54,14 +54,14 @@ Extracted from Google VRP’s report: (the actual Google VRP report) </p>
 &lt;/Placemark&gt;
 </code></pre>
 <p>4.- Just open theetc_environment.kml file with a double click, once you see the red polygon click it to see the description and the XSS would be fire, it would contain variables from /etc/environment system file and send those to the attacker server</p>
-<div class="content-image"><figure class="aligncenter size-large"><a href="/assets/images/2021/11/etc_environment_ge_linux.jpg"><img src="/assets/images/2021/11/etc_environment_ge_linux.jpg" alt=""></a></figure></div>
+<div class="content-image"><figure class="aligncenter size-large"><a href="/assets/images/2021/11/etc_environment_ge_linux.webp"><img src="/assets/images/2021/11/etc_environment_ge_linux.webp" alt=""></a></figure></div>
 <p>5.- Profit</p>
 <p>Explanation, since we can inject random HTML/js code, we can “import” files with the script tag, per example “&lt;script src=file:///../../../../etc/enviroment&gt;&lt;/script&gt;”, so if the file has the right js format the browser would load any content, since the common format of /etc/environment is like:</p>
 <pre class="code-block"><code>PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" <br>JAVA_HOME="/opt/jre/bin"
 </code></pre>
 <p>this would actually load because those variables have the same format that javascript variables ;-), plus since any linux environment vars are so predictable we can brute force the most common variables names and send them to the attacker server</p>
 <p>UPDATE: You could also exfiltrate all vars from the /etc/environment file since “Object.keys(window)” would load any declared variable in the DOM <a href="https://stackoverflow.com/a/17276249">(stack overflow reference)</a></p>
-<div class="content-image half-width-image"><figure class="aligncenter size-large"><a href="/assets/images/2021/11/etc_environment_DOM.png"><img src="/assets/images/2021/11/etc_environment_DOM.png" alt=""></a></figure></div>
+<div class="content-image half-width-image"><figure class="aligncenter size-large"><a href="/assets/images/2021/11/etc_environment_DOM.webp"><img src="/assets/images/2021/11/etc_environment_DOM.webp" alt=""></a></figure></div>
 <p><b></b></p>
 <p><b></b></p>
 <p><b></b></p>
@@ -73,7 +73,7 @@ Extracted from Google VRP’s report: (the actual Google VRP report) </p>
 <p></p>
 <p><b>Report Timeline</b></p>
 <p></p>
-<p><aug sent="" the="" report="" to="" google="" vrp>Aug 23, 2021: <img style="height: auto; width: 16px; border-radius: 0px !important;" src="/assets/images/2021/01/download-1.png">Nice catch Bug Accepted (P4 → P3)<br>Aug 23, 2021: Got a message from Google that the issue is working as intended<br>Sep 01, 2021: I sent a clarification message and then the issue was sent to review<br>Sep 09, 2021: $1,337 bounty awarded<br>Oct 03, 2021: Got a message from Google that the issue report has been closed without providing a fix (Status Won’t fix) w00t?!</aug></p>
+<p><aug sent="" the="" report="" to="" google="" vrp>Aug 23, 2021: <img style="height: auto; width: 16px; border-radius: 0px !important;" src="/assets/images/2021/01/download-1.webp">Nice catch Bug Accepted (P4 → P3)<br>Aug 23, 2021: Got a message from Google that the issue is working as intended<br>Sep 01, 2021: I sent a clarification message and then the issue was sent to review<br>Sep 09, 2021: $1,337 bounty awarded<br>Oct 03, 2021: Got a message from Google that the issue report has been closed without providing a fix (Status Won’t fix) w00t?!</aug></p>
 <p><b> </b></p>
 <p>Well that’s it, share your thoughts, what do you think about how they handle that security issue? If you have any doubt, comments or suggestions just drop me a line here or on Twitter <a href="https://twitter.com/omespino">@omespino</a>, read you later.</p>
 
