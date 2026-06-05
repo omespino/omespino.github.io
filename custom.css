@@ -586,6 +586,14 @@ body:not(.links-page) .social-links .read-more-btn {
     font-size: 1rem !important;
 }
 
+.post-navigation {
+    order: 4 !important;
+    width: 100% !important;
+    margin-top: 3rem !important;
+    margin-bottom: 2rem !important;
+    padding: 2rem 0 !important;
+}
+
 .presentations-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
