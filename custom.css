@@ -90,7 +90,7 @@ select {
 body, html {
   background-color: var(--bg-dark) !important;
   color: var(--text-main) !important;
-  font-size: 16px;
+  font-size: 14.4px;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -170,7 +170,7 @@ a:hover { color: var(--accent-green) !important; }
 }
 
 .hero-title {
-  font-size: clamp(1.5rem, 6vw, 3.5rem) !important;
+  font-size: clamp(1.35rem, 4.86vw, 3.15rem) !important;
   color: var(--text-main) !important;
   margin: 0 0 2rem !important;
   letter-spacing: 0;
@@ -263,20 +263,35 @@ body.single .entry-title {
     color: var(--text-main) !important;
     text-align: justify !important;
 }
-.profile-avatar {
-  width: 280px !important;
-  height: 280px !important;
+.profile-avatar-frame {
+  width: 210px !important;
+  height: 210px !important;
   aspect-ratio: 1 / 1 !important;
-  object-fit: cover !important;
   border-radius: 50% !important;
-  border: none !important;
+  overflow: hidden !important;
   margin: 0 !important;
   display: block !important;
   box-shadow: none !important;
   flex-shrink: 0 !important;
+  background: var(--bg-dark) !important;
 }
 
-.links-page .profile-avatar {
+.profile-avatar {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+  display: block !important;
+  box-shadow: none !important;
+  transform: scale(1) !important;
+  transform-origin: center center !important;
+  max-width: none !important;
+}
+
+.links-page .profile-avatar-frame {
   margin: 0 auto 2rem !important;
 }
 
@@ -401,7 +416,7 @@ body.single .entry-title {
 }
 
 .entry-title {
-  font-size: 1.9rem !important;
+  font-size: 1.71rem !important;
   line-height: 1.2 !important;
   margin: 0 !important;
   color: var(--text-main) !important;
@@ -471,7 +486,7 @@ body.single .entry-title {
     color: #bfe8dd !important;
     padding: 0 !important;
     border-radius: 0 !important;
-    font-size: 14px !important;
+    font-size: 12.6px !important;
     line-height: 1.7 !important;
     white-space: pre-wrap !important;
 }
@@ -638,7 +653,7 @@ body:not(.links-page) .social-links .read-more-btn {
 
 .presentation-title {
     color: var(--research-title) !important;
-    font-size: 1.4rem !important; /* 2 points smaller */
+    font-size: 1.26rem !important; /* 2 points smaller */
     font-weight: 700 !important;
     margin-bottom: 0.8rem !important;
     line-height: 1.3 !important;
@@ -690,7 +705,7 @@ body:not(.links-page) .social-links .read-more-btn {
 }
 
 .section-header h2 {
-    font-size: 2rem !important;
+    font-size: 1.8rem !important;
     margin: 0 !important;
     letter-spacing: 2px !important;
 }
@@ -758,13 +773,13 @@ footer::before, footer::after,
     gap: 2.5rem !important;
   }
 
-  .profile-avatar {
-    width: 240px !important;
-    height: 240px !important;
+  .profile-avatar-frame {
+    width: 180px !important;
+    height: 180px !important;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   #masthead {
     padding: 1rem 4% !important;
   }
@@ -773,7 +788,7 @@ footer::before, footer::after,
   .blog .hero-title,
   .single .hero-title {
     margin-bottom: 1rem !important;
-    font-size: 2.2rem !important;
+    font-size: 1.98rem !important;
   }
 
   .header-inner {
@@ -798,9 +813,9 @@ footer::before, footer::after,
     margin-bottom: 0.25rem !important;
   }
 
-  .profile-avatar {
-    width: 160px !important;
-    height: 160px !important;
+  .profile-avatar-frame {
+    width: 120px !important;
+    height: 120px !important;
   }
 
   .bio-text {
@@ -876,7 +891,7 @@ footer::before, footer::after,
   }
 
   .hero-title {
-    font-size: clamp(2.1rem, 14vw, 3rem) !important;
+    font-size: clamp(1.89rem, 11.34vw, 2.7rem) !important;
     margin-bottom: 1.25rem !important;
   }
 
@@ -884,9 +899,9 @@ footer::before, footer::after,
     padding: 0 1rem 0.5rem !important;
   }
 
-  .profile-avatar {
-    width: 220px !important;
-    height: 220px !important;
+  .profile-avatar-frame {
+    width: 165px !important;
+    height: 165px !important;
   }
 
   .bio-text p {
@@ -935,7 +950,7 @@ footer::before, footer::after,
 
   .entry-title,
   .presentation-title {
-    font-size: 1.1rem !important;
+    font-size: 0.99rem !important;
     line-height: 1.3 !important;
   }
 
