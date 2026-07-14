@@ -118,6 +118,18 @@
             letter-spacing: 0.5px;
         }
 
+        .hex-single {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hex-btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
         @media (max-width: 800px) {
             .hex-grid {
                 grid-template-columns: 1fr;
@@ -146,9 +158,17 @@
         <div id="content" class="site-content">
             <main id="main" class="site-main">
                 <article>
-                    <p class="hex-intro">
-                        (Binary Hex Base64 Translator): Esta herramienta codifica y decodifica texto en formato ASCII a Binario, Octal, Decimal, Hexadecimal y Base64.
-                    </p>
+                    <div class="hex-single">
+                        <div class="hex-head">
+                            <span class="hex-label">URL Encode / Decode</span>
+                            <div class="hex-btn-group">
+                                <button class="hex-btn" id="url-enc-btn">Codificar</button>
+                                <button class="hex-btn" id="url-dec-btn">Decodificar</button>
+                            </div>
+                        </div>
+                        <textarea id="urltext" class="hex-area" placeholder="Escribe o pega aqu&iacute; y presiona Codificar o Decodificar." spellcheck="false"></textarea>
+                        <div class="hex-error" data-err="urltext"></div>
+                    </div>
 
                     <div class="hex-grid">
                         <div class="hex-box">
@@ -162,11 +182,11 @@
 
                         <div class="hex-box">
                             <div class="hex-head">
-                                <span class="hex-label">Binario</span>
-                                <button class="hex-btn" data-from="binary">Traducir</button>
+                                <span class="hex-label">Base64</span>
+                                <button class="hex-btn" data-from="base64">Traducir</button>
                             </div>
-                            <textarea id="binary" class="hex-area" placeholder="01001000 01101111 01101100 01100001" spellcheck="false"></textarea>
-                            <div class="hex-error" data-err="binary"></div>
+                            <textarea id="base64" class="hex-area" placeholder="SG9sYQ==" spellcheck="false"></textarea>
+                            <div class="hex-error" data-err="base64"></div>
                         </div>
 
                         <div class="hex-box">
@@ -180,11 +200,11 @@
 
                         <div class="hex-box">
                             <div class="hex-head">
-                                <span class="hex-label">Base64</span>
-                                <button class="hex-btn" data-from="base64">Traducir</button>
+                                <span class="hex-label">Binario</span>
+                                <button class="hex-btn" data-from="binary">Traducir</button>
                             </div>
-                            <textarea id="base64" class="hex-area" placeholder="SG9sYQ==" spellcheck="false"></textarea>
-                            <div class="hex-error" data-err="base64"></div>
+                            <textarea id="binary" class="hex-area" placeholder="01001000 01101111 01101100 01100001" spellcheck="false"></textarea>
+                            <div class="hex-error" data-err="binary"></div>
                         </div>
 
                         <div class="hex-box">
@@ -205,6 +225,7 @@
                             <div class="hex-error" data-err="octal"></div>
                         </div>
                     </div>
+
                 </article>
             </main>
         </div>
@@ -392,7 +413,7 @@
         markActive(from);
     }
 
-    document.querySelectorAll(".hex-btn").forEach(btn => {
+    document.querySelectorAll(".hex-btn[data-from]").forEach(btn => {
         btn.addEventListener("click", () => translate(btn.getAttribute("data-from")));
     });
 
@@ -404,6 +425,31 @@
                 translate(id);
             }
         });
+    });
+
+    // ---------- URL Encode / Decode (independiente, misma caja) ----------
+    const urlText = document.getElementById("urltext");
+    const urlErr = document.querySelector('[data-err="urltext"]');
+
+    document.getElementById("url-enc-btn").addEventListener("click", () => {
+        urlErr.textContent = "";
+        if (!urlText.value) return;
+        urlText.value = encodeURIComponent(urlText.value);
+    });
+
+    document.getElementById("url-dec-btn").addEventListener("click", () => {
+        urlErr.textContent = "";
+        if (!urlText.value) return;
+        try {
+            const decoded = decodeURIComponent(urlText.value.replace(/\+/g, " "));
+            if (decoded === urlText.value) {
+                urlErr.textContent = "No hay más capas que decodificar.";
+                return;
+            }
+            urlText.value = decoded;
+        } catch (e) {
+            urlErr.textContent = "Cadena URL-encoded inválida.";
+        }
     });
 })();
 </script>
