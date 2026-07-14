@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Traductor Binario, Hex, Base64, Decimal y Octal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    <link rel="stylesheet" href="/custom.css">
+    <style>
+        .hex-intro {
+            color: var(--research-body) !important;
+            font-size: 0.95rem !important;
+            line-height: 1.7 !important;
+            margin: 0 0 2.5rem !important;
+            max-width: 100%;
+        }
+
+        .hex-intro a {
+            color: var(--accent-green) !important;
+        }
+
+        .hex-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hex-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .hex-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .hex-label {
+            color: var(--accent-green) !important;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hex-label small {
+            color: var(--text-dim) !important;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-left: 0.4rem;
+        }
+
+        .hex-btn {
+            background: #142622;
+            border: 1px solid #1d332f;
+            border-radius: 4px;
+            color: var(--accent-green) !important;
+            padding: 0.35rem 0.9rem;
+            font-family: 'Roboto Mono', monospace !important;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .hex-btn:hover {
+            background: #18302b;
+            border-color: var(--accent-green);
+        }
+
+        .hex-area {
+            width: 100%;
+            min-height: 160px;
+            resize: vertical;
+            background: #101d1b;
+            color: var(--accent-green) !important;
+            border: 1px solid #1f322e;
+            border-radius: 4px;
+            padding: 0.9rem 1rem;
+            font-family: 'Roboto Mono', monospace !important;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            outline: none;
+            transition: background 0.2s, border-color 0.2s;
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+
+        .hex-area::placeholder {
+            color: var(--text-dim);
+            opacity: 0.7;
+        }
+
+        .hex-area:hover {
+            border-color: #2a4a42;
+        }
+
+        .hex-area:focus,
+        .hex-area.active {
+            background: #16302a;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 1px rgba(104, 246, 169, 0.25);
+        }
+
+        .hex-error {
+            color: #ff6b57 !important;
+            font-size: 0.8rem;
+            min-height: 1.1em;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 800px) {
+            .hex-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="page">
+        <header id="masthead" class="site-header">
+            <div class="header-inner">
+                <div class="site-logo">
+                    <a href="/">@omespino</a>
+                </div>
+                <nav id="site-navigation" class="main-navigation">
+                    <ul class="menu">
+                        <li class="menu-item"><a href="/">About</a></li>
+                        <li class="menu-item"><a href="/research.html">Research</a></li>
+                        <li class="menu-item"><a href="/conferences.html">Conferences</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div id="content" class="site-content">
+            <main id="main" class="site-main">
+                <article>
+                    <p class="hex-intro">
+                        (Binary Hex Base64 Translator): Esta herramienta codifica y decodifica texto en formato ASCII a Binario, Octal, Decimal, Hexadecimal y Base64.
+                    </p>
+
+                    <div class="hex-grid">
+                        <div class="hex-box">
+                            <div class="hex-head">
+                                <span class="hex-label">Texto</span>
+                                <button class="hex-btn" data-from="text">Codificar</button>
+                            </div>
+                            <textarea id="text" class="hex-area" placeholder="Escribe aqu&iacute; tu texto..." spellcheck="false"></textarea>
+                            <div class="hex-error" data-err="text"></div>
+                        </div>
+
+                        <div class="hex-box">
+                            <div class="hex-head">
+                                <span class="hex-label">Binario</span>
+                                <button class="hex-btn" data-from="binary">Traducir</button>
+                            </div>
+                            <textarea id="binary" class="hex-area" placeholder="01001000 01101111 01101100 01100001" spellcheck="false"></textarea>
+                            <div class="hex-error" data-err="binary"></div>
+                        </div>
+
+                        <div class="hex-box">
+                            <div class="hex-head">
+                                <span class="hex-label">Hexadecimal</span>
+                                <button class="hex-btn" data-from="hex">Traducir</button>
+                            </div>
+                            <textarea id="hex" class="hex-area" placeholder="48 6f 6c 61" spellcheck="false"></textarea>
+                            <div class="hex-error" data-err="hex"></div>
+                        </div>
+
+                        <div class="hex-box">
+                            <div class="hex-head">
+                                <span class="hex-label">Base64</span>
+                                <button class="hex-btn" data-from="base64">Traducir</button>
+                            </div>
+                            <textarea id="base64" class="hex-area" placeholder="SG9sYQ==" spellcheck="false"></textarea>
+                            <div class="hex-error" data-err="base64"></div>
+                        </div>
+
+                        <div class="hex-box">
+                            <div class="hex-head">
+                                <span class="hex-label">Decimal <small>(ascii id caracter)</small></span>
+                                <button class="hex-btn" data-from="decimal">Traducir</button>
+                            </div>
+                            <textarea id="decimal" class="hex-area" placeholder="72 111 108 97" spellcheck="false"></textarea>
+                            <div class="hex-error" data-err="decimal"></div>
+                        </div>
+
+                        <div class="hex-box">
+                            <div class="hex-head">
+                                <span class="hex-label">Octal</span>
+                                <button class="hex-btn" data-from="octal">Traducir</button>
+                            </div>
+                            <textarea id="octal" class="hex-area" placeholder="110 157 154 141" spellcheck="false"></textarea>
+                            <div class="hex-error" data-err="octal"></div>
+                        </div>
+                    </div>
+                </article>
+            </main>
+        </div>
+
+        <footer id="colophon" class="site-footer" role="contentinfo">
+            <div class="site-info">just another security blog</div>
+        </footer>
+    </div>
+
+<script>
+"use strict";
+(() => {
+    const ids = ["text", "binary", "hex", "base64", "decimal", "octal"];
+    const el = {};
+    ids.forEach(id => { el[id] = document.getElementById(id); });
+
+    const errEls = {};
+    document.querySelectorAll("[data-err]").forEach(n => {
+        errEls[n.getAttribute("data-err")] = n;
+    });
+
+    function clearErrors() {
+        Object.values(errEls).forEach(n => { n.textContent = ""; });
+    }
+
+    function setError(target, msg) {
+        if (errEls[target]) errEls[target].textContent = msg;
+    }
+
+    function markActive(id) {
+        ids.forEach(k => el[k].classList.toggle("active", k === id));
+    }
+
+    ids.forEach(id => {
+        el[id].addEventListener("focus", () => markActive(id));
+    });
+
+    // ---------- Codificadores desde texto ----------
+    function textToBinary(str) {
+        return Array.from(str, ch => {
+            const code = ch.codePointAt(0);
+            return code.toString(2).padStart(8, "0");
+        }).join(" ");
+    }
+
+    function textToHex(str) {
+        return Array.from(str, ch => {
+            const code = ch.codePointAt(0);
+            return code.toString(16).padStart(2, "0");
+        }).join(" ");
+    }
+
+    function textToDecimal(str) {
+        return Array.from(str, ch => ch.codePointAt(0).toString(10)).join(" ");
+    }
+
+    function textToOctal(str) {
+        return Array.from(str, ch => ch.codePointAt(0).toString(8)).join(" ");
+    }
+
+    function textToBase64(str) {
+        // UTF-8 safe
+        const bytes = new TextEncoder().encode(str);
+        let bin = "";
+        bytes.forEach(b => { bin += String.fromCharCode(b); });
+        return btoa(bin);
+    }
+
+    // ---------- Decodificadores hacia texto ----------
+    function bytesToText(bytes) {
+        return new TextDecoder("utf-8", { fatal: false }).decode(new Uint8Array(bytes));
+    }
+
+    function parseTokens(str) {
+        return str.trim().split(/[\s,;]+/).filter(Boolean);
+    }
+
+    function binaryToText(str) {
+        const clean = str.replace(/[\s,;_]+/g, "");
+        if (!/^[01]+$/.test(clean)) throw new Error("Solo se permiten 0, 1 y separadores.");
+        if (clean.length % 8 !== 0) throw new Error("La cadena binaria debe ser múltiplo de 8 bits.");
+        const bytes = [];
+        for (let i = 0; i < clean.length; i += 8) {
+            bytes.push(parseInt(clean.slice(i, i + 8), 2));
+        }
+        return bytesToText(bytes);
+    }
+
+    function hexToText(str) {
+        const clean = str.replace(/^0x/i, "").replace(/[\s,;_]+/g, "").replace(/\\x/gi, "");
+        if (!/^[0-9a-fA-F]+$/.test(clean)) throw new Error("Solo se permiten dígitos hex (0-9, a-f).");
+        if (clean.length % 2 !== 0) throw new Error("La cadena hex debe tener un número par de dígitos.");
+        const bytes = [];
+        for (let i = 0; i < clean.length; i += 2) {
+            bytes.push(parseInt(clean.slice(i, i + 2), 16));
+        }
+        return bytesToText(bytes);
+    }
+
+    function decimalToText(str) {
+        const tokens = parseTokens(str);
+        if (!tokens.length) return "";
+        const bytes = [];
+        for (const t of tokens) {
+            if (!/^\d+$/.test(t)) throw new Error("Solo números decimales separados por espacio.");
+            const n = parseInt(t, 10);
+            if (n < 0 || n > 0x10FFFF) throw new Error("Valor fuera de rango Unicode.");
+            if (n > 0xFF) {
+                const chunks = new TextEncoder().encode(String.fromCodePoint(n));
+                chunks.forEach(b => bytes.push(b));
+            } else {
+                bytes.push(n);
+            }
+        }
+        return bytesToText(bytes);
+    }
+
+    function octalToText(str) {
+        const tokens = parseTokens(str);
+        if (!tokens.length) return "";
+        const bytes = [];
+        for (const t of tokens) {
+            const cleaned = t.replace(/^0o/i, "");
+            if (!/^[0-7]+$/.test(cleaned)) throw new Error("Solo dígitos octales (0-7) separados por espacio.");
+            const n = parseInt(cleaned, 8);
+            if (n > 0xFF) {
+                const chunks = new TextEncoder().encode(String.fromCodePoint(n));
+                chunks.forEach(b => bytes.push(b));
+            } else {
+                bytes.push(n);
+            }
+        }
+        return bytesToText(bytes);
+    }
+
+    function base64ToText(str) {
+        const clean = str.replace(/\s+/g, "");
+        if (!/^[A-Za-z0-9+/=_-]*$/.test(clean)) throw new Error("Base64 inválido.");
+        // aceptar variante URL-safe
+        const normal = clean.replace(/-/g, "+").replace(/_/g, "/");
+        try {
+            const bin = atob(normal);
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            return bytesToText(bytes);
+        } catch (e) {
+            throw new Error("Base64 inválido.");
+        }
+    }
+
+    // ---------- Pipeline ----------
+    function fillFromText(text) {
+        el.text.value = text;
+        el.binary.value = textToBinary(text);
+        el.hex.value = textToHex(text);
+        el.base64.value = textToBase64(text);
+        el.decimal.value = textToDecimal(text);
+        el.octal.value = textToOctal(text);
+    }
+
+    const decoders = {
+        text: v => v,
+        binary: binaryToText,
+        hex: hexToText,
+        base64: base64ToText,
+        decimal: decimalToText,
+        octal: octalToText
+    };
+
+    function translate(from) {
+        clearErrors();
+        const raw = el[from].value;
+        if (!raw.trim()) {
+            ids.forEach(k => { if (k !== from) el[k].value = ""; });
+            return;
+        }
+        let text;
+        try {
+            text = decoders[from](raw);
+        } catch (err) {
+            setError(from, err.message || "Formato inválido.");
+            return;
+        }
+        fillFromText(text);
+        markActive(from);
+    }
+
+    document.querySelectorAll(".hex-btn").forEach(btn => {
+        btn.addEventListener("click", () => translate(btn.getAttribute("data-from")));
+    });
+
+    // Enter en cualquier textarea (con Ctrl/Cmd) traduce
+    ids.forEach(id => {
+        el[id].addEventListener("keydown", e => {
+            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                e.preventDefault();
+                translate(id);
+            }
+        });
+    });
+})();
+</script>
+</body>
+</html>
