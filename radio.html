@@ -3,20 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#172a26">
 <title>CLIWAMP</title>
+<link href="https://fonts.gstatic.com/" crossorigin="anonymous" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-
   :root {
-    --bg: #0b1210;
+    --bg: #181e1b;
     --fg: #C1C497;
-    --accent: #509475;
+    --accent: #549e6a;
     --green: #549e6a;
-    --bright: #F7E8B2;
-    --yellow: #459451;
+    --bright: #f2f4da;
     --red: #FF5345;
-    --dim: #3a5a4a;
-    --bg-lighter: #0f1a16;
+    --dim: #a4b48a;
+    --dim-muted: #3a5a4a;
+    --bg-lighter: #1f2a25;
+    --border: #2a332e;
+    --surface: #243029;
+    --key-bg: #549e6a;
+    --key-fg: #181e1b;
+  }
+
+  [data-theme="light"] {
+    --bg: #f4f1e6;
+    --fg: #3d4a38;
+    --accent: #3d8455;
+    --green: #3d8455;
+    --bright: #1f2622;
+    --red: #d94235;
+    --dim: #6b7a5a;
+    --dim-muted: #c4bfaf;
+    --bg-lighter: #e4e0d3;
+    --border: #d4cfbf;
+    --surface: #ece8db;
+    --key-bg: #3d8455;
+    --key-fg: #f4f1e6;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,7 +45,7 @@
   body {
     background: var(--bg);
     color: var(--fg);
-    font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-family: 'Roboto Mono', monospace;
     font-size: 14px;
     line-height: 1.6;
     display: flex;
@@ -34,22 +55,25 @@
     padding: 20px;
     user-select: none;
     -webkit-user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
+
+  ::selection { background: var(--accent); color: var(--bg); }
 
   #player {
     width: 100%;
     max-width: 780px;
     background: var(--bg);
-    border: 1px solid var(--accent);
+    border: 1px solid var(--border);
     padding: 24px 28px;
     position: relative;
-    box-shadow: 0 0 40px rgba(80, 148, 117, 0.08);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
   .header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 4px;
   }
 
@@ -60,14 +84,35 @@
     letter-spacing: 0.35em;
   }
 
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
   .header-badge {
     color: var(--fg);
     font-size: 13px;
   }
 
-  .track-info {
-    margin-bottom: 2px;
+  #theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: var(--dim);
+    transition: color 0.2s;
   }
+
+  #theme-toggle:hover { color: var(--accent); }
+  #theme-toggle svg { width: 16px; height: 16px; }
+
+  .track-info { margin-bottom: 2px; }
 
   .track-name {
     color: var(--bright);
@@ -75,7 +120,7 @@
   }
 
   .track-name::before {
-    content: '♫ ';
+    content: '\266B ';
     color: var(--accent);
   }
 
@@ -87,10 +132,7 @@
     margin-bottom: 16px;
   }
 
-  .timer {
-    color: var(--fg);
-    font-weight: 700;
-  }
+  .timer { color: var(--fg); font-weight: 700; }
 
   .status-indicator {
     display: flex;
@@ -107,41 +149,16 @@
     display: inline-block;
   }
 
-  .status-dot.playing {
-    animation: pulse 2s ease-in-out infinite;
-  }
+  .status-dot.playing { background: var(--red); animation: pulse 2s ease-in-out infinite; }
+  .status-dot.stopped { background: var(--dim-muted); animation: none; }
+  .status-dot.buffering { background: var(--bright); animation: blink 0.6s ease-in-out infinite; }
 
-  .status-dot.stopped {
-    background: var(--dim);
-    animation: none;
-  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
-  .status-dot.buffering {
-    background: var(--bright);
-    animation: blink 0.6s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.2; }
-  }
-
-  .status-text {
-    color: var(--green);
-  }
-
-  .status-text.stopped {
-    color: var(--dim);
-  }
-
-  .status-text.buffering {
-    color: var(--bright);
-  }
+  .status-text { color: var(--red); }
+  .status-text.stopped { color: var(--dim-muted); }
+  .status-text.buffering { color: var(--bright); }
 
   .visualizer-wrap {
     margin: 8px 0 4px 0;
@@ -181,24 +198,11 @@
 
   .eq-vol-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     font-size: 12px;
     margin: 4px 0 2px 0;
     color: var(--fg);
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .eq-info {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0;
-  }
-
-  .eq-label {
-    color: var(--bright);
   }
 
   .vol-wrap {
@@ -206,46 +210,25 @@
     align-items: center;
     gap: 6px;
     white-space: nowrap;
-    flex-shrink: 0;
   }
 
-  .vol-label {
-    color: var(--bright);
-    font-weight: 700;
-  }
+  .vol-label { color: var(--bright); font-weight: 700; }
 
   .vol-bar-outer {
     width: 120px;
     height: 12px;
     background: var(--bg-lighter);
-    border: 1px solid var(--dim);
+    border: 1px solid var(--dim-muted);
     display: flex;
     overflow: hidden;
     cursor: pointer;
-    position: relative;
+    transition: border-color 0.3s ease;
   }
 
   .vol-bar-inner {
     height: 100%;
-    background: linear-gradient(90deg, var(--green), var(--yellow));
+    background: linear-gradient(90deg, var(--green), var(--accent));
     transition: width 0.1s;
-    position: relative;
-  }
-
-  .vol-bar-inner::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 6px;
-    background: repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 1px,
-      rgba(11,18,16,0.4) 1px,
-      rgba(11,18,16,0.4) 2px
-    );
   }
 
   .vol-db {
@@ -261,9 +244,7 @@
     margin: 2px 0 8px 0;
   }
 
-  .src-label {
-    color: var(--bright);
-  }
+  .src-label { color: var(--bright); }
 
   .playlist-sep {
     font-size: 12px;
@@ -274,9 +255,7 @@
     text-overflow: ellipsis;
   }
 
-  .playlist-sep .tag {
-    color: var(--fg);
-  }
+  .playlist-sep .tag { color: var(--fg); }
 
   .station-list {
     list-style: none;
@@ -304,7 +283,7 @@
 
   .station-item:hover {
     background: var(--bg-lighter);
-    border-left-color: var(--dim);
+    border-left-color: var(--dim-muted);
   }
 
   .station-item.active {
@@ -313,8 +292,8 @@
   }
 
   .station-item.selected {
-    background: rgba(80, 148, 117, 0.12);
-    border-left-color: var(--dim);
+    background: var(--surface);
+    border-left-color: var(--dim-muted);
   }
 
   .station-item.active.selected {
@@ -332,16 +311,14 @@
     width: 32px;
     text-align: right;
     margin-right: 8px;
-    color: var(--dim);
+    color: var(--dim-muted);
     flex-shrink: 0;
   }
 
-  .station-item.active .station-num {
-    color: var(--accent);
-  }
+  .station-item.active .station-num { color: var(--accent); }
 
   .footer {
-    border-top: 1px solid var(--accent);
+    border-top: 1px solid var(--border);
     padding-top: 8px;
     display: flex;
     flex-wrap: wrap;
@@ -349,6 +326,7 @@
     font-size: 12px;
     color: var(--fg);
     align-items: center;
+    transition: border-color 0.3s ease;
   }
 
   .shortcut {
@@ -358,20 +336,12 @@
   }
 
   .key {
-    background: var(--accent);
-    color: var(--bg);
+    background: var(--key-bg);
+    color: var(--key-fg);
     padding: 1px 5px;
     font-size: 11px;
     font-weight: 700;
     border-radius: 2px;
-  }
-
-  .footer-right {
-    margin-left: auto;
-    display: flex;
-    gap: 16px;
-    font-size: 11px;
-    color: var(--dim);
   }
 
   .spd-line {
@@ -379,7 +349,7 @@
     justify-content: space-between;
     align-items: center;
     font-size: 11px;
-    color: var(--dim);
+    color: var(--dim-muted);
     margin-top: 4px;
   }
 
@@ -387,20 +357,29 @@
     body { padding: 8px; font-size: 12px; }
     #player { padding: 14px 12px; }
     .logo { font-size: 13px; }
-    .eq-vol-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .eq-vol-row { flex-direction: column; align-items: flex-start; }
     .vol-bar-outer { width: 100px; }
     .footer { font-size: 11px; gap: 6px; }
-    .footer-right { margin-left: 0; width: 100%; justify-content: space-between; }
     .visualizer-wrap { height: 90px; }
     .playlist-sep { font-size: 11px; }
   }
 </style>
+<script>
+  (function(){
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch(e) {}
+    if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  })();
+</script>
 </head>
 <body>
 <div id="player">
   <div class="header">
     <span class="logo">C L I W A M P</span>
-    <span class="header-badge">[Playlist]</span>
+    <div class="header-right">
+      <span class="header-badge">[Playlist]</span>
+      <button id="theme-toggle" aria-label="Toggle theme"></button>
+    </div>
   </div>
 
   <div class="track-info">
@@ -458,6 +437,34 @@
 </div>
 
 <script>
+var SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+var MOON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
+(function initTheme() {
+  var btn = document.getElementById('theme-toggle');
+  var saved = null;
+  try { saved = localStorage.getItem('theme'); } catch(e) {}
+  var theme = saved || 'dark';
+  applyTheme(theme);
+
+  btn.addEventListener('click', function() {
+    var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    var next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem('theme', next); } catch(e) {}
+  });
+
+  function applyTheme(t) {
+    if (t === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    btn.innerHTML = t === 'light' ? MOON_SVG : SUN_SVG;
+    btn.setAttribute('aria-label', t === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+  }
+})();
+
 const STATIONS = [
   { name: 'Lofi Stream', url: 'https://radio.cliamp.stream/lofi/stream' },
   { name: 'Synthwave Stream', url: 'https://radio.cliamp.stream/synthwave/stream' },
@@ -478,7 +485,6 @@ let isPlaying = false;
 let isShuffle = false;
 let volume = 0.8;
 let isMuted = false;
-let prevVolume = 0.8;
 let playStartTime = 0;
 let elapsedSec = 0;
 let timerInterval = null;
@@ -490,7 +496,6 @@ audio.preload = 'none';
 
 const simBars = new Float32Array(8).fill(0);
 const simTargets = new Float32Array(8).fill(0);
-let simPhase = 0;
 
 const $ = id => document.getElementById(id);
 
@@ -513,7 +518,6 @@ function updateUI() {
   $('trackName').textContent = STATIONS[display].name;
   $('srcIndex').textContent = display + 1;
   $('plCount').textContent = `[${display + 1}/${STATIONS.length}]`;
-
 
   document.querySelectorAll('.station-item').forEach((li, i) => {
     let cls = 'station-item';
@@ -641,10 +645,7 @@ function startTimer() {
 }
 
 function stopTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
 }
 
 function setVolume(v) {
@@ -656,13 +657,8 @@ function setVolume(v) {
 }
 
 function toggleMute() {
-  if (isMuted) {
-    isMuted = false;
-    audio.volume = volume;
-  } else {
-    isMuted = true;
-    audio.volume = 0;
-  }
+  isMuted = !isMuted;
+  audio.volume = isMuted ? 0 : volume;
   updateVolUI();
 }
 
@@ -699,11 +695,13 @@ const COLOR_GREEN_LIGHT = [84, 158, 106];
 const COLOR_RED_DARK = [200, 75, 60];
 const COLOR_RED_LIGHT = [255, 83, 69];
 
-function barColor(t) {
-  if (t < 0.4) return COLOR_GREEN_DARK;
-  if (t < 0.6) return COLOR_GREEN_LIGHT;
-  if (t < 0.7) return COLOR_RED_DARK;
-  return COLOR_RED_LIGHT;
+function barColor(row, maxRows) {
+  const r = maxRows - 1 - row;
+  const redRows = Math.round(maxRows * 0.5);
+  const greenLightRows = Math.round(maxRows * 0.25);
+  if (r < redRows) return COLOR_RED_LIGHT;
+  if (r < redRows + greenLightRows) return COLOR_GREEN_LIGHT;
+  return COLOR_GREEN_DARK;
 }
 
 function resizeCanvas() {
@@ -757,10 +755,8 @@ function updateSimBars(dt) {
       simTargets[i] += (Math.random() - 0.5) * 0.25;
       simTargets[i] = Math.max(0.08, Math.min(1, simTargets[i]));
     }
-
     const attack = simTargets[i] > simBars[i] ? 0.28 : 0.10;
     simBars[i] += (simTargets[i] - simBars[i]) * attack;
-
     simTargets[i] *= 0.97;
   }
 }
@@ -788,8 +784,7 @@ function drawVisualizer(now) {
 
     for (let row = 0; row < numRows; row++) {
       const blockY = h - 2 - (row + 1) * step;
-      const t = row / maxRows;
-      const [cr, cg, cb] = barColor(t);
+      const [cr, cg, cb] = barColor(row, maxRows);
 
       ctx.fillStyle = `rgb(${cr},${cg},${cb})`;
 
@@ -858,14 +853,8 @@ document.addEventListener('keydown', e => {
 });
 
 // Audio events
-audio.addEventListener('waiting', () => {
-  if (isPlaying) setStatus('buffering');
-});
-
-audio.addEventListener('playing', () => {
-  if (isPlaying) setStatus('streaming');
-});
-
+audio.addEventListener('waiting', () => { if (isPlaying) setStatus('buffering'); });
+audio.addEventListener('playing', () => { if (isPlaying) setStatus('streaming'); });
 audio.addEventListener('error', () => {
   if (!audio.src || audio.src === '') return;
   isPlaying = false;
