@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLIWAMP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #0b1210;
+    --fg: #C1C497;
+    --accent: #509475;
+    --green: #549e6a;
+    --bright: #F7E8B2;
+    --yellow: #459451;
+    --red: #FF5345;
+    --dim: #3a5a4a;
+    --bg-lighter: #0f1a16;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  #player {
+    width: 100%;
+    max-width: 780px;
+    background: var(--bg);
+    border: 1px solid var(--accent);
+    padding: 24px 28px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(80, 148, 117, 0.08);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+
+  .logo {
+    color: var(--bright);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+  }
+
+  .header-badge {
+    color: var(--fg);
+    font-size: 13px;
+  }
+
+  .track-info {
+    margin-bottom: 2px;
+  }
+
+  .track-name {
+    color: var(--bright);
+    font-size: 14px;
+  }
+
+  .track-name::before {
+    content: '♫ ';
+    color: var(--accent);
+  }
+
+  .time-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .timer {
+    color: var(--fg);
+    font-weight: 700;
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    display: inline-block;
+  }
+
+  .status-dot.playing {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .status-dot.stopped {
+    background: var(--dim);
+    animation: none;
+  }
+
+  .status-dot.buffering {
+    background: var(--bright);
+    animation: blink 0.6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .status-text {
+    color: var(--green);
+  }
+
+  .status-text.stopped {
+    color: var(--dim);
+  }
+
+  .status-text.buffering {
+    color: var(--bright);
+  }
+
+  .visualizer-wrap {
+    margin: 8px 0 4px 0;
+    height: 130px;
+    position: relative;
+  }
+
+  #visualizer {
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+  }
+
+  .streaming-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  .streaming-line::before,
+  .streaming-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .streaming-line-text {
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    font-size: 11px;
+  }
+
+  .eq-vol-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin: 4px 0 2px 0;
+    color: var(--fg);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .eq-info {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .eq-label {
+    color: var(--bright);
+  }
+
+  .vol-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .vol-label {
+    color: var(--bright);
+    font-weight: 700;
+  }
+
+  .vol-bar-outer {
+    width: 120px;
+    height: 12px;
+    background: var(--bg-lighter);
+    border: 1px solid var(--dim);
+    display: flex;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .vol-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--yellow));
+    transition: width 0.1s;
+    position: relative;
+  }
+
+  .vol-bar-inner::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 1px,
+      rgba(11,18,16,0.4) 1px,
+      rgba(11,18,16,0.4) 2px
+    );
+  }
+
+  .vol-db {
+    color: var(--fg);
+    font-size: 11px;
+    min-width: 36px;
+    text-align: right;
+  }
+
+  .src-line {
+    font-size: 12px;
+    color: var(--fg);
+    margin: 2px 0 8px 0;
+  }
+
+  .src-label {
+    color: var(--bright);
+  }
+
+  .playlist-sep {
+    font-size: 12px;
+    color: var(--accent);
+    margin: 4px 0 6px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .playlist-sep .tag {
+    color: var(--fg);
+  }
+
+  .station-list {
+    list-style: none;
+    margin: 0 0 12px 0;
+    max-height: 250px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--bg);
+  }
+
+  .station-list::-webkit-scrollbar { width: 4px; }
+  .station-list::-webkit-scrollbar-track { background: var(--bg); }
+  .station-list::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  .station-item {
+    padding: 2px 0 2px 8px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    color: var(--fg);
+    border-left: 2px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .station-item:hover {
+    background: var(--bg-lighter);
+    border-left-color: var(--dim);
+  }
+
+  .station-item.active {
+    color: var(--bright);
+    border-left-color: var(--green);
+  }
+
+  .station-item.selected {
+    background: rgba(80, 148, 117, 0.12);
+    border-left-color: var(--dim);
+  }
+
+  .station-item.active.selected {
+    border-left-color: var(--green);
+  }
+
+  .station-marker {
+    width: 28px;
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .station-num {
+    width: 32px;
+    text-align: right;
+    margin-right: 8px;
+    color: var(--dim);
+    flex-shrink: 0;
+  }
+
+  .station-item.active .station-num {
+    color: var(--accent);
+  }
+
+  .footer {
+    border-top: 1px solid var(--accent);
+    padding-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--fg);
+    align-items: center;
+  }
+
+  .shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .key {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 1px 5px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 2px;
+  }
+
+  .footer-right {
+    margin-left: auto;
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--dim);
+  }
+
+  .spd-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 4px;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 8px; font-size: 12px; }
+    #player { padding: 14px 12px; }
+    .logo { font-size: 13px; }
+    .eq-vol-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .vol-bar-outer { width: 100px; }
+    .footer { font-size: 11px; gap: 6px; }
+    .footer-right { margin-left: 0; width: 100%; justify-content: space-between; }
+    .visualizer-wrap { height: 90px; }
+    .playlist-sep { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+<div id="player">
+  <div class="header">
+    <span class="logo">C L I W A M P</span>
+    <span class="header-badge">[Playlist]</span>
+  </div>
+
+  <div class="track-info">
+    <span class="track-name" id="trackName">Lofi Stream</span>
+  </div>
+
+  <div class="time-line">
+    <span class="timer" id="timer">00:00 / LIVE</span>
+    <span class="status-indicator">
+      <span class="status-dot stopped" id="statusDot"></span>
+      <span class="status-text stopped" id="statusText">Stopped</span>
+    </span>
+  </div>
+
+  <div class="visualizer-wrap">
+    <canvas id="visualizer"></canvas>
+  </div>
+
+  <div class="streaming-line">
+    <span class="streaming-line-text" id="streamLabel">STREAMING</span>
+  </div>
+
+  <div class="eq-vol-row">
+    <div class="vol-wrap">
+      <span class="vol-label">VOL</span>
+      <div class="vol-bar-outer" id="volBar">
+        <div class="vol-bar-inner" id="volFill" style="width:80%"></div>
+      </div>
+      <span class="vol-db" id="volDb">-6dB</span>
+    </div>
+  </div>
+
+  <div class="src-line">
+    <span class="src-label">SRC</span> [Radio] <span id="srcIndex">1</span>/<span id="srcTotal">11</span>
+  </div>
+
+  <div class="playlist-sep" id="playlistSep">
+    ── Playlist ── <span class="tag">[Shuffle]</span> <span class="tag">[Repeat: Off]</span> <span class="tag" id="plCount">[1/11]</span> <span class="tag">[Theme: osaka-jade]</span> ──
+  </div>
+
+  <ul class="station-list" id="stationList"></ul>
+
+  <div class="footer">
+    <span class="shortcut"><span class="key">Space</span> Play / Pause</span>
+    <span class="shortcut"><span class="key">↑↓</span> Navigate</span>
+    <span class="shortcut"><span class="key">+/-</span> Volume</span>
+    <span class="shortcut"><span class="key">M</span> Mute</span>
+    <span class="shortcut"><span class="key">S</span> Shuffle</span>
+  </div>
+
+  <div class="spd-line">
+    <span>SPD [1x]</span>
+    <span id="dataStats">↓ 0.0 MB &nbsp; 0 KB/s</span>
+  </div>
+</div>
+
+<script>
+const STATIONS = [
+  { name: 'Lofi Stream', url: 'https://radio.cliamp.stream/lofi/stream' },
+  { name: 'Synthwave Stream', url: 'https://radio.cliamp.stream/synthwave/stream' },
+  { name: 'EDM Stream', url: 'https://radio.cliamp.stream/edm/stream' },
+  { name: 'NCS Stream', url: 'https://radio.cliamp.stream/ncs/stream' },
+  { name: 'NCS House Stream', url: 'https://radio.cliamp.stream/ncs-house/stream' },
+  { name: 'NCS Dubstep Stream', url: 'https://radio.cliamp.stream/ncs-dubstep/stream' },
+  { name: 'NCS Drum & Bass Stream', url: 'https://radio.cliamp.stream/ncs-dnb/stream' },
+  { name: 'NCS Trap Stream', url: 'https://radio.cliamp.stream/ncs-trap/stream' },
+  { name: 'NCS Phonk Stream', url: 'https://radio.cliamp.stream/ncs-phonk/stream' },
+  { name: 'NCS Pop Stream', url: 'https://radio.cliamp.stream/ncs-pop/stream' },
+  { name: 'NCS Chill Stream', url: 'https://radio.cliamp.stream/ncs-chill/stream' },
+];
+
+let currentStation = 0;
+let selectedStation = 0;
+let isPlaying = false;
+let isShuffle = false;
+let volume = 0.8;
+let isMuted = false;
+let prevVolume = 0.8;
+let playStartTime = 0;
+let elapsedSec = 0;
+let timerInterval = null;
+let dataBytes = 0;
+let dataStartTime = 0;
+
+const audio = new Audio();
+audio.preload = 'none';
+
+const simBars = new Float32Array(8).fill(0);
+const simTargets = new Float32Array(8).fill(0);
+let simPhase = 0;
+
+const $ = id => document.getElementById(id);
+
+function buildStationList() {
+  const list = $('stationList');
+  list.innerHTML = '';
+  STATIONS.forEach((s, i) => {
+    const li = document.createElement('li');
+    li.className = 'station-item' + (i === currentStation ? ' active' : '');
+    li.innerHTML = `<span class="station-marker">${i === currentStation ? '>>' : ''}</span><span class="station-num">${i + 1}.</span>${s.name}`;
+    li.addEventListener('click', () => selectStation(i));
+    list.appendChild(li);
+  });
+}
+
+function updateUI() {
+  const playing = isPlaying ? currentStation : -1;
+  const display = playing >= 0 ? playing : selectedStation;
+
+  $('trackName').textContent = STATIONS[display].name;
+  $('srcIndex').textContent = display + 1;
+  $('plCount').textContent = `[${display + 1}/${STATIONS.length}]`;
+
+
+  document.querySelectorAll('.station-item').forEach((li, i) => {
+    let cls = 'station-item';
+    if (i === currentStation && isPlaying) cls += ' active';
+    if (i === selectedStation) cls += ' selected';
+    li.className = cls;
+    li.querySelector('.station-marker').textContent = (i === currentStation && isPlaying) ? '>>' : '';
+  });
+
+  const sel = document.querySelectorAll('.station-item')[selectedStation];
+  if (sel) sel.scrollIntoView({ block: 'nearest' });
+}
+
+function updateVolUI() {
+  const effectiveVol = isMuted ? 0 : volume;
+  const pct = effectiveVol * 100;
+  $('volFill').style.width = pct + '%';
+  const db = effectiveVol === 0 ? '-∞' : (20 * Math.log10(effectiveVol)).toFixed(0);
+  $('volDb').textContent = (db === '-∞' ? '-∞dB' : (db >= 0 ? '+' : '') + db + 'dB');
+}
+
+function selectStation(idx) {
+  selectedStation = idx;
+  updateUI();
+}
+
+let loadId = 0;
+
+function playStation() {
+  const thisLoad = ++loadId;
+  currentStation = selectedStation;
+
+  audio.pause();
+  audio.src = STATIONS[currentStation].url;
+  audio.volume = isMuted ? 0 : volume;
+
+  setStatus('buffering');
+
+  try { localStorage.setItem('cliwamp_station', currentStation); } catch(e) {}
+
+  audio.play().then(() => {
+    if (thisLoad !== loadId) return;
+    isPlaying = true;
+    playStartTime = Date.now();
+    elapsedSec = 0;
+    dataBytes = 0;
+    dataStartTime = Date.now();
+    startTimer();
+    setStatus('streaming');
+    updateUI();
+  }).catch(e => {
+    if (thisLoad !== loadId) return;
+    isPlaying = false;
+    stopTimer();
+    setStatus('error');
+  });
+}
+
+function togglePlay() {
+  if (isPlaying && selectedStation === currentStation) {
+    audio.pause();
+    isPlaying = false;
+    stopTimer();
+    setStatus('paused');
+    updateUI();
+  } else {
+    playStation();
+  }
+}
+
+function setStatus(state) {
+  const dot = $('statusDot');
+  const txt = $('statusText');
+  const label = $('streamLabel');
+  dot.className = 'status-dot';
+  txt.className = 'status-text';
+  txt.style.color = '';
+
+  switch(state) {
+    case 'streaming':
+      dot.classList.add('playing');
+      txt.textContent = 'Streaming';
+      label.textContent = 'STREAMING';
+      break;
+    case 'paused':
+      dot.classList.add('stopped');
+      txt.textContent = 'Paused';
+      txt.style.color = 'var(--bright)';
+      label.textContent = 'PAUSED';
+      break;
+    case 'buffering':
+      dot.classList.add('buffering');
+      txt.classList.add('buffering');
+      txt.textContent = 'Buffering...';
+      label.textContent = 'BUFFERING';
+      break;
+    case 'error':
+      dot.classList.add('stopped');
+      txt.textContent = 'Error';
+      txt.style.color = 'var(--red)';
+      label.textContent = 'ERROR';
+      break;
+    default:
+      dot.classList.add('stopped');
+      txt.classList.add('stopped');
+      txt.textContent = 'Stopped';
+      label.textContent = 'STOPPED';
+  }
+}
+
+function startTimer() {
+  stopTimer();
+  timerInterval = setInterval(() => {
+    elapsedSec = Math.floor((Date.now() - playStartTime) / 1000);
+    const m = String(Math.floor(elapsedSec / 60)).padStart(2, '0');
+    const s = String(elapsedSec % 60).padStart(2, '0');
+    $('timer').textContent = `${m}:${s} / LIVE`;
+
+    dataBytes += Math.random() * 18000 + 14000;
+    const mb = (dataBytes / 1048576).toFixed(1);
+    const elapsed = (Date.now() - dataStartTime) / 1000;
+    const kbps = elapsed > 0 ? ((dataBytes / 1024) / elapsed).toFixed(0) : 0;
+    $('dataStats').innerHTML = `↓ ${mb} MB &nbsp; ${kbps} KB/s`;
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function setVolume(v) {
+  volume = Math.max(0, Math.min(1, v));
+  isMuted = false;
+  audio.volume = volume;
+  updateVolUI();
+  try { localStorage.setItem('cliwamp_vol', volume); } catch(e) {}
+}
+
+function toggleMute() {
+  if (isMuted) {
+    isMuted = false;
+    audio.volume = volume;
+  } else {
+    isMuted = true;
+    audio.volume = 0;
+  }
+  updateVolUI();
+}
+
+function nextStation() {
+  selectedStation = (selectedStation + 1) % STATIONS.length;
+  updateUI();
+}
+
+function prevStation() {
+  selectedStation = (selectedStation - 1 + STATIONS.length) % STATIONS.length;
+  updateUI();
+}
+
+function toggleShuffle() {
+  isShuffle = !isShuffle;
+  const sep = $('playlistSep');
+  sep.innerHTML = sep.innerHTML.replace(
+    /\[Shuffle\]|\[Shuffle: Off\]/,
+    isShuffle ? '[Shuffle]' : '[Shuffle: Off]'
+  );
+}
+
+// Visualizer
+const canvas = $('visualizer');
+const ctx = canvas.getContext('2d');
+const BAR_COUNT = 8;
+const BLOCK = 3;
+const GAP = 1;
+const COLS_PER_BAR = 12;
+const BAR_GAP = 6;
+
+const COLOR_GREEN_DARK = [60, 130, 80];
+const COLOR_GREEN_LIGHT = [84, 158, 106];
+const COLOR_RED_DARK = [200, 75, 60];
+const COLOR_RED_LIGHT = [255, 83, 69];
+
+function barColor(t) {
+  if (t < 0.4) return COLOR_GREEN_DARK;
+  if (t < 0.6) return COLOR_GREEN_LIGHT;
+  if (t < 0.7) return COLOR_RED_DARK;
+  return COLOR_RED_LIGHT;
+}
+
+function resizeCanvas() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width * window.devicePixelRatio;
+  canvas.height = rect.height * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+let beatTimer = 0;
+let beatInterval = 0.45;
+let energy = 0.5;
+
+function updateSimBars(dt) {
+  if (!isPlaying) {
+    for (let i = 0; i < BAR_COUNT; i++) {
+      simBars[i] *= 0.92;
+      if (simBars[i] < 0.005) simBars[i] = 0;
+    }
+    return;
+  }
+
+  beatTimer += dt;
+
+  if (beatTimer >= beatInterval) {
+    beatTimer = 0;
+    beatInterval = 0.4 + Math.random() * 0.4;
+    energy = 0.35 + Math.random() * 0.6;
+
+    const beatType = Math.random();
+    if (beatType < 0.4) {
+      for (let i = 0; i < 3; i++) simTargets[i] = energy * (0.7 + Math.random() * 0.3);
+      for (let i = 3; i < BAR_COUNT; i++) simTargets[i] *= 0.6 + Math.random() * 0.3;
+    } else if (beatType < 0.7) {
+      for (let i = 0; i < BAR_COUNT; i++) simTargets[i] = energy * (0.5 + Math.random() * 0.5);
+    } else {
+      const peak = Math.floor(Math.random() * BAR_COUNT);
+      for (let i = 0; i < BAR_COUNT; i++) {
+        const dist = Math.abs(i - peak);
+        simTargets[i] = energy * Math.max(0.15, 1 - dist * 0.2) * (0.7 + Math.random() * 0.3);
+      }
+    }
+  }
+
+  for (let i = 0; i < BAR_COUNT; i++) {
+    if (Math.random() < 0.15) {
+      simTargets[i] += (Math.random() - 0.5) * 0.25;
+      simTargets[i] = Math.max(0.08, Math.min(1, simTargets[i]));
+    }
+
+    const attack = simTargets[i] > simBars[i] ? 0.28 : 0.10;
+    simBars[i] += (simTargets[i] - simBars[i]) * attack;
+
+    simTargets[i] *= 0.97;
+  }
+}
+
+let lastFrameTime = performance.now();
+
+function drawVisualizer(now) {
+  const dt = (now - lastFrameTime) / 1000;
+  lastFrameTime = now;
+
+  const w = canvas.width / window.devicePixelRatio;
+  const h = canvas.height / window.devicePixelRatio;
+  ctx.clearRect(0, 0, w, h);
+
+  updateSimBars(dt);
+
+  const step = BLOCK + GAP;
+  const maxRows = Math.floor((h - 2) / step);
+  const barW = COLS_PER_BAR * step;
+
+  for (let i = 0; i < BAR_COUNT; i++) {
+    const val = simBars[i];
+    const numRows = Math.max(0, Math.round(val * maxRows));
+    const barX = 4 + i * (barW + BAR_GAP);
+
+    for (let row = 0; row < numRows; row++) {
+      const blockY = h - 2 - (row + 1) * step;
+      const t = row / maxRows;
+      const [cr, cg, cb] = barColor(t);
+
+      ctx.fillStyle = `rgb(${cr},${cg},${cb})`;
+
+      for (let col = 0; col < COLS_PER_BAR; col++) {
+        ctx.fillRect(barX + col * step, blockY, BLOCK, BLOCK);
+      }
+    }
+  }
+
+  requestAnimationFrame(drawVisualizer);
+}
+requestAnimationFrame(drawVisualizer);
+
+// Volume bar click
+$('volBar').addEventListener('click', e => {
+  const rect = $('volBar').getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  setVolume(pct);
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+  switch(e.code) {
+    case 'Space':
+      e.preventDefault();
+      togglePlay();
+      break;
+    case 'ArrowUp':
+      e.preventDefault();
+      prevStation();
+      break;
+    case 'ArrowDown':
+      e.preventDefault();
+      nextStation();
+      break;
+    case 'Equal':
+    case 'NumpadAdd':
+      e.preventDefault();
+      setVolume(volume + 0.05);
+      break;
+    case 'Minus':
+    case 'NumpadSubtract':
+      e.preventDefault();
+      setVolume(volume - 0.05);
+      break;
+    case 'KeyM':
+      e.preventDefault();
+      toggleMute();
+      break;
+    case 'KeyS':
+      e.preventDefault();
+      toggleShuffle();
+      break;
+    default:
+      if (e.code >= 'Digit1' && e.code <= 'Digit9') {
+        e.preventDefault();
+        const idx = parseInt(e.code.replace('Digit', '')) - 1;
+        if (idx < STATIONS.length) selectStation(idx);
+      } else if (e.code === 'Digit0') {
+        e.preventDefault();
+        if (STATIONS.length >= 10) selectStation(9);
+      }
+  }
+});
+
+// Audio events
+audio.addEventListener('waiting', () => {
+  if (isPlaying) setStatus('buffering');
+});
+
+audio.addEventListener('playing', () => {
+  if (isPlaying) setStatus('streaming');
+});
+
+audio.addEventListener('error', () => {
+  if (!audio.src || audio.src === '') return;
+  isPlaying = false;
+  stopTimer();
+  setStatus('error');
+  updateUI();
+});
+
+// Init
+(function init() {
+  try {
+    const savedVol = localStorage.getItem('cliwamp_vol');
+    if (savedVol !== null) volume = parseFloat(savedVol);
+    const savedStation = localStorage.getItem('cliwamp_station');
+    if (savedStation !== null) {
+      const idx = parseInt(savedStation);
+      selectedStation = idx;
+      currentStation = idx;
+    }
+  } catch(e) {}
+
+  buildStationList();
+  updateUI();
+  updateVolUI();
+  setStatus('stopped');
+})();
+</script>
+</body>
+</html>
