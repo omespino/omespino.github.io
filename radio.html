@@ -353,14 +353,57 @@
     margin-top: 4px;
   }
 
+  .mobile-controls {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 0 4px 0;
+  }
+
+  .mobile-controls .mc-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 14px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  .mobile-controls .mc-btn:active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  .mobile-controls .mc-btn.mc-play {
+    background: var(--key-bg);
+    color: var(--key-fg);
+    padding: 8px 20px;
+    font-size: 15px;
+  }
+
+  .mobile-controls .mc-btn.mc-active {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .visualizer-wrap { touch-action: manipulation; }
+
   @media (max-width: 600px) {
     body { padding: 8px; font-size: 12px; }
     #player { padding: 14px 12px; }
     .logo { font-size: 13px; }
     .eq-vol-row { flex-direction: column; align-items: flex-start; }
     .vol-bar-outer { width: 100px; }
-    .footer { font-size: 11px; gap: 6px; }
-    .visualizer-wrap { height: 90px; }
+    .footer { display: none; }
+    .mobile-controls { display: flex; }
+    .visualizer-wrap { height: 90px; cursor: pointer; }
     .playlist-sep { font-size: 11px; }
   }
 </style>
@@ -421,6 +464,14 @@
   </div>
 
   <ul class="station-list" id="stationList"></ul>
+
+  <div class="mobile-controls" id="mobileControls">
+    <button class="mc-btn" id="mcPrev" aria-label="Previous station">&lt;&lt;</button>
+    <button class="mc-btn mc-play" id="mcPlay" aria-label="Play">PLAY</button>
+    <button class="mc-btn" id="mcNext" aria-label="Next station">&gt;&gt;</button>
+    <button class="mc-btn" id="mcMute" aria-label="Mute">M</button>
+    <button class="mc-btn" id="mcShuffle" aria-label="Shuffle">S</button>
+  </div>
 
   <div class="footer">
     <span class="shortcut"><span class="key">Space</span> Play / Pause</span>
@@ -506,7 +557,10 @@ function buildStationList() {
     const li = document.createElement('li');
     li.className = 'station-item' + (i === currentStation ? ' active' : '');
     li.innerHTML = `<span class="station-marker">${i === currentStation ? '>>' : ''}</span><span class="station-num">${i + 1}.</span>${s.name}`;
-    li.addEventListener('click', () => selectStation(i));
+    li.addEventListener('click', () => {
+      selectStation(i);
+      if (isMobile()) playStation();
+    });
     list.appendChild(li);
   });
 }
@@ -568,11 +622,13 @@ function playStation() {
     startTimer();
     setStatus('streaming');
     updateUI();
+    updateMcPlay();
   }).catch(e => {
     if (thisLoad !== loadId) return;
     isPlaying = false;
     stopTimer();
     setStatus('error');
+    updateMcPlay();
   });
 }
 
@@ -583,6 +639,7 @@ function togglePlay() {
     stopTimer();
     setStatus('paused');
     updateUI();
+    updateMcPlay();
   } else {
     playStation();
   }
@@ -798,12 +855,32 @@ function drawVisualizer(now) {
 }
 requestAnimationFrame(drawVisualizer);
 
-// Volume bar click
-$('volBar').addEventListener('click', e => {
+// Volume bar click + touch drag
+function volFromEvent(e) {
   const rect = $('volBar').getBoundingClientRect();
-  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  setVolume(pct);
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  return Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+}
+
+$('volBar').addEventListener('click', e => setVolume(volFromEvent(e)));
+
+$('volBar').addEventListener('touchstart', e => {
+  e.preventDefault();
+  setVolume(volFromEvent(e));
+}, { passive: false });
+
+$('volBar').addEventListener('touchmove', e => {
+  e.preventDefault();
+  setVolume(volFromEvent(e));
+}, { passive: false });
+
+// Tap visualizer = toggle play/pause
+$('visualizer').addEventListener('click', e => {
+  if (window.innerWidth <= 600) togglePlay();
 });
+
+// Mobile: tap station = select + play
+function isMobile() { return window.innerWidth <= 600; }
 
 // Keyboard shortcuts
 document.addEventListener('keydown', e => {
@@ -852,6 +929,27 @@ document.addEventListener('keydown', e => {
   }
 });
 
+// Mobile controls
+$('mcPlay').addEventListener('click', () => { togglePlay(); updateMcPlay(); });
+$('mcPrev').addEventListener('click', () => { prevStation(); if (isPlaying) playStation(); });
+$('mcNext').addEventListener('click', () => { nextStation(); if (isPlaying) playStation(); });
+$('mcMute').addEventListener('click', () => { toggleMute(); updateMcMute(); });
+$('mcShuffle').addEventListener('click', () => { toggleShuffle(); updateMcShuffle(); });
+
+function updateMcPlay() {
+  $('mcPlay').textContent = isPlaying ? 'STOP' : 'PLAY';
+}
+
+function updateMcMute() {
+  const btn = $('mcMute');
+  btn.classList.toggle('mc-active', isMuted);
+}
+
+function updateMcShuffle() {
+  const btn = $('mcShuffle');
+  btn.classList.toggle('mc-active', isShuffle);
+}
+
 // Audio events
 audio.addEventListener('waiting', () => { if (isPlaying) setStatus('buffering'); });
 audio.addEventListener('playing', () => { if (isPlaying) setStatus('streaming'); });
@@ -861,6 +959,7 @@ audio.addEventListener('error', () => {
   stopTimer();
   setStatus('error');
   updateUI();
+  updateMcPlay();
 });
 
 // Init
